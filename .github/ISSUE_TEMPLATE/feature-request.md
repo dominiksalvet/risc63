@@ -1,9 +1,9 @@
 ---
 name: Feature request
-about: Suggest an idea for <project>
+about: Suggest an idea for adhoc
 title: ''
 labels: enhancement
-assignees: <username>
+assignees: dominiksalvet
 ---
 
 **Description**
