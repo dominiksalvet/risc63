@@ -1,9 +1,9 @@
-# \<project\>
+# adhoc
 
-[![CI status](https://github.com/dominiksalvet/template/workflows/CI/badge.svg)](https://github.com/dominiksalvet/template/commits)
+[![CI status](https://github.com/dominiksalvet/adhoc/workflows/CI/badge.svg)](https://github.com/dominiksalvet/adhoc/commits)
 [![standard-readme compliant](https://img.shields.io/badge/readme_style-standard-brightgreen.svg)](https://github.com/RichardLitt/standard-readme)
 
-> Short description.
+> 64-bit processor used within my bachelor thesis.
 
 Long description.
 
@@ -38,4 +38,4 @@ Do you want to contribute somehow? Then [*contributing.md*](contributing.md) fil
 
 ## License
 
-\<project\> is licensed under the [MIT License](license).
+Adhoc is licensed under the [MIT License](license).
