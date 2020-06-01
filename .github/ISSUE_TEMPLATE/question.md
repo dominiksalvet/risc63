@@ -1,6 +1,6 @@
 ---
 name: Question
-about: Ask a question about adhoc
+about: Ask a question about RISC63
 title: <question>
 labels: question
 assignees: dominiksalvet

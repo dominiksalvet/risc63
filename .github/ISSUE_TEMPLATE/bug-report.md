@@ -1,13 +1,13 @@
 ---
 name: Bug report
-about: Create a report to improve adhoc
+about: Create a report to improve RISC63
 title: ''
 labels: bug
 assignees: dominiksalvet
 ---
 
 **Environment**
-State adhoc version and OS information.
+State RISC63 version and OS information.
 
 **Description**
 Describe the bug.

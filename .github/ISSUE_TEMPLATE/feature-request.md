@@ -1,6 +1,6 @@
 ---
 name: Feature request
-about: Suggest an idea for adhoc
+about: Suggest an idea for RISC63
 title: ''
 labels: enhancement
 assignees: dominiksalvet
