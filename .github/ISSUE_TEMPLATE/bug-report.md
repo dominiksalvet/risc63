@@ -7,7 +7,7 @@ assignees: dominiksalvet
 ---
 
 **Environment**
-State RISC63 version and OS information.
+State RISC63 version. Add OS information if relevant.
 
 **Description**
 Describe the bug.
