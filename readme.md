@@ -1,6 +1,5 @@
 # RISC63
 
-[![CI status](https://github.com/dominiksalvet/risc63/workflows/CI/badge.svg)](https://github.com/dominiksalvet/risc63/commits)
 [![standard-readme compliant](https://img.shields.io/badge/readme_style-standard-brightgreen.svg)](https://github.com/RichardLitt/standard-readme)
 
 > 64-bit processor used within my bachelor thesis.
