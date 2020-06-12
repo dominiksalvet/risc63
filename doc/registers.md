@@ -1,4 +1,4 @@
-# RISC63 Registers
+# Registers
 
 * r0-r15 - general purpose registers
 * spc - saved PC
