@@ -1,3 +1,3 @@
-# RISC63 Interrupts
+# Interrupts
 
 Will be added very soon...
