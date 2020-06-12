@@ -1,5 +1,7 @@
 # Instructions
 
+All RISC63 instructions are 16 bits wide.
+
 * ld, st
 * addi, addui, auipc, li
 * jz, jnz, aipc, jr
