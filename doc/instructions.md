@@ -1,4 +1,4 @@
-# RISC63 Instructions
+# Instructions
 
 * ld, st
 * addi, addui, auipc, li
