@@ -4,7 +4,7 @@
 
 > 64-bit processor used within my bachelor thesis.
 
-Long description.
+RISC63 is the processor prototype of the [RISC64 architecture](https://github.com/dominiksalvet/risc64).
 
 ## Table of Contents
 
