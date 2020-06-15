@@ -37,4 +37,4 @@ Do you want to contribute somehow? Then [*contributing.md*](contributing.md) fil
 
 ## License
 
-RISC63 is licensed under the [MIT License](license).
+RISC63 is licensed under the [Apache License 2.0](license).
