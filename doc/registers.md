@@ -4,7 +4,7 @@ There are three types of architectural registers in RISC63:
 
 * A program counter (PC) is a unique register controlling the program flow.
 * A general purpose register (GPR) may be used as temporary data storage within the processor.
-* A control register (CR) is an entry point to apply or get the processor general behavior.
+* A control register (CR) is an entry point to get or set the processor general behavior.
 
 ## Program Counter
 
