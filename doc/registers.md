@@ -4,7 +4,7 @@ There are three types of architectural registers in RISC63:
 
 * A program counter is a unique register controlling the program flow.
 * A general purpose register is used as temporary data storage within the processor.
-* A control register is an entry point to get or set the processor general behavior.
+* A control register is used for a specific task otherwise impossible to do.
 
 All these registers are 64-bit wide.
 
@@ -21,6 +21,8 @@ There are 16 general purpose registers, which may be freely used by programs. Al
 Please, refer to the individual registers as the `r0` to `r15` registers.
 
 ## Control Registers
+
+The control registers are used for the processor management and configuration, and thus ordinary programs should not use them. In RISC63, their major purpose is the interrupt management.
 
 * spc - saved PC
 * ivec - interrupt vector
