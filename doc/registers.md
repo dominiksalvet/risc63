@@ -22,10 +22,12 @@ Please, refer to the individual registers as the `r0` to `r15` registers.
 
 ## Control Registers
 
-The control registers are used for the processor management and configuration, and thus ordinary programs should not use them. In RISC63, their major purpose is the interrupt management.
+The control registers are used for the processor management and configuration, and thus they should not be used in ordinary programs. Their major purpose in RISC63 is the interrupt management.
 
-* spc - saved PC
-* ivec - interrupt vector
-* status - machine status (includes IE)
-* cause - interrupt cause
-* k0, k1 - auxiliary registers
+The list of existing control registers:
+
+* `spc` - saved PC
+* `ivec` - interrupt vector
+* `status` - machine status (includes IE)
+* `cause` - interrupt cause
+* `k0`, `k1` - auxiliary registers
