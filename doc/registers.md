@@ -10,9 +10,11 @@ There are three types of architectural registers in RISC63:
 
 The program counter register is also known as instruction pointer. It holds the address of the next instruction to be executed. If that instruction is not of a jump type, the value of this register is automatically incremented.
 
-* pc - program counter
+It is strongly recommended to refer to the program counter register as the `pc` register.
 
 ## General Purpose Registers
+
+There are 16 general purpose registers, which may be freely used by programs.
 
 * r0-r15 - general purpose registers
 
