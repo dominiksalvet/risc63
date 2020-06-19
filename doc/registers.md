@@ -24,10 +24,24 @@ Please, refer to the individual registers as the `r0` to `r15` registers.
 
 The control registers are used for the processor management and configuration, and thus they should not be used in ordinary programs. Their major purpose in RISC63 is the interrupt management.
 
-The list of existing control registers:
+### Auxiliary Registers (`k0`, `k1`)
 
-* `spc` - saved PC
-* `ivec` - interrupt vector
-* `status` - machine status (includes IE)
-* `cause` - interrupt cause
-* `k0`, `k1` - auxiliary registers
+The `k0` and `k1` are auxiliary registers with no hardware dedicated use. They are expected to be used during an interrupt to prevent overwriting general purpose registers without previous storing.
+
+### Status Register (`status`)
+
+The `status` register is the central processor status register. It contains the following bits:
+
+| 63 - 1   | 0  |
+|----------|----|
+| reserved | ie |
+
+* `ie` - interrupt enable
+
+### Interrupt Vector (`ivec`)
+
+The `ivec` register contains the address to jump on when an interrupt occurs.
+
+### Saved Program Counter (`spc`)
+
+Once an interrupt occurs, the `pc` value is written to the `spc` register.
