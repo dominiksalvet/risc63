@@ -16,9 +16,9 @@ It is strongly recommended to refer to the program counter register as the `pc` 
 
 ## General Purpose Registers
 
-There are 16 general purpose registers, which may be freely used by programs.
+There are 16 general purpose registers, which may be freely used by programs. All are equal and, furthermore, there is no implicit register addressing involved in the whole RISC63 architecture.
 
-* r0-r15 - general purpose registers
+Please, refer to the individual registers as the `r0` to `r15` registers.
 
 ## Control Registers
 
