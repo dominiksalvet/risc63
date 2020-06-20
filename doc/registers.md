@@ -10,7 +10,7 @@ All architectural registers are 64-bit wide and have undefined value after reset
 
 ## Program Counter (`pc`)
 
-The `pc` register is also known as instruction pointer. It holds the address of the next instruction to be executed. If that instruction is not of a jump type, the value of this register is automatically incremented.
+The `pc` register is also known as instruction pointer. It holds the address of the currently executing instruction. As long as that instruction is not a jump, the value of this register is automatically incrementing.
 
 The **reset value** of the `pc` register is `0x0`.
 
@@ -44,4 +44,4 @@ The `ivec` register contains the address to jump on when an interrupt occurs.
 
 ### Saved Program Counter (`spc`)
 
-Once an interrupt occurs, the `pc` value is stored to the `spc` register since it will be overwritten by the `ivec` value. This way, it is possible to return the control to the interrupted program without noticing.
+Once an interrupt occurs, the next potential `pc` value is written to the `spc` register. This way, it is possible to transparently return control to the interrupted program.
