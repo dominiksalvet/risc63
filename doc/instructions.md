@@ -12,6 +12,6 @@ All RISC63 instructions are 16 bits wide.
 * crr, crw
 * jmp
 * mv
-* nop
+* nop, sysret
 
 More will be added very soon...
