@@ -6,11 +6,13 @@ There are three types of architectural registers in RISC63:
 * A general purpose register is used as temporary data storage within the processor.
 * A control register is used for a specific task otherwise impossible to do.
 
-All these registers are 64-bit wide.
+All architectural registers are 64-bit wide and have undefined value after reset, unless otherwise stated.
 
 ## Program Counter (`pc`)
 
 The `pc` register is also known as instruction pointer. It holds the address of the next instruction to be executed. If that instruction is not of a jump type, the value of this register is automatically incremented.
+
+The **reset value** of the `pc` register is `0x0`.
 
 ## General Purpose Registers (`r0` to `r15`)
 
@@ -28,11 +30,13 @@ The `k0` and `k1` are auxiliary registers with no hardware dedicated use. They a
 
 The `status` register is the central processor status register. It contains the following bits:
 
-| 63 - 1   | 0  |
+| 63–1     | 0  |
 |----------|----|
-| reserved | ie |
+| Reserved | IE |
 
-* `ie` - interrupt enable
+> IE - interrupt enable
+
+The **reset value** of the `status` register is `0x0`. That applies only to bits that are not reserved.
 
 ### Interrupt Vector (`ivec`)
 
