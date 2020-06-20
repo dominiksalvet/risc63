@@ -44,4 +44,4 @@ The `ivec` register contains the address to jump on when an interrupt occurs.
 
 ### Saved Program Counter (`spc`)
 
-Once an interrupt occurs, the next potential `pc` value is written to the `spc` register. This way, it is possible to transparently return control to the interrupted program.
+Once an interrupt occurs, the next potential `pc` value is written to the `spc` register. This may be used to transparently return control to the interrupted program.
