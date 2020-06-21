@@ -8,18 +8,11 @@ RISC63 is a **purely 64-bit RISC processor** with basic pipelining described in 
 
 Since RISC63 is a prototype, it does not implement all RISC64 features. Nevertheless, the following implemented features indicate that RISC63 itself is an unconvetional processor architecture, which has something to offer:
 
-* 16-bit instructions
-* 64-bit loads and stores
-* Byte-addressable address space
-* 16 x 64-bit registers
-* All registers are equal
-* 2 operand instructions
-* Native `mv` instruction
-* PC-relative addressing
-* Native immediate offsets
-* Reverse instruction variants
-* One register write per instruction
-* Control registers
+* All instructions are 16 bits wide
+* Only the most used instructions are present
+* 16 x 64-bit general purpose registers
+* Only aligned 64-bit memory transfers
+* Efficient PC-relative addressing
 
 ## Table of Contents
 
