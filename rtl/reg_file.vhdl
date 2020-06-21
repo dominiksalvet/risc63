@@ -29,7 +29,7 @@ architecture rtl of reg_file is
 begin
 
     a_r_data <= registers(to_integer(unsigned(a_r_index)));
-    b_r_data <= registers(to_integer(unsigned(b_r_index)));
+    b_data <= registers(to_integer(unsigned(b_index)));
 
     registers_write: process(clk)
     begin
