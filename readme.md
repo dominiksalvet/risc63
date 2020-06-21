@@ -11,7 +11,7 @@ Since RISC63 is a prototype, it does not implement all RISC64 features. Neverthe
 * All instructions are 16 bits wide
 * Only the most used instructions are present
 * 16 x 64-bit general purpose registers
-* Only aligned 64-bit memory transfers
+* Only aligned 64-bit memory transfers are supported
 * Efficient PC-relative addressing
 
 ## Table of Contents
