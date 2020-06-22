@@ -1,0 +1,17 @@
+#-------------------------------------------------------------------------------
+# Copyright 2020 Dominik Salvet
+# github.com/dominiksalvet/risc63
+#-------------------------------------------------------------------------------
+
+name: CI
+on: [push, pull_request]
+
+jobs:
+  Test:
+    container: ghdl:ubuntu20-mcode
+    steps:
+    - name: Checkout commit
+      uses: actions/checkout@v2
+
+    - name: Check GHDL
+      run: ghdl --version
