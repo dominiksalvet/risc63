@@ -25,7 +25,7 @@ end entity reg_file;
 
 architecture rtl of reg_file is
     type registers_t is array (0 to 15) of std_ulogic_vector(63 downto 0);
-    signal registers : registers_t;
+    signal registers: registers_t;
 begin
 
     a_r_data <= registers(to_integer(unsigned(a_r_index)));
