@@ -9,7 +9,7 @@ on: [push, pull_request]
 jobs:
   Test:
     runs-on: ubuntu-20.04
-    container: ghdl:ubuntu20-mcode
+    container: ghdl/ghdl:ubuntu20-mcode
     steps:
     - name: Checkout commit
       uses: actions/checkout@v2
