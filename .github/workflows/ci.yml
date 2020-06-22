@@ -10,9 +10,16 @@ jobs:
   Test:
     runs-on: ubuntu-20.04
     container: ghdl/ghdl:ubuntu20-mcode
+
     steps:
     - name: Checkout commit
       uses: actions/checkout@v2
 
     - name: Check GHDL
       run: ghdl --version
+
+    - name: Analyze RTL files
+      run: echo todo
+
+    - name: Analyze test files
+      run: echo todo
