@@ -9,33 +9,37 @@ use ieee.numeric_std.all;
 
 entity reg_file is
     port (
-        clk: in std_ulogic;
+        i_clk: in std_ulogic;
 
-        a_we: in std_ulogic;
-        a_w_index: in std_ulogic_vector(3 downto 0);
-        a_w_data: in std_ulogic_vector(63 downto 0);
+        -- write port A
+        i_a_we: in std_ulogic;
+        i_a_index: in std_ulogic_vector(3 downto 0);
+        i_a_data: in std_ulogic_vector(63 downto 0);
 
-        a_r_index: in std_ulogic_vector(3 downto 0);
-        a_r_data: out std_ulogic_vector(63 downto 0);
+        -- read port B
+        i_b_index: in std_ulogic_vector(3 downto 0);
+        o_b_data: out std_ulogic_vector(63 downto 0);
 
-        b_index: in std_ulogic_vector(3 downto 0);
-        b_data: out std_ulogic_vector(63 downto 0)
+        -- read port C
+        i_c_index: in std_ulogic_vector(3 downto 0);
+        o_c_data: out std_ulogic_vector(63 downto 0)
     );
 end entity reg_file;
 
 architecture rtl of reg_file is
-    type registers_t is array (0 to 15) of std_ulogic_vector(63 downto 0);
-    signal registers: registers_t;
+    type t_registers is array (0 to 15) of std_ulogic_vector(63 downto 0);
+    signal s_registers: t_registers;
 begin
 
-    a_r_data <= registers(to_integer(unsigned(a_r_index)));
-    b_data <= registers(to_integer(unsigned(b_index)));
+    -- asynchronous register read
+    o_b_data <= s_registers(to_integer(unsigned(i_b_index)));
+    o_c_data <= s_registers(to_integer(unsigned(i_c_index)));
 
-    registers_write: process(clk)
+    registers_write: process(i_clk)
     begin
-        if rising_edge(clk) then
-            if a_we = '1' then
-                registers(to_integer(unsigned(a_w_index))) <= a_w_data;
+        if rising_edge(i_clk) then
+            if i_a_we = '1' then
+                s_registers(to_integer(unsigned(i_a_index))) <= i_a_data;
             end if;
         end if;
     end process registers_write;
