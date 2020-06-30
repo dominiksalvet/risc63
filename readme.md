@@ -5,9 +5,9 @@
 
 > 64-bit processor used within my bachelor thesis.
 
-RISC63 is a **purely 64-bit RISC processor** with basic pipelining described in VHDL. It is a prototype of a carefully crafted [RISC64 architecture](https://github.com/dominiksalvet/risc64) and its main purpose is to demonstrate possible RISC64 capabilities. To truly achieve that, the whole RISC63 has been designed in a simple manner. Convince yourself — look around.
+RISC63 is a **purely 64-bit RISC processor** with basic pipelining described in VHDL. It is a prototype of a carefully crafted [RISC64 architecture](https://github.com/dominiksalvet/risc64) and its main purpose is to demonstrate potential RISC64 capabilities. To truly achieve that, the whole RISC63 has been designed in a simple manner. Convince yourself — look around.
 
-Since RISC63 is a prototype, it does not implement all RISC64 features and it may be even incompatible with RISC64. Nevertheless, the following implemented features indicate that RISC63 itself is an unconvetional processor architecture, which has something to offer:
+Since RISC63 is a prototype, it does not implement all RISC64 features and it might be even incompatible with the current RISC64 architecture. Nevertheless, the following implemented features indicate that RISC63 itself is an unconventional processor architecture, which has something to offer:
 
 * All instructions are 16 bits wide
 * Only the most used instructions are present
