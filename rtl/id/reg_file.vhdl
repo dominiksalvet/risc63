@@ -11,18 +11,18 @@ entity reg_file is
     port (
         i_clk: in std_ulogic;
 
-        -- write port A
-        i_a_we: in std_ulogic;
+        -- read port A
         i_a_index: in std_ulogic_vector(3 downto 0);
-        i_a_data: in std_ulogic_vector(63 downto 0);
+        o_a_data: out std_ulogic_vector(63 downto 0);
 
         -- read port B
         i_b_index: in std_ulogic_vector(3 downto 0);
         o_b_data: out std_ulogic_vector(63 downto 0);
 
-        -- read port C
+        -- write port C
+        i_c_we: in std_ulogic;
         i_c_index: in std_ulogic_vector(3 downto 0);
-        o_c_data: out std_ulogic_vector(63 downto 0)
+        i_c_data: in std_ulogic_vector(63 downto 0)
     );
 end entity reg_file;
 
@@ -33,13 +33,13 @@ begin
 
     -- asynchronous register read
     o_b_data <= s_registers(to_integer(unsigned(i_b_index)));
-    o_c_data <= s_registers(to_integer(unsigned(i_c_index)));
+    o_a_data <= s_registers(to_integer(unsigned(i_a_index)));
 
     registers_write: process(i_clk)
     begin
         if rising_edge(i_clk) then
-            if i_a_we = '1' then
-                s_registers(to_integer(unsigned(i_a_index))) <= i_a_data;
+            if i_c_we = '1' then
+                s_registers(to_integer(unsigned(i_c_index))) <= i_c_data;
             end if;
         end if;
     end process registers_write;

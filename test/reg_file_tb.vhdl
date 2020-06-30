@@ -14,18 +14,18 @@ architecture behavior of reg_file_tb is
 
     signal i_clk: std_ulogic := '0';
 
-    -- write port A
-    signal i_a_we: std_ulogic := '0';
+    -- read port A
     signal i_a_index: std_ulogic_vector(3 downto 0) := (others => '0');
-    signal i_a_data: std_ulogic_vector(63 downto 0) := (others => '0');
+    signal o_a_data: std_ulogic_vector(63 downto 0);
 
     -- read port B
     signal i_b_index: std_ulogic_vector(3 downto 0) := (others => '0');
     signal o_b_data: std_ulogic_vector(63 downto 0);
 
-    -- read port C
+    -- write port C
+    signal i_c_we: std_ulogic := '0';
     signal i_c_index: std_ulogic_vector(3 downto 0) := (others => '0');
-    signal o_c_data: std_ulogic_vector(63 downto 0);
+    signal i_c_data: std_ulogic_vector(63 downto 0) := (others => '0');
 
     -- configuration
     constant c_CLK_PERIOD: time := 10 ns;
@@ -36,9 +36,9 @@ begin
     dut: entity work.reg_file
     port map (
         i_clk,
-        i_a_we, i_a_index, i_a_data,
+        i_a_index, o_a_data,
         i_b_index, o_b_data,
-        i_c_index, o_c_data
+        i_c_we, i_c_index, i_c_data
     );
 
     clk_gen: process
@@ -55,21 +55,21 @@ begin
         wait for c_CLK_PERIOD;
 
         -- write to registers
-        i_a_we <= '1';
+        i_c_we <= '1';
         for i in 0 to 15 loop
-            i_a_index <= std_ulogic_vector(to_unsigned(i, i_a_index'length));
-            i_a_data <= std_ulogic_vector(shift_left(v_data, 4 * i));
+            i_c_index <= std_ulogic_vector(to_unsigned(i, i_c_index'length));
+            i_c_data <= std_ulogic_vector(shift_left(v_data, 4 * i));
             wait for c_CLK_PERIOD;
         end loop;
-        i_a_we <= '0';
+        i_c_we <= '0';
 
         -- read from registers
         for i in 0 to 15 loop
             i_b_index <= std_ulogic_vector(to_unsigned(i, i_b_index'length));
-            i_c_index <= std_ulogic_vector(to_unsigned(15 - i, i_c_index'length));
+            i_a_index <= std_ulogic_vector(to_unsigned(15 - i, i_a_index'length));
             wait for c_CLK_PERIOD / 4; -- delta delay
             assert o_b_data = std_ulogic_vector(shift_left(v_data, 4 * i));
-            assert o_c_data = std_ulogic_vector(shift_left(v_data, 4 * (15 - i)));
+            assert o_a_data = std_ulogic_vector(shift_left(v_data, 4 * (15 - i)));
             wait for c_CLK_PERIOD - c_CLK_PERIOD / 4;
         end loop;
 
