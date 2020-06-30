@@ -9,7 +9,7 @@ use ieee.numeric_std.all;
 
 use work.risc63_pkg.all;
 
-entity inst_fetch is
+entity if_stage is
     port (
         i_clk: in std_ulogic;
         i_rst: in std_ulogic;
@@ -17,11 +17,11 @@ entity inst_fetch is
         i_jmp_en: in std_ulogic;
         i_jmp_addr: in std_ulogic_vector(62 downto 0);
 
-        o_inst_addr: out std_ulogic_vector(62 downto 0)
+        o_pc: out std_ulogic_vector(62 downto 0)
     );
-end entity inst_fetch;
+end entity if_stage;
 
-architecture rtl of inst_fetch is
+architecture rtl of if_stage is
     signal s_pc: std_ulogic_vector(62 downto 0);
 begin
 
@@ -38,6 +38,6 @@ begin
         end if;
     end process next_inst_addr;
 
-    o_inst_addr <= s_pc;
+    o_pc <= s_pc;
 
 end architecture rtl;
