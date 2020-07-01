@@ -30,14 +30,26 @@ All RISC63 instructions are 16 bits wide.
 * `sll` - shift left logical
 * `sra` - shifr right arithmetic
 * `rsb` - reverse subtract
+* `sub` - subtract
 * `and` - bitwise logical AND
 * `or` - bitwise logical OR
 * `xor` - bitwise logical XOR
 * `add` - addition
-* `sub` - subtract
+* `jmp` - jump
+* `extb` - extract byte
+* `extw` - extract word
+* `extd` - extract double word
+* `extbu` - extract byte unsigned
+* `extwu` - extract word unsigned
+* `extdu` - extract double word unsigned
+* `insb` - insert byte
+* `insw` - insert word
+* `insd` - insert double word
+* `mskb` - mask byte
+* `mskw` - mask word
+* `mskd` - mask double word
 * `crr` - control register read
 * `crw` - control register write
-* `jmp` - jump
 * `mv` - move
-* `sysret` - return from interrupt
 * `nop` - no operation
+* `iret` - return from interrupt
