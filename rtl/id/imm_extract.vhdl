@@ -25,6 +25,6 @@ begin
         (56 downto 0 => i_data(10)) & i_data(10 downto 4) when c_IEXT_JZ,
         (57 downto 0 => i_data(9)) & i_data(9 downto 4) when c_IEXT_SLTI,
         (51 downto 0 => i_data(11)) & i_data(11 downto 0) when c_IEXT_JMP,
-        (others => 'x') when others;
+        (others => 'X') when others;
 
 end architecture rtl;
