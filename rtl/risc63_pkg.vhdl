@@ -7,11 +7,33 @@ library ieee;
 use ieee.std_logic_1164.all;
 
 package risc63_pkg is
+
+--------------------------------------------------------------------------------
+-- IF STAGE
+--------------------------------------------------------------------------------
+
     -- value of PC after reset
     constant c_PC_RST: std_ulogic_vector(62 downto 0) := (others => '0');
 
+--------------------------------------------------------------------------------
+-- ID STAGE
+--------------------------------------------------------------------------------
+
     -- no operation instruction binary
     constant c_NOP_INST: std_ulogic_vector(15 downto 0) := (others => '0');
+
+    -- immediate extractor
+    type t_iext_opcode is (IEXT_LD, IEXT_ADDI, IEXT_JZ, IEXT_SLTI, IEXT_JMP);
+
+    -- ALU operand A multiplexer
+    type t_amux_alu is (AMUX_IMM, AMUX_AREG);
+
+    -- ALU operand B multiplexer
+    type t_bmux_alu is (BMUX_IMM, BMUX_PC, BMUX_BREG);
+
+--------------------------------------------------------------------------------
+-- EX STAGE
+--------------------------------------------------------------------------------
 
     -- ALU opcodes
     constant c_ALU_ADD: std_ulogic_vector(4 downto 0) := "00000";
@@ -45,8 +67,5 @@ package risc63_pkg is
     constant c_ALU_MSKB: std_ulogic_vector(4 downto 0) := "11100";
     constant c_ALU_MSKW: std_ulogic_vector(4 downto 0) := "11101";
     constant c_ALU_MSKD: std_ulogic_vector(4 downto 0) := "11110";
-
-    -- immediate extractor
-    type t_iext_opcode is (IEXT_LD, IEXT_ADDI, IEXT_JZ, IEXT_SLTI, IEXT_JMP);
 
 end package risc63_pkg;
