@@ -24,10 +24,10 @@ architecture rtl of decoder is
     signal s_jz_group: std_ulogic; -- jz, jnz, aipc, jr
     signal s_slti_group: std_ulogic; -- slti, sltui, sgti, sgtui, srli, slli, srai, rsbi
     signal s_slt_group: std_ulogic; -- slt, sltu, sgt, sgtu, srl, sll, sra, rsb,
-                                  -- sub, and, or, xor, add
+                                    -- sub, and, or, xor, add
     signal s_jmp_inst: std_ulogic;
     signal s_extb_group: std_ulogic; -- extb, extw, extd, extbu, extwu, extdu,
-                                   -- insb, insw, insd, mskb, mskw, mskd
+                                     -- insb, insw, insd, mskb, mskw, mskd
     signal s_crr_group: std_ulogic; -- crr, crw
     signal s_mv_inst: std_ulogic;
     signal s_nop_group: std_ulogic; -- nop, iret
