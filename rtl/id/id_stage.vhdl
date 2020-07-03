@@ -6,13 +6,33 @@
 library ieee;
 use ieee.std_logic_1164.all;
 
+use work.risc63_pkg.all;
+
 entity id_stage is
     port (
         i_clk: in std_ulogic;
         i_rst: in std_ulogic;
 
         i_inst: in std_ulogic_vector(15 downto 0);
-
         i_pc: in std_ulogic_vector(62 downto 0)
     );
 end entity id_stage;
+
+architecture rtl of id_stage is
+    s_ir: std_ulogic_vector(15 downto 0);
+    s_pc: std_ulogic_vector(62 downto 0);
+begin
+
+    catch_input: process(i_clk)
+    begin
+        if rising_edge(i_clk) then
+            if i_rst = '1' then
+                s_ir <= c_NOP_INST;
+            else
+                s_ir <= i_inst;
+                s_pc <= i_pc;
+            end if;
+        end if;
+    end process catch_input;
+
+end architecture rtl;
