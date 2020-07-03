@@ -22,6 +22,11 @@ All RISC63 instructions are 16 bits wide.
 * `slli` - shift left logical immediate
 * `srai` - shift right arithmetic immediate
 * `rsbi` - reverse subtract immediate
+* `add` - addition
+* `sub` - subtract
+* `and` - bitwise logical AND
+* `or` - bitwise logical OR
+* `xor` - bitwise logical XOR
 * `slt` - set if less than
 * `sltu` - set if less than unsigned
 * `sgt` - set if greater than
@@ -30,11 +35,6 @@ All RISC63 instructions are 16 bits wide.
 * `sll` - shift left logical
 * `sra` - shifr right arithmetic
 * `rsb` - reverse subtract
-* `sub` - subtract
-* `and` - bitwise logical AND
-* `or` - bitwise logical OR
-* `xor` - bitwise logical XOR
-* `add` - addition
 * `jmp` - jump
 * `extb` - extract byte
 * `extw` - extract word
