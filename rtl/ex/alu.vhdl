@@ -7,7 +7,7 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
-use work.alu_pkg.all;
+use work.risc63_pkg.all;
 
 entity alu is
     port (
