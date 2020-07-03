@@ -11,7 +11,7 @@ use work.alu_pkg.all;
 
 entity alu is
     port (
-        i_opcode: in std_ulogic_vector(3 downto 0);
+        i_opcode: in std_ulogic_vector(4 downto 0);
         i_a_operand: in std_ulogic_vector(63 downto 0);
         i_b_operand: in std_ulogic_vector(63 downto 0);
         o_result: out std_ulogic_vector(63 downto 0)
