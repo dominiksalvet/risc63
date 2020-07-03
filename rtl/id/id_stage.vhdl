@@ -14,7 +14,17 @@ entity id_stage is
         i_rst: in std_ulogic;
 
         i_inst: in std_ulogic_vector(15 downto 0);
-        i_pc: in std_ulogic_vector(62 downto 0)
+        i_pc: in std_ulogic_vector(62 downto 0);
+
+        o_alu_opcode: out std_ulogic_vector(4 downto 0);
+        o_alu_a_operand: out std_ulogic_vector(63 downto 0);
+        o_alu_b_operand: out std_ulogic_vector(63 downto 0);
+
+        o_reg_b_data: out std_ulogic_vector(63 downto 0);
+        o_reg_c_we: out std_ulogic;
+        o_reg_c_index: out std_ulogic_vector(3 downto 0);
+
+        o_jmp_cond: out t_jmp_cond
     );
 end entity id_stage;
 

@@ -15,7 +15,9 @@ entity decoder is
 
         o_iext_opcode: out t_iext_opcode;
         o_amux_alu: out t_amux_alu;
-        o_bmux_alu: out t_bmux_alu
+        o_bmux_alu: out t_bmux_alu;
+        o_alu_opcode: out std_ulogic_vector(4 downto 0);
+        o_jmp_cond: out t_jmp_cond
     );
 end entity decoder;
 
@@ -63,8 +65,23 @@ begin
     -- ALU operand B multiplexer
     o_bmux_alu <= BMUX_IMM when s_ld_group = '1' else
                   BMUX_PC when (s_addi_group = '1' and i_inst(13 downto 12) = "10") or
-                               s_jz_group = '1' and i_inst(12 downto 11) /= "11" or
+                               (s_jz_group = '1' and i_inst(12 downto 11) /= "11") or
                                s_jmp_inst = '1' else
                   BMUX_BREG;
+
+    -- select ALU operation
+    o_alu_opcode <= c_ALU_A when (s_addi_group = '1' and i_inst(13 downto 12) = "11") or
+                                 s_mv_inst = '1' else
+                    c_ALU_B when s_crr_group = '1' else
+                    "01" & i_inst(12 downto 10) when s_slti_group = '1' else
+                    '0' & i_inst(11 downto 8) when s_add_group = '1' else
+                    '1' & i_inst(11 downto 8) when s_extb_group = '1' else
+                    c_ALU_ADD;
+
+    -- jump condition
+    o_jmp_cond <= JMP_ALWAYS when s_jmp_inst = '1' else
+                  JMP_ZERO when s_jz_group = '1' and i_inst(12 downto 11 = "00") else
+                  JMP_NZERO when s_jz_group = '1' and i_inst(12 downto 11 = "01") else
+                  JMP_NEVER;
 
 end architecture rtl;

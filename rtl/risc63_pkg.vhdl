@@ -38,6 +38,8 @@ package risc63_pkg is
     -- ALU opcodes
     constant c_ALU_ADD: std_ulogic_vector(4 downto 0) := "00000";
     constant c_ALU_SUB: std_ulogic_vector(4 downto 0) := "00001";
+    constant c_ALU_A: std_ulogic_vector(4 downto 0) := "00010";
+    constant c_ALU_B: std_ulogic_vector(4 downto 0) := "00011";
 
     constant c_ALU_AND: std_ulogic_vector(4 downto 0) := "00100";
     constant c_ALU_OR: std_ulogic_vector(4 downto 0) := "00101";
@@ -67,5 +69,8 @@ package risc63_pkg is
     constant c_ALU_MSKB: std_ulogic_vector(4 downto 0) := "11100";
     constant c_ALU_MSKW: std_ulogic_vector(4 downto 0) := "11101";
     constant c_ALU_MSKD: std_ulogic_vector(4 downto 0) := "11110";
+
+    -- jump tester conditions
+    type t_jmp_cond is (JMP_ALWAYS, JMP_ZERO, JMP_NZERO, JMP_NEVER);
 
 end package risc63_pkg;
