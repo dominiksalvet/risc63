@@ -108,11 +108,11 @@ begin
     o_alu_opcode <= s_dec_alu_opcode;
     with s_dec_amux_alu select o_alu_b_operand <=
         s_iext_data when AMUX_IMM,
-        s_reg_a_data when others;
+        s_reg_a_data when AMUX_AREG;
     with s_dec_bmux_alu select o_alu_b_operand <=
         s_iext_data when BMUX_IMM,
         s_pc & '0' when BMUX_PC,
-        s_reg_b_data when others;
+        s_reg_b_data when BMUX_BREG;
 
     o_reg_b_data <= s_reg_b_data;
     o_reg_c_we <= s_dec_reg_c_we;
