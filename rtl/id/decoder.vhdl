@@ -19,12 +19,13 @@ entity decoder is
         o_bmux_alu: out t_bmux_alu;
         o_alu_opcode: out std_ulogic_vector(4 downto 0);
         o_reg_c_we: out std_ulogic;
-        o_jmp_cond: out t_jmp_cond
+        o_jmp_cond: out t_jmp_cond;
+        o_cr_we: out std_ulogic;
+        o_iret: out std_ulogic
     );
 end entity decoder;
 
 architecture rtl of decoder is
-
     signal s_ld_group: std_ulogic; -- ld, st
     signal s_addi_group: std_ulogic; -- addi, addui, auipc, li
     signal s_jz_group: std_ulogic; -- jz, jnz, aipc, jr
@@ -37,7 +38,6 @@ architecture rtl of decoder is
     signal s_crr_group: std_ulogic; -- crr, crw
     signal s_mv_inst: std_ulogic;
     signal s_nop_group: std_ulogic; -- nop, iret
-
 begin
 
     -- instruction/group detection
@@ -88,8 +88,14 @@ begin
 
     -- jump condition
     o_jmp_cond <= JMP_ALWAYS when s_jmp_inst = '1' else
-                  JMP_ZERO when s_jz_group = '1' and i_inst(12 downto 11 = "00") else
-                  JMP_NZERO when s_jz_group = '1' and i_inst(12 downto 11 = "01") else
+                  JMP_ZERO when s_jz_group = '1' and i_inst(12 downto 11) = "00" else
+                  JMP_NZERO when s_jz_group = '1' and i_inst(12 downto 11) = "01" else
                   JMP_NEVER;
+
+    -- control registers
+    o_cr_we <= '1' when s_crr_group = '1' and i_inst(10) = '1' else '0';
+
+    -- interrupt instruction detected
+    o_iret <= '1' when s_nop_group = '1' and i_inst(0) = '1' else '0';
 
 end architecture rtl;

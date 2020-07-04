@@ -13,15 +13,20 @@ entity id_stage is
         i_clk: in std_ulogic;
         i_rst: in std_ulogic;
 
-        i_inst: in std_ulogic_vector(15 downto 0);
-        i_pc: in std_ulogic_vector(62 downto 0);
+        i_inst: in std_ulogic_vector(15 downto 0); -- instruction fetched from memory
+        i_pc: in std_ulogic_vector(62 downto 0); -- its address
+
+        -- write to register with C index from writeback stage
+        i_reg_c_we: in std_ulogic;
+        i_reg_c_index: in std_ulogic_vector(3 downto 0);
+        i_reg_c_data: in std_ulogic_vector(63 downto 0);
 
         o_alu_opcode: out std_ulogic_vector(4 downto 0);
         o_alu_a_operand: out std_ulogic_vector(63 downto 0);
         o_alu_b_operand: out std_ulogic_vector(63 downto 0);
 
-        o_reg_b_data: out std_ulogic_vector(63 downto 0); -- used for stores and conditional jumps
-        o_reg_c_we: out std_ulogic;
+        o_reg_b_data: out std_ulogic_vector(63 downto 0); -- used by stores and conditional jumps
+        o_reg_c_we: out std_ulogic; -- write result from writeback stage later
         o_reg_c_index: out std_ulogic_vector(3 downto 0);
 
         o_jmp_cond: out t_jmp_cond;
@@ -34,8 +39,26 @@ entity id_stage is
 end entity id_stage;
 
 architecture rtl of id_stage is
-    s_ir: std_ulogic_vector(15 downto 0);
-    s_pc: std_ulogic_vector(62 downto 0);
+    -- stage registers
+    signal s_ir: std_ulogic_vector(15 downto 0);
+    signal s_pc: std_ulogic_vector(62 downto 0);
+
+    -- register file output
+    signal s_reg_a_data: std_ulogic_vector(63 downto 0);
+    signal s_reg_b_data: std_ulogic_vector(63 downto 0);
+
+    -- decoder output
+    signal s_dec_iext_opcode: t_iext_opcode;
+    signal s_dec_amux_alu: t_amux_alu;
+    signal s_dec_bmux_alu: t_bmux_alu;
+    signal s_dec_alu_opcode: std_ulogic_vector(4 downto 0);
+    signal s_dec_reg_c_we: std_ulogic;
+    signal s_dec_jmp_cond: t_jmp_cond;
+    signal s_dec_cr_we: std_ulogic;
+    signal s_dec_iret: std_ulogic;
+
+    -- immediate extractor output
+    signal s_iext_data: std_ulogic_vector(63 downto 0);
 begin
 
     catch_input: process(i_clk)
@@ -49,5 +72,56 @@ begin
             end if;
         end if;
     end process catch_input;
+
+    reg_file: entity work.reg_file
+    port map (
+        i_clk => i_clk,
+        i_a_index => s_ir(7 downto 4),
+        o_a_data => s_reg_a_data,
+        i_b_index => s_ir(3 downto 0),
+        o_b_data => s_reg_b_data,
+        i_c_we => i_reg_c_we,
+        i_c_index => i_reg_c_index,
+        i_c_data => i_reg_c_data
+    );
+
+    decoder: entity work.decoder
+    port map (
+        i_inst,
+        s_dec_iext_opcode,
+        s_dec_amux_alu,
+        s_dec_bmux_alu,
+        s_dec_alu_opcode,
+        s_dec_reg_c_we,
+        s_dec_jmp_cond,
+        s_dec_cr_we,
+        s_dec_iret
+    );
+
+    imm_extract: entity work.imm_extract
+    port map (
+        i_opcode => s_dec_iext_opcode,
+        i_data => s_ir(12 downto 0),
+        o_data => s_iext_data
+    );
+
+    o_alu_opcode <= s_dec_alu_opcode;
+    with s_dec_amux_alu select o_alu_b_operand <=
+        s_iext_data when AMUX_IMM,
+        s_reg_a_data when others;
+    with s_dec_bmux_alu select o_alu_b_operand <=
+        s_iext_data when BMUX_IMM,
+        s_pc & '0' when BMUX_PC,
+        s_reg_b_data when others;
+
+    o_reg_b_data <= s_reg_b_data;
+    o_reg_c_we <= s_dec_reg_c_we;
+    o_reg_c_index <= s_ir(3 downto 0);
+
+    o_jmp_cond <= s_dec_jmp_cond;
+
+    o_cr_we <= s_dec_cr_we;
+    o_cr_index <= s_ir(6 downto 4);
+    o_iret <= s_dec_iret;
 
 end architecture rtl;
