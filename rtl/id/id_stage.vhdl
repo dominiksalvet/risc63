@@ -20,11 +20,16 @@ entity id_stage is
         o_alu_a_operand: out std_ulogic_vector(63 downto 0);
         o_alu_b_operand: out std_ulogic_vector(63 downto 0);
 
-        o_reg_b_data: out std_ulogic_vector(63 downto 0);
+        o_reg_b_data: out std_ulogic_vector(63 downto 0); -- used for stores and conditional jumps
         o_reg_c_we: out std_ulogic;
         o_reg_c_index: out std_ulogic_vector(3 downto 0);
 
-        o_jmp_cond: out t_jmp_cond
+        o_jmp_cond: out t_jmp_cond;
+
+        -- control registers related
+        o_cr_we: out std_ulogic;
+        o_cr_index: out std_ulogic_vector(2 downto 0);
+        o_iret: out std_ulogic
     );
 end entity id_stage;
 

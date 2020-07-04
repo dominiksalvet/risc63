@@ -13,10 +13,12 @@ entity decoder is
     port (
         i_inst: in std_ulogic_vector(15 downto 0);
 
+        -- output control signals
         o_iext_opcode: out t_iext_opcode;
         o_amux_alu: out t_amux_alu;
         o_bmux_alu: out t_bmux_alu;
         o_alu_opcode: out std_ulogic_vector(4 downto 0);
+        o_reg_c_we: out std_ulogic;
         o_jmp_cond: out t_jmp_cond
     );
 end entity decoder;
@@ -77,6 +79,12 @@ begin
                     '0' & i_inst(11 downto 8) when s_add_group = '1' else
                     '1' & i_inst(11 downto 8) when s_extb_group = '1' else
                     c_ALU_ADD;
+
+    -- enable write to C register index
+    o_reg_c_we <= '0' when (s_ld_group = '1' and i_inst(13) = '1') or
+                           (s_jz_group = '1' and i_inst(12 downto 11) /= "10") or
+                           (s_crr_group = '1' and i_inst(10) = '1') else
+                  '1';
 
     -- jump condition
     o_jmp_cond <= JMP_ALWAYS when s_jmp_inst = '1' else
