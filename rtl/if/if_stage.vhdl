@@ -14,9 +14,11 @@ entity if_stage is
         i_clk: in std_ulogic;
         i_rst: in std_ulogic;
 
+------- input from WB stage ----------------------------------------------------
         i_jmp_en: in std_ulogic;
         i_jmp_addr: in std_ulogic_vector(62 downto 0);
 
+------- output to ID stage -----------------------------------------------------
         o_pc: out std_ulogic_vector(62 downto 0)
     );
 end entity if_stage;

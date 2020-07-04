@@ -13,26 +13,27 @@ entity id_stage is
         i_clk: in std_ulogic;
         i_rst: in std_ulogic;
 
+------- input from IF stage ----------------------------------------------------
         i_inst: in std_ulogic_vector(15 downto 0); -- instruction fetched from memory
         i_pc: in std_ulogic_vector(62 downto 0); -- its address
 
-        -- write to register with C index from writeback stage
+------- input from WB stage ----------------------------------------------------
         i_reg_c_we: in std_ulogic;
         i_reg_c_index: in std_ulogic_vector(3 downto 0);
         i_reg_c_data: in std_ulogic_vector(63 downto 0);
 
+------- output to EX stage -----------------------------------------------------
         o_alu_opcode: out std_ulogic_vector(4 downto 0);
         o_alu_a_operand: out std_ulogic_vector(63 downto 0);
         o_alu_b_operand: out std_ulogic_vector(63 downto 0);
 
         o_reg_b_data: out std_ulogic_vector(63 downto 0); -- used by stores and conditional jumps
-        o_reg_c_we: out std_ulogic; -- write result from writeback stage later
+        o_reg_c_we: out std_ulogic; -- write result from WB stage later
         o_reg_c_index: out std_ulogic_vector(3 downto 0);
 
         o_jmp_cond: out t_jmp_cond;
 
-        -- control registers related
-        o_cr_we: out std_ulogic;
+        o_cr_we: out std_ulogic; -- control registers related
         o_cr_index: out std_ulogic_vector(2 downto 0);
         o_iret: out std_ulogic
     );
