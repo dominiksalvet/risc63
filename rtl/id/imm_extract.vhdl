@@ -10,7 +10,7 @@ use work.risc63_pkg.all;
 
 entity imm_extract is
     port (
-        i_opcode: in t_iext_opcode;
+        i_type: in t_iext_type;
         i_data: in std_ulogic_vector(12 downto 0); -- lower part of instruction
         o_data: out std_ulogic_vector(63 downto 0)
     );
@@ -19,7 +19,7 @@ end entity imm_extract;
 architecture rtl of imm_extract is
 begin
 
-    with i_opcode select o_data <=
+    with i_type select o_data <=
         (58 downto 0 => i_data(12)) & i_data(12 downto 8) when IEXT_LD,
         (55 downto 0 => i_data(11)) & i_data(11 downto 4) when IEXT_ADDI,
         (56 downto 0 => i_data(10)) & i_data(10 downto 4) when IEXT_JZ,

@@ -19,7 +19,7 @@ package risc63_pkg is
     constant c_NOP_INST: std_ulogic_vector(15 downto 0) := (others => '0');
 
     -- immediate extractor
-    type t_iext_opcode is (IEXT_LD, IEXT_ADDI, IEXT_JZ, IEXT_SLTI, IEXT_JMP);
+    type t_iext_type is (IEXT_LD, IEXT_ADDI, IEXT_JZ, IEXT_SLTI, IEXT_JMP);
 
     -- ALU operand A multiplexer
     type t_amux_alu is (AMUX_IMM, AMUX_AREG);

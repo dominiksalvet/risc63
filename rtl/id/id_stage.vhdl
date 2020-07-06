@@ -49,7 +49,7 @@ architecture rtl of id_stage is
     signal s_reg_b_data: std_ulogic_vector(63 downto 0);
 
     -- decoder output
-    signal s_dec_iext_opcode: t_iext_opcode;
+    signal s_dec_iext_type: t_iext_type;
     signal s_dec_amux_alu: t_amux_alu;
     signal s_dec_bmux_alu: t_bmux_alu;
     signal s_dec_alu_opcode: std_ulogic_vector(4 downto 0);
@@ -93,7 +93,7 @@ begin
     decoder: entity work.decoder
     port map (
         i_inst,
-        s_dec_iext_opcode,
+        s_dec_iext_type,
         s_dec_amux_alu,
         s_dec_bmux_alu,
         s_dec_alu_opcode,
@@ -107,7 +107,7 @@ begin
 
     imm_extract: entity work.imm_extract
     port map (
-        i_opcode => s_dec_iext_opcode,
+        i_type => s_dec_iext_type,
         i_data => s_ir(12 downto 0),
         o_data => s_iext_data
     );

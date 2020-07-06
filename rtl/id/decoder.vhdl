@@ -13,7 +13,7 @@ entity decoder is
         i_inst: in std_ulogic_vector(15 downto 0);
 
         -- output control signals
-        o_iext_opcode: out t_iext_opcode;
+        o_iext_type: out t_iext_type;
         o_amux_alu: out t_amux_alu;
         o_bmux_alu: out t_bmux_alu;
         o_alu_opcode: out std_ulogic_vector(4 downto 0);
@@ -52,11 +52,11 @@ begin
     s_nop_group <= '1' when i_inst(15 downto 10) = "000000" else '0';
 
     -- immediate value extraction
-    o_iext_opcode <= IEXT_LD when s_ld_group = '1' else
-                     IEXT_ADDI when s_addi_group = '1' else
-                     IEXT_JZ when s_jz_group = '1' else
-                     IEXT_SLTI when s_slti_group = '1' else
-                     IEXT_JMP;
+    o_iext_type <= IEXT_LD when s_ld_group = '1' else
+                   IEXT_ADDI when s_addi_group = '1' else
+                   IEXT_JZ when s_jz_group = '1' else
+                   IEXT_SLTI when s_slti_group = '1' else
+                   IEXT_JMP;
 
     -- ALU operand A multiplexer
     o_amux_alu <= AMUX_IMM when s_addi_group = '1' or s_jz_group = '1' or
