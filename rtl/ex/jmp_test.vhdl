@@ -11,7 +11,7 @@ use work.risc63_pkg.all;
 entity jmp_test is
     port (
         i_jmp_cond: in t_jmp_cond;
-        i_data: in std_ulogic_vector(63 downto 0);
+        i_test_data: in std_ulogic_vector(63 downto 0);
         o_jmp_en: out std_ulogic
     );
 end entity jmp_test;
@@ -20,7 +20,7 @@ architecture rtl of jmp_test is
     signal s_is_zero: std_ulogic;
 begin
 
-    s_is_zero <= '1' when i_data = (i_data'range => '0') else '0';
+    s_is_zero <= '1' when i_test_data = (i_test_data'range => '0') else '0';
 
     with i_jmp_cond select o_jmp_en <=
         '1' when JMP_ALWAYS,

@@ -59,7 +59,7 @@ architecture rtl of id_stage is
     signal s_dec_iret: std_ulogic;
 
     -- immediate extractor output
-    signal s_iext_data: std_ulogic_vector(63 downto 0);
+    signal s_iext_imm: std_ulogic_vector(63 downto 0);
 begin
 
     catch_input: process(i_clk)
@@ -108,18 +108,18 @@ begin
     imm_extract: entity work.imm_extract
     port map (
         i_type => s_dec_iext_type,
-        i_data => s_ir(12 downto 0),
-        o_data => s_iext_data
+        i_imm_field => s_ir(12 downto 0),
+        o_imm => s_iext_imm
     );
 
 --------------------------------------------------------------------------------
 
     o_alu_opcode <= s_dec_alu_opcode;
     with s_dec_amux_alu select o_alu_b_operand <=
-        s_iext_data when AMUX_IMM,
+        s_iext_imm when AMUX_IMM,
         s_reg_a_data when AMUX_AREG;
     with s_dec_bmux_alu select o_alu_b_operand <=
-        s_iext_data when BMUX_IMM,
+        s_iext_imm when BMUX_IMM,
         s_pc & '0' when BMUX_PC,
         s_reg_b_data when BMUX_BREG;
 
