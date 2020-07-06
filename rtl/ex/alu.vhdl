@@ -42,7 +42,7 @@ architecture rtl of alu is
     end function f_alu_sra;
 begin
 
---- adder ----------------------------------------------------------------------
+--- adder-subtractor -----------------------------------------------------------
 
     with i_opcode select s_adder_mode <=
         ADDER_ADD when c_ALU_ADD,
