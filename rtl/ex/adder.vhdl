@@ -45,7 +45,7 @@ begin
     s_result <= std_ulogic_vector(
         unsigned('0' & s_a) +
         unsigned('0' & s_b) +
-        (0 => s_cin) -- carry in (array of std_ulogic, implicit conversion)
+        unsigned'(0 => s_cin) -- carry in (qualified expression)
     );
 
     -- assign final outputs
