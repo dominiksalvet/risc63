@@ -70,6 +70,9 @@ package risc63_pkg is
     constant c_ALU_MSKW: std_ulogic_vector(4 downto 0) := "11101";
     constant c_ALU_MSKD: std_ulogic_vector(4 downto 0) := "11110";
 
+    -- ALU adder modes
+    type t_adder_mode is (ADDER_ADD, ADDER_SUB, ADDER_RSB);
+
     -- jump tester conditions
     type t_jmp_cond is (JMP_ALWAYS, JMP_ZERO, JMP_NZERO, JMP_NEVER);
 
