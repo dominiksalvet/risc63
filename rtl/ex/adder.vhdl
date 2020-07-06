@@ -25,13 +25,11 @@ architecture rtl of adder is
     signal s_invert_a: std_ulogic;
     signal s_invert_b: std_ulogic;
 
+    -- intermediate adder signals
     signal s_a: std_ulogic_vector(63 downto 0);
     signal s_b: std_ulogic_vector(63 downto 0);
-
     signal s_cin: std_ulogic;
-
-    -- wider result to map all modes to a single adder
-    signal s_result: std_ulogic_vector(64 downto 0);
+    signal s_result: std_ulogic_vector(64 downto 0); -- includes carry out
 begin
 
     -- invert A or B if needed
@@ -53,7 +51,7 @@ begin
     -- assign final outputs
     o_less <= not s_result(64) when i_a(63) = i_b(63) else -- when signs are equal
               i_a(63) when i_mode = ADDER_SUB else -- if subtract and A is negative, then it is less
-              i_b(63); -- for reverse subtract (in case of adding, it has no use)
+              i_b(63); -- for reverse subtract uses
     o_less_unsigned <= not s_result(64);
 
     o_result <= s_result(o_result'range); -- use only relevant bits
