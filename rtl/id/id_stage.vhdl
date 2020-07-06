@@ -74,6 +74,8 @@ begin
         end if;
     end process catch_input;
 
+--- register file --------------------------------------------------------------
+
     reg_file: entity work.reg_file
     port map (
         i_clk => i_clk,
@@ -85,6 +87,8 @@ begin
         i_c_index => i_reg_c_index,
         i_c_data => i_reg_c_data
     );
+
+--- instruction decoder --------------------------------------------------------
 
     decoder: entity work.decoder
     port map (
@@ -99,12 +103,16 @@ begin
         s_dec_iret
     );
 
+--- immediate extractor --------------------------------------------------------
+
     imm_extract: entity work.imm_extract
     port map (
         i_opcode => s_dec_iext_opcode,
         i_data => s_ir(12 downto 0),
         o_data => s_iext_data
     );
+
+--------------------------------------------------------------------------------
 
     o_alu_opcode <= s_dec_alu_opcode;
     with s_dec_amux_alu select o_alu_b_operand <=

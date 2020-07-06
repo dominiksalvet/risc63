@@ -42,6 +42,8 @@ architecture rtl of alu is
     end function f_alu_sra;
 begin
 
+--- adder ----------------------------------------------------------------------
+
     with i_opcode select s_adder_mode <=
         ADDER_ADD when c_ALU_ADD,
         ADDER_SUB when c_ALU_SUB | c_ALU_SLT | c_ALU_SLTU,
@@ -56,6 +58,8 @@ begin
         s_adder_less_unsigned,
         s_adder_result
     );
+
+--------------------------------------------------------------------------------
 
     with i_opcode select o_result <=
         i_a_operand when c_ALU_A,

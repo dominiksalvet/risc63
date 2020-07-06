@@ -78,6 +78,8 @@ begin
         end if;
     end process catch_input;
 
+--- ALU ------------------------------------------------------------------------
+
     alu: entity work.alu
     port map (
         s_alu_opcode,
@@ -86,7 +88,7 @@ begin
         o_alu_result
     );
 
-    o_reg_b_data <= s_reg_b_data;
+--- jump tester ----------------------------------------------------------------
 
     jmp_test: entity work.jmp_test
     port map (
@@ -94,5 +96,9 @@ begin
         s_reg_b_data,
         o_jmp_en
     );
+
+--------------------------------------------------------------------------------
+
+    o_reg_b_data <= s_reg_b_data;
 
 end architecture rtl;
