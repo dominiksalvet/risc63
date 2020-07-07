@@ -70,6 +70,12 @@ begin
                 resize(signed(c_QWORD(32 * i + 31 downto 32 * i)), o_result'length)
             );
         end loop;
+        -- test unaligned selector
+        i_selector <= std_ulogic_vector(to_unsigned(7, i_selector'length));
+        wait for c_CLK_PERIOD;
+        assert o_result = std_ulogic_vector(
+            resize(signed(c_QWORD(63 downto 32)), o_result'length)
+        );
 
 ------- test extract unsigned --------------------------------------------------
 
@@ -105,6 +111,12 @@ begin
                 resize(unsigned(c_QWORD(32 * i + 31 downto 32 * i)), o_result'length)
             );
         end loop;
+        -- test unaligned selector
+        i_selector <= std_ulogic_vector(to_unsigned(5, i_selector'length));
+        wait for c_CLK_PERIOD;
+        assert o_result = std_ulogic_vector(
+            resize(unsigned(c_QWORD(63 downto 32)), o_result'length)
+        );
 
 ------- test insert ------------------------------------------------------------
 
@@ -140,6 +152,12 @@ begin
                 shift_left(resize(unsigned(c_LOW_DWORD), o_result'length), 32 * i)
             );
         end loop;
+        -- test unaligned selector
+        i_selector <= std_ulogic_vector(to_unsigned(3, i_selector'length));
+        wait for c_CLK_PERIOD;
+        assert o_result = std_ulogic_vector(
+            shift_left(resize(unsigned(c_LOW_DWORD), o_result'length), 0)
+        );
 
 ------- test mask --------------------------------------------------------------
 
@@ -175,6 +193,12 @@ begin
                 shift_left(resize(unsigned'(x"ffffffff"), o_result'length), 32 * i)
             ));
         end loop;
+        -- test unaligned selector
+        i_selector <= std_ulogic_vector(to_unsigned(1, i_selector'length));
+        wait for c_CLK_PERIOD;
+        assert o_result = (c_QWORD and not std_ulogic_vector(
+            shift_left(resize(unsigned'(x"ffffffff"), o_result'length), 0)
+        ));
 
         wait;
     end process test;
