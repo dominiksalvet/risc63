@@ -86,7 +86,8 @@ begin
                   '1';
 
     -- jump condition
-    o_jmp_cond <= JMP_ALWAYS when s_jmp_inst = '1' else
+    o_jmp_cond <= JMP_ALWAYS when (s_jz_group = '1' and i_inst(12 downto 11) = "11") or
+                                  s_jmp_inst = '1' else
                   JMP_ZERO when s_jz_group = '1' and i_inst(12 downto 11) = "00" else
                   JMP_NZERO when s_jz_group = '1' and i_inst(12 downto 11) = "01" else
                   JMP_NEVER;
