@@ -11,7 +11,6 @@ entity reg_file_tb is
 end entity reg_file_tb;
 
 architecture behavior of reg_file_tb is
-
     signal i_clk: std_ulogic := '0';
 
     -- read port A
@@ -30,7 +29,6 @@ architecture behavior of reg_file_tb is
     -- configuration
     constant c_CLK_PERIOD: time := 10 ns;
     shared variable v_done: boolean := false;
-
 begin
 
     dut: entity work.reg_file
@@ -50,7 +48,7 @@ begin
     end process clk_gen;
 
     test: process
-        variable v_data: unsigned(63 downto 0) := (3 downto 0 => '1', others => '0');
+        constant c_DATA: unsigned(63 downto 0) := (3 downto 0 => '1', others => '0');
     begin
         wait for c_CLK_PERIOD;
 
@@ -58,7 +56,7 @@ begin
         i_c_we <= '1';
         for i in 0 to 15 loop
             i_c_index <= std_ulogic_vector(to_unsigned(i, i_c_index'length));
-            i_c_data <= std_ulogic_vector(shift_left(v_data, 4 * i));
+            i_c_data <= std_ulogic_vector(shift_left(c_DATA, 4 * i));
             wait for c_CLK_PERIOD;
         end loop;
         i_c_we <= '0';
@@ -68,8 +66,8 @@ begin
             i_b_index <= std_ulogic_vector(to_unsigned(i, i_b_index'length));
             i_a_index <= std_ulogic_vector(to_unsigned(15 - i, i_a_index'length));
             wait for c_CLK_PERIOD / 4; -- delta delay
-            assert o_b_data = std_ulogic_vector(shift_left(v_data, 4 * i));
-            assert o_a_data = std_ulogic_vector(shift_left(v_data, 4 * (15 - i)));
+            assert o_b_data = std_ulogic_vector(shift_left(c_DATA, 4 * i));
+            assert o_a_data = std_ulogic_vector(shift_left(c_DATA, 4 * (15 - i)));
             wait for c_CLK_PERIOD - c_CLK_PERIOD / 4;
         end loop;
 
