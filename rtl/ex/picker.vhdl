@@ -130,7 +130,7 @@ begin
                   s_msk_byte_array(1) & s_msk_byte_array(0);
     s_msk_word <= s_msk_word_array(3) & s_msk_word_array(2) &
                   s_msk_word_array(1) & s_msk_word_array(0);
-    s_msk_dword <= s_msk_dword_array(1) & s_msk_word_array(0);
+    s_msk_dword <= s_msk_dword_array(1) & s_msk_dword_array(0);
 
 --------------------------------------------------------------------------------
 
