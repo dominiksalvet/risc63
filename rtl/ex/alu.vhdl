@@ -25,8 +25,8 @@ architecture rtl of alu is
     signal s_adder_less_unsigned: std_ulogic;
     signal s_adder_result: std_ulogic_vector(63 downto 0);
 
-    -- pick data signals
-    signal s_pick_result: std_ulogic_vector(63 downto 0);
+    -- picker signals
+    signal s_picker_result: std_ulogic_vector(63 downto 0);
 
     -- shift functions to simplify RTL description
     function f_alu_srl(a, b: std_ulogic_vector) return std_ulogic_vector is
@@ -62,14 +62,14 @@ begin
         s_adder_result
     );
 
---- pick data ------------------------------------------------------------------
+--- data picker ----------------------------------------------------------------
 
-    pick: entity work.pick
+    picker: entity work.picker
     port map (
         i_opcode => i_opcode(3 downto 0),
         i_data_array => i_a_operand,
         i_selector => i_b_operand(2 downto 0),
-        o_result => s_pick_result
+        o_result => s_picker_result
     );
 
 --------------------------------------------------------------------------------
@@ -86,6 +86,6 @@ begin
         f_alu_srl(i_a_operand, i_b_operand(5 downto 0)) when c_ALU_SRL,
         f_alu_sll(i_a_operand, i_b_operand(5 downto 0)) when c_ALU_SLL,
         f_alu_sra(i_a_operand, i_b_operand(5 downto 0)) when c_ALU_SRA,
-        s_pick_result when others;
+        s_picker_result when others;
 
 end architecture rtl;
