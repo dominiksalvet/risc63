@@ -34,28 +34,15 @@ architecture rtl of picker is
     signal s_word_index: integer range 0 to 3;
     signal s_dword_index: integer range 0 to 1;
 
---- extract data ---------------------------------------------------------------
-    -- extracted data
+    -- raw extracted data
     signal s_ext_byte: std_ulogic_vector(7 downto 0);
     signal s_ext_word: std_ulogic_vector(15 downto 0);
     signal s_ext_dword: std_ulogic_vector(31 downto 0);
-
---- insert data ----------------------------------------------------------------
-    -- arrays used for inserting data
-    signal s_ins_byte_array: t_byte_array;
-    signal s_ins_word_array: t_word_array;
-    signal s_ins_dword_array: t_dword_array;
 
     -- final inserted data
     signal s_ins_byte: std_ulogic_vector(63 downto 0);
     signal s_ins_word: std_ulogic_vector(63 downto 0);
     signal s_ins_dword: std_ulogic_vector(63 downto 0);
-
---- mask data ------------------------------------------------------------------
-    -- arrays used for masking data
-    signal s_msk_byte_array: t_byte_array;
-    signal s_msk_word_array: t_word_array;
-    signal s_msk_dword_array: t_dword_array;
 
     -- final masked data
     signal s_msk_byte: std_ulogic_vector(63 downto 0);
@@ -91,46 +78,60 @@ begin
 
 --- extract data ---------------------------------------------------------------
 
-    -- read extracted data
     s_ext_byte <= s_i_byte_array(s_byte_index);
     s_ext_word <= s_i_word_array(s_word_index);
     s_ext_dword <= s_i_dword_array(s_dword_index);
 
 --- insert data ----------------------------------------------------------------
 
-    s_ins_byte_array <= (others => (others => '0'));
-    s_ins_word_array <= (others => (others => '0'));
-    s_ins_dword_array <= (others => (others => '0'));
+    insert_data: process(s_byte_index, s_word_index, s_dword_index, i_data_array)
+        -- arrays used for inserting data
+        variable v_ins_byte_array: t_byte_array;
+        variable v_ins_word_array: t_word_array;
+        variable v_ins_dword_array: t_dword_array;
+    begin
+        v_ins_byte_array := (others => (others => '0'));
+        v_ins_word_array := (others => (others => '0'));
+        v_ins_dword_array := (others => (others => '0'));
 
-    s_ins_byte_array(s_byte_index) <= i_data_array(7 downto 0);
-    s_ins_word_array(s_word_index) <= i_data_array(15 downto 0);
-    s_ins_dword_array(s_dword_index) <= i_data_array(31 downto 0);
+        v_ins_byte_array(s_byte_index) := i_data_array(7 downto 0);
+        v_ins_word_array(s_word_index) := i_data_array(15 downto 0);
+        v_ins_dword_array(s_dword_index) := i_data_array(31 downto 0);
 
-    s_ins_byte <= s_ins_byte_array(7) & s_ins_byte_array(6) &
-                  s_ins_byte_array(5) & s_ins_byte_array(4) &
-                  s_ins_byte_array(3) & s_ins_byte_array(2) &
-                  s_ins_byte_array(1) & s_ins_byte_array(0);
-    s_ins_word <= s_ins_word_array(3) & s_ins_word_array(2) &
-                  s_ins_word_array(1) & s_ins_word_array(0);
-    s_ins_dword <= s_ins_dword_array(1) & s_ins_dword_array(0);
+        s_ins_byte <= v_ins_byte_array(7) & v_ins_byte_array(6) &
+                      v_ins_byte_array(5) & v_ins_byte_array(4) &
+                      v_ins_byte_array(3) & v_ins_byte_array(2) &
+                      v_ins_byte_array(1) & v_ins_byte_array(0);
+        s_ins_word <= v_ins_word_array(3) & v_ins_word_array(2) &
+                      v_ins_word_array(1) & v_ins_word_array(0);
+        s_ins_dword <= v_ins_dword_array(1) & v_ins_dword_array(0);
+    end process insert_data;
 
 --- mask data ------------------------------------------------------------------
 
-    s_msk_byte_array <= s_i_byte_array;
-    s_msk_word_array <= s_i_word_array;
-    s_msk_dword_array <= s_i_dword_array;
+    mask_data: process(s_i_byte_array, s_i_word_array, s_i_dword_array,
+                       s_byte_index, s_word_index, s_dword_index, i_data_array)
+        -- arrays used for inserting data
+        variable v_msk_byte_array: t_byte_array;
+        variable v_msk_word_array: t_word_array;
+        variable v_msk_dword_array: t_dword_array;
+    begin
+        v_msk_byte_array := s_i_byte_array;
+        v_msk_word_array := s_i_word_array;
+        v_msk_dword_array := s_i_dword_array;
 
-    s_msk_byte_array(s_byte_index) <= i_data_array(7 downto 0);
-    s_msk_word_array(s_word_index) <= i_data_array(15 downto 0);
-    s_msk_dword_array(s_dword_index) <= i_data_array(31 downto 0);
+        v_msk_byte_array(s_byte_index) := (others => '0');
+        v_msk_word_array(s_word_index) := (others => '0');
+        v_msk_dword_array(s_dword_index) := (others => '0');
 
-    s_msk_byte <= s_msk_byte_array(7) & s_msk_byte_array(6) &
-                  s_msk_byte_array(5) & s_msk_byte_array(4) &
-                  s_msk_byte_array(3) & s_msk_byte_array(2) &
-                  s_msk_byte_array(1) & s_msk_byte_array(0);
-    s_msk_word <= s_msk_word_array(3) & s_msk_word_array(2) &
-                  s_msk_word_array(1) & s_msk_word_array(0);
-    s_msk_dword <= s_msk_dword_array(1) & s_msk_dword_array(0);
+        s_msk_byte <= v_msk_byte_array(7) & v_msk_byte_array(6) &
+                      v_msk_byte_array(5) & v_msk_byte_array(4) &
+                      v_msk_byte_array(3) & v_msk_byte_array(2) &
+                      v_msk_byte_array(1) & v_msk_byte_array(0);
+        s_msk_word <= v_msk_word_array(3) & v_msk_word_array(2) &
+                      v_msk_word_array(1) & v_msk_word_array(0);
+        s_msk_dword <= v_msk_dword_array(1) & v_msk_dword_array(0);
+    end process mask_data;
 
 --------------------------------------------------------------------------------
 
