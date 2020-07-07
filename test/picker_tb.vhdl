@@ -31,12 +31,10 @@ begin
         constant c_LOW_BYTE: std_ulogic_vector(7 downto 0) := x"ef";
         constant c_LOW_WORD: std_ulogic_vector(15 downto 0) := x"cd" & c_LOW_BYTE;
         constant c_LOW_DWORD: std_ulogic_vector(31 downto 0) := x"89ab" & c_LOW_WORD;
-        constant c_DATA: std_ulogic_vector(63 downto 0) := x"01234567" & c_LOW_DWORD;
-
-        variable v_temp: std_ulogic_vector(63 downto 0);
+        constant c_QWORD: std_ulogic_vector(63 downto 0) := x"01234567" & c_LOW_DWORD;
     begin
 
-        i_data_array <= c_DATA; -- permanent input
+        i_data_array <= c_QWORD; -- permanent input
 
 ------- test extract -----------------------------------------------------------
 
@@ -45,7 +43,7 @@ begin
             i_selector <= std_ulogic_vector(to_unsigned(i, i_selector'length));
             wait for c_CLK_PERIOD;
             assert o_result = std_ulogic_vector(
-                resize(signed(c_DATA(8 * i + 7 downto 8 * i)), o_result'length)
+                resize(signed(c_QWORD(8 * i + 7 downto 8 * i)), o_result'length)
             );
         end loop;
 
@@ -54,14 +52,14 @@ begin
             i_selector <= std_ulogic_vector(to_unsigned(2 * i, i_selector'length));
             wait for c_CLK_PERIOD;
             assert o_result = std_ulogic_vector(
-                resize(signed(c_DATA(16 * i + 15 downto 16 * i)), o_result'length)
+                resize(signed(c_QWORD(16 * i + 15 downto 16 * i)), o_result'length)
             );
         end loop;
         -- test unaligned selector
         i_selector <= std_ulogic_vector(to_unsigned(1, i_selector'length));
         wait for c_CLK_PERIOD;
         assert o_result = std_ulogic_vector(
-            resize(signed(c_DATA(15 downto 0)), o_result'length)
+            resize(signed(c_QWORD(15 downto 0)), o_result'length)
         );
 
         i_opcode <= c_PICKER_EXTD;
@@ -69,7 +67,7 @@ begin
             i_selector <= std_ulogic_vector(to_unsigned(4 * i, i_selector'length));
             wait for c_CLK_PERIOD;
             assert o_result = std_ulogic_vector(
-                resize(signed(c_DATA(32 * i + 31 downto 32 * i)), o_result'length)
+                resize(signed(c_QWORD(32 * i + 31 downto 32 * i)), o_result'length)
             );
         end loop;
 
@@ -80,7 +78,7 @@ begin
             i_selector <= std_ulogic_vector(to_unsigned(i, i_selector'length));
             wait for c_CLK_PERIOD;
             assert o_result = std_ulogic_vector(
-                resize(unsigned(c_DATA(8 * i + 7 downto 8 * i)), o_result'length)
+                resize(unsigned(c_QWORD(8 * i + 7 downto 8 * i)), o_result'length)
             );
         end loop;
 
@@ -89,14 +87,14 @@ begin
             i_selector <= std_ulogic_vector(to_unsigned(2 * i, i_selector'length));
             wait for c_CLK_PERIOD;
             assert o_result = std_ulogic_vector(
-                resize(unsigned(c_DATA(16 * i + 15 downto 16 * i)), o_result'length)
+                resize(unsigned(c_QWORD(16 * i + 15 downto 16 * i)), o_result'length)
             );
         end loop;
         -- test unaligned selector
         i_selector <= std_ulogic_vector(to_unsigned(3, i_selector'length));
         wait for c_CLK_PERIOD;
         assert o_result = std_ulogic_vector(
-            resize(unsigned(c_DATA(31 downto 16)), o_result'length)
+            resize(unsigned(c_QWORD(31 downto 16)), o_result'length)
         );
 
         i_opcode <= c_PICKER_EXTDU;
@@ -104,7 +102,7 @@ begin
             i_selector <= std_ulogic_vector(to_unsigned(4 * i, i_selector'length));
             wait for c_CLK_PERIOD;
             assert o_result = std_ulogic_vector(
-                resize(unsigned(c_DATA(32 * i + 31 downto 32 * i)), o_result'length)
+                resize(unsigned(c_QWORD(32 * i + 31 downto 32 * i)), o_result'length)
             );
         end loop;
 
@@ -149,7 +147,7 @@ begin
         for i in 0 to 7 loop
             i_selector <= std_ulogic_vector(to_unsigned(i, i_selector'length));
             wait for c_CLK_PERIOD;
-            assert o_result = (c_DATA and not std_ulogic_vector(
+            assert o_result = (c_QWORD and not std_ulogic_vector(
                 shift_left(resize(unsigned'(x"ff"), o_result'length), 8 * i)
             ));
         end loop;
@@ -158,14 +156,14 @@ begin
         for i in 0 to 3 loop
             i_selector <= std_ulogic_vector(to_unsigned(2 * i, i_selector'length));
             wait for c_CLK_PERIOD;
-            assert o_result = (c_DATA and not std_ulogic_vector(
+            assert o_result = (c_QWORD and not std_ulogic_vector(
                 shift_left(resize(unsigned'(x"ffff"), o_result'length), 16 * i)
             ));
         end loop;
         -- test unaligned selector
         i_selector <= std_ulogic_vector(to_unsigned(7, i_selector'length));
         wait for c_CLK_PERIOD;
-        assert o_result = (c_DATA and not std_ulogic_vector(
+        assert o_result = (c_QWORD and not std_ulogic_vector(
             shift_left(resize(unsigned'(x"ffff"), o_result'length), 48)
         ));
 
@@ -173,7 +171,7 @@ begin
         for i in 0 to 1 loop
             i_selector <= std_ulogic_vector(to_unsigned(4 * i, i_selector'length));
             wait for c_CLK_PERIOD;
-            assert o_result = (c_DATA and not std_ulogic_vector(
+            assert o_result = (c_QWORD and not std_ulogic_vector(
                 shift_left(resize(unsigned'(x"ffffffff"), o_result'length), 32 * i)
             ));
         end loop;
