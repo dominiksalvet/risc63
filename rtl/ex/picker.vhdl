@@ -24,40 +24,46 @@ architecture rtl of picker is
     type t_word_array is array (3 downto 0) of std_ulogic_vector(15 downto 0);
     type t_dword_array is array (1 downto 0) of std_ulogic_vector(31 downto 0);
 
+    -- transform input into individual arrays
+    signal s_i_byte_array: t_byte_array;
+    signal s_i_word_array: t_word_array;
+    signal s_i_dword_array: t_dword_array;
+
     -- indexes for each data size
     signal s_byte_index: integer range 0 to 7;
     signal s_word_index: integer range 0 to 3;
     signal s_dword_index: integer range 0 to 1;
 
 --- extract data ---------------------------------------------------------------
-    -- input arrays to make extracting easier
-    signal s_i_byte_array: t_byte_array;
-    signal s_i_word_array: t_word_array;
-    signal s_i_dword_array: t_dword_array;
-
     -- extracted data
     signal s_ext_byte: std_ulogic_vector(7 downto 0);
     signal s_ext_word: std_ulogic_vector(15 downto 0);
     signal s_ext_dword: std_ulogic_vector(31 downto 0);
 
 --- insert data ----------------------------------------------------------------
-    -- output arrays to make inserting easier
-    signal s_o_byte_array: t_byte_array;
-    signal s_o_word_array: t_word_array;
-    signal s_o_dword_array: t_dword_array;
+    -- arrays used for inserting data
+    signal s_ins_byte_array: t_byte_array;
+    signal s_ins_word_array: t_word_array;
+    signal s_ins_dword_array: t_dword_array;
 
-    -- inserted data
+    -- final inserted data
     signal s_ins_byte: std_ulogic_vector(63 downto 0);
     signal s_ins_word: std_ulogic_vector(63 downto 0);
     signal s_ins_dword: std_ulogic_vector(63 downto 0);
+
+--- mask data ------------------------------------------------------------------
+    -- arrays used for masking data
+    signal s_msk_byte_array: t_byte_array;
+    signal s_msk_word_array: t_word_array;
+    signal s_msk_dword_array: t_dword_array;
+
+    -- final masked data
+    signal s_msk_byte: std_ulogic_vector(63 downto 0);
+    signal s_msk_word: std_ulogic_vector(63 downto 0);
+    signal s_msk_dword: std_ulogic_vector(63 downto 0);
 begin
 
-    s_byte_index <= to_integer(unsigned(i_selector));
-    s_word_index <= to_integer(unsigned(i_selector(2 downto 1)));
-    s_dword_index <= to_integer(unsigned'(0 => i_selector(2)));
-
---- extract data ---------------------------------------------------------------
-
+    -- prepare input
     s_i_byte_array <= (
         i_data_array(63 downto 56), -- index 7
         i_data_array(55 downto 48),
@@ -79,6 +85,12 @@ begin
         i_data_array(31 downto 0) -- index 0
     );
 
+    s_byte_index <= to_integer(unsigned(i_selector));
+    s_word_index <= to_integer(unsigned(i_selector(2 downto 1)));
+    s_dword_index <= to_integer(unsigned'(0 => i_selector(2)));
+
+--- extract data ---------------------------------------------------------------
+
     -- read extracted data
     s_ext_byte <= s_i_byte_array(s_byte_index);
     s_ext_word <= s_i_word_array(s_word_index);
@@ -86,23 +98,39 @@ begin
 
 --- insert data ----------------------------------------------------------------
 
-    s_o_byte_array <= s_i_byte_array;
-    s_o_word_array <= s_i_word_array;
-    s_o_dword_array <= s_i_dword_array;
+    s_ins_byte_array <= (others => (others => '0'));
+    s_ins_word_array <= (others => (others => '0'));
+    s_ins_dword_array <= (others => (others => '0'));
 
-    -- insert or mask data of appropriate position
-    s_o_byte_array(s_byte_index) <=
-        i_data_array(7 downto 0) when i_opcode = c_PICKER_INSB else (others => '0');
-    s_o_word_array(s_word_index) <=
-        i_data_array(15 downto 0) when i_opcode = c_PICKER_INSW else (others => '0');
-    s_o_dword_array(s_dword_index) <=
-        i_data_array(31 downto 0) when i_opcode = c_PICKER_INSD else (others => '0');
+    s_ins_byte_array(s_byte_index) <= i_data_array(7 downto 0);
+    s_ins_word_array(s_word_index) <= i_data_array(15 downto 0);
+    s_ins_dword_array(s_dword_index) <= i_data_array(31 downto 0);
 
-    -- prepare output
-    s_ins_byte <= s_o_byte_array(7) & s_o_byte_array(6) & s_o_byte_array(5) & s_o_byte_array(4) &
-                  s_o_byte_array(3) & s_o_byte_array(2) & s_o_byte_array(1) & s_o_byte_array(0);
-    s_ins_word <= s_o_word_array(3) & s_o_word_array(2) & s_o_word_array(1) & s_o_word_array(0);
-    s_ins_dword <= s_o_dword_array(1) & s_o_dword_array(0);
+    s_ins_byte <= s_ins_byte_array(7) & s_ins_byte_array(6) &
+                  s_ins_byte_array(5) & s_ins_byte_array(4) &
+                  s_ins_byte_array(3) & s_ins_byte_array(2) &
+                  s_ins_byte_array(1) & s_ins_byte_array(0);
+    s_ins_word <= s_ins_word_array(3) & s_ins_word_array(2) &
+                  s_ins_word_array(1) & s_ins_word_array(0);
+    s_ins_dword <= s_ins_dword_array(1) & s_ins_dword_array(0);
+
+--- mask data ------------------------------------------------------------------
+
+    s_msk_byte_array <= s_i_byte_array;
+    s_msk_word_array <= s_i_word_array;
+    s_msk_dword_array <= s_i_dword_array;
+
+    s_msk_byte_array(s_byte_index) <= i_data_array(7 downto 0);
+    s_msk_word_array(s_word_index) <= i_data_array(15 downto 0);
+    s_msk_dword_array(s_dword_index) <= i_data_array(31 downto 0);
+
+    s_msk_byte <= s_msk_byte_array(7) & s_msk_byte_array(6) &
+                  s_msk_byte_array(5) & s_msk_byte_array(4) &
+                  s_msk_byte_array(3) & s_msk_byte_array(2) &
+                  s_msk_byte_array(1) & s_msk_byte_array(0);
+    s_msk_word <= s_msk_word_array(3) & s_msk_word_array(2) &
+                  s_msk_word_array(1) & s_msk_word_array(0);
+    s_msk_dword <= s_msk_dword_array(1) & s_msk_word_array(0);
 
 --------------------------------------------------------------------------------
 
@@ -113,9 +141,12 @@ begin
         (55 downto 0 => '0') & s_ext_byte when c_PICKER_EXTBU,
         (47 downto 0 => '0') & s_ext_word when c_PICKER_EXTWU,
         (31 downto 0 => '0') & s_ext_dword when c_PICKER_EXTDU,
-        s_ins_byte when c_PICKER_INSB | c_PICKER_MSKB,
-        s_ins_word when c_PICKER_INSW | c_PICKER_MSKW,
-        s_ins_dword when c_PICKER_INSD | c_PICKER_MSKD,
+        s_ins_byte when c_PICKER_INSB,
+        s_ins_word when c_PICKER_INSW,
+        s_ins_dword when c_PICKER_INSD,
+        s_msk_byte when c_PICKER_MSKB,
+        s_msk_word when c_PICKER_MSKW,
+        s_msk_dword when c_PICKER_MSKD,
         (others => 'X') when others;
 
 end architecture rtl;
