@@ -18,8 +18,12 @@ jobs:
     - name: Check GHDL
       run: ghdl --version
 
-    - name: Analyze RTL files
-      run: echo todo
+    - name: Build source files
+      run: |
+        cd build/
+        make
 
-    - name: Analyze test files
-      run: echo todo
+    - name: Run tests
+      run: |
+        cd build/
+        make test
