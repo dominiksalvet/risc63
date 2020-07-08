@@ -76,16 +76,11 @@ begin
     s_word_index <= to_integer(unsigned(i_selector(2 downto 1)));
     s_dword_index <= to_integer(unsigned'(0 => i_selector(2)));
 
---- extract data ---------------------------------------------------------------
-
     s_ext_byte <= s_i_byte_array(s_byte_index);
     s_ext_word <= s_i_word_array(s_word_index);
     s_ext_dword <= s_i_dword_array(s_dword_index);
 
---- insert data ----------------------------------------------------------------
-
     insert_data: process(s_byte_index, s_word_index, s_dword_index, i_data_array)
-        -- arrays used for inserting data
         variable v_ins_byte_array: t_byte_array;
         variable v_ins_word_array: t_word_array;
         variable v_ins_dword_array: t_dword_array;
@@ -107,11 +102,8 @@ begin
         s_ins_dword <= v_ins_dword_array(1) & v_ins_dword_array(0);
     end process insert_data;
 
---- mask data ------------------------------------------------------------------
-
     mask_data: process(s_i_byte_array, s_i_word_array, s_i_dword_array,
                        s_byte_index, s_word_index, s_dword_index, i_data_array)
-        -- arrays used for inserting data
         variable v_msk_byte_array: t_byte_array;
         variable v_msk_word_array: t_word_array;
         variable v_msk_dword_array: t_dword_array;
@@ -132,8 +124,6 @@ begin
                       v_msk_word_array(1) & v_msk_word_array(0);
         s_msk_dword <= v_msk_dword_array(1) & v_msk_dword_array(0);
     end process mask_data;
-
---------------------------------------------------------------------------------
 
     with i_opcode select o_result <=
         (55 downto 0 => s_ext_byte(7)) & s_ext_byte when c_PICKER_EXTB,
