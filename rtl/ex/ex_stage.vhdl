@@ -18,27 +18,27 @@ entity ex_stage is
         i_alu_a_operand: in std_ulogic_vector(63 downto 0);
         i_alu_b_operand: in std_ulogic_vector(63 downto 0);
 
+        i_mem_we: in std_ulogic;
         i_reg_b_data: in std_ulogic_vector(63 downto 0);
         i_reg_c_we: in std_ulogic;
         i_reg_c_index: in std_ulogic_vector(3 downto 0);
-
-        i_jmp_cond: in t_jmp_cond;
-
         i_cr_we: in std_ulogic;
         i_cr_index: in std_ulogic_vector(2 downto 0);
+
+        i_jmp_cond: in t_jmp_cond;
         i_iret: in std_ulogic;
 
 ------- output to MEM stage ----------------------------------------------------
         o_alu_result: out std_ulogic_vector(63 downto 0);
 
+        o_mem_we: out std_ulogic;
         o_reg_b_data: out std_ulogic_vector(63 downto 0);
         o_reg_c_we: out std_ulogic;
         o_reg_c_index: out std_ulogic_vector(3 downto 0);
-
-        o_jmp_en: out std_ulogic;
-
         o_cr_we: out std_ulogic;
         o_cr_index: out std_ulogic_vector(2 downto 0);
+
+        o_jmp_en: out std_ulogic;
         o_iret: out std_ulogic
     );
 end entity ex_stage;
@@ -57,12 +57,13 @@ begin
     begin
         if rising_edge(i_clk) then
             if i_rst = '1' then
+                o_mem_we <= '0';
                 o_reg_c_we <= '0';
                 o_cr_we <= '0';
-                o_iret <= '0';
-
                 s_jmp_cond <= JMP_NEVER;
+                o_iret <= '0';
             else
+                o_mem_we <= i_mem_we;
                 o_reg_c_we <= i_reg_c_we;
                 o_reg_c_index <= i_reg_c_index;
                 o_cr_we <= i_cr_we;
