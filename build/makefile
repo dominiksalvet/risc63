@@ -76,8 +76,8 @@ test_a: build_a
 	$(GHDL) -r $(GHDL_FLAGS) $(a)
 
 view_a: build_a
-	$(GHDL) -r $(GHDL_FLAGS) $(a) --wave=$(a).ghw
-	$(GTKWAVE) $(a).ghw
+	$(GHDL) -r $(GHDL_FLAGS) $(a) --vcd=$(a).vcd
+	$(GTKWAVE) $(a).vcd
 
 check_a:
 	test "$$a"
