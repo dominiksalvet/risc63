@@ -12,16 +12,10 @@ end entity reg_file_tb;
 
 architecture behavior of reg_file_tb is
     signal i_clk: std_ulogic := '0';
-
-    -- read port A
     signal i_a_index: std_ulogic_vector(3 downto 0) := (others => '0');
     signal o_a_data: std_ulogic_vector(63 downto 0);
-
-    -- read port B
     signal i_b_index: std_ulogic_vector(3 downto 0) := (others => '0');
     signal o_b_data: std_ulogic_vector(63 downto 0);
-
-    -- write port C
     signal i_c_we: std_ulogic := '0';
     signal i_c_index: std_ulogic_vector(3 downto 0) := (others => '0');
     signal i_c_data: std_ulogic_vector(63 downto 0) := (others => '0');
