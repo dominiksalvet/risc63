@@ -11,11 +11,11 @@ entity risc63 is
         i_clk: in std_ulogic;
         i_rst: in std_ulogic;
 
-        -- instruction memory interface
+------- instruction memory interface -------------------------------------------
         o_imem_addr: out std_ulogic_vector(62 downto 0);
         i_imem_data: in std_ulogic_vector(15 downto 0);
 
-        -- data memory interface
+------- data memory interface --------------------------------------------------
         o_dmem_we: out std_ulogic;
         o_dmem_addr: out std_ulogic_vector(60 downto 0);
         o_dmem_data: out std_ulogic_vector(63 downto 0);
