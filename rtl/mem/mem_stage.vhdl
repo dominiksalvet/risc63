@@ -27,7 +27,7 @@ entity mem_stage is
         i_result_mux: in t_result_mux;
         i_alu_result: in std_ulogic_vector(63 downto 0);
 
-------- output to control unit -------------------------------------------------
+------- control unit signals ---------------------------------------------------
         o_jmp_en: out std_ulogic;
         o_iret: out std_ulogic;
 
