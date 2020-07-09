@@ -25,9 +25,9 @@ architecture rtl of picker is
     type t_dword_array is array (1 downto 0) of std_ulogic_vector(31 downto 0);
 
     -- transform input into individual arrays
-    signal s_i_byte_array: t_byte_array;
-    signal s_i_word_array: t_word_array;
-    signal s_i_dword_array: t_dword_array;
+    signal s_byte_array: t_byte_array;
+    signal s_word_array: t_word_array;
+    signal s_dword_array: t_dword_array;
 
     -- indexes for each data size
     signal s_byte_index: integer range 0 to 7;
@@ -51,7 +51,7 @@ architecture rtl of picker is
 begin
 
     -- prepare input
-    s_i_byte_array <= (
+    s_byte_array <= (
         i_data_array(63 downto 56), -- index 7
         i_data_array(55 downto 48),
         i_data_array(47 downto 40),
@@ -61,13 +61,13 @@ begin
         i_data_array(15 downto 8),
         i_data_array(7 downto 0) -- index 0
     );
-    s_i_word_array <= (
+    s_word_array <= (
         i_data_array(63 downto 48), -- index 3
         i_data_array(47 downto 32),
         i_data_array(31 downto 16),
         i_data_array(15 downto 0) -- index 0
     );
-    s_i_dword_array <= (
+    s_dword_array <= (
         i_data_array(63 downto 32), -- index 1
         i_data_array(31 downto 0) -- index 0
     );
@@ -76,9 +76,9 @@ begin
     s_word_index <= to_integer(unsigned(i_selector(2 downto 1)));
     s_dword_index <= to_integer(unsigned'(0 => i_selector(2)));
 
-    s_ext_byte <= s_i_byte_array(s_byte_index);
-    s_ext_word <= s_i_word_array(s_word_index);
-    s_ext_dword <= s_i_dword_array(s_dword_index);
+    s_ext_byte <= s_byte_array(s_byte_index);
+    s_ext_word <= s_word_array(s_word_index);
+    s_ext_dword <= s_dword_array(s_dword_index);
 
     insert_data: process(s_byte_index, s_word_index, s_dword_index, i_data_array)
         variable v_ins_byte_array: t_byte_array;
@@ -102,15 +102,15 @@ begin
         s_ins_dword <= v_ins_dword_array(1) & v_ins_dword_array(0);
     end process insert_data;
 
-    mask_data: process(s_i_byte_array, s_i_word_array, s_i_dword_array,
-                       s_byte_index, s_word_index, s_dword_index, i_data_array)
+    mask_data: process(s_byte_array, s_word_array, s_dword_array,
+                       s_byte_index, s_word_index, s_dword_index)
         variable v_msk_byte_array: t_byte_array;
         variable v_msk_word_array: t_word_array;
         variable v_msk_dword_array: t_dword_array;
     begin
-        v_msk_byte_array := s_i_byte_array;
-        v_msk_word_array := s_i_word_array;
-        v_msk_dword_array := s_i_dword_array;
+        v_msk_byte_array := s_byte_array;
+        v_msk_word_array := s_word_array;
+        v_msk_dword_array := s_dword_array;
 
         v_msk_byte_array(s_byte_index) := (others => '0');
         v_msk_word_array(s_word_index) := (others => '0');
