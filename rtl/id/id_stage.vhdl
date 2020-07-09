@@ -35,7 +35,9 @@ entity id_stage is
         o_cr_we: out std_ulogic; -- control registers related
         o_cr_index: out std_ulogic_vector(2 downto 0);
         o_reg_c_we: out std_ulogic; -- write result from WB stage later
-        o_reg_c_index: out std_ulogic_vector(3 downto 0)
+        o_reg_c_index: out std_ulogic_vector(3 downto 0);
+
+        o_result_mux: out t_result_mux
     );
 end entity id_stage;
 
@@ -58,6 +60,7 @@ architecture rtl of id_stage is
     signal s_dec_mem_we: std_ulogic;
     signal s_dec_cr_we: std_ulogic;
     signal s_dec_reg_c_we: std_ulogic;
+    signal s_dec_result_mux: t_result_mux;
 
     -- immediate extractor output
     signal s_iext_imm: std_ulogic_vector(63 downto 0);
@@ -102,7 +105,8 @@ begin
         s_dec_iret,
         s_dec_mem_we,
         s_dec_cr_we,
-        s_dec_reg_c_we
+        s_dec_reg_c_we,
+        s_dec_result_mux
     );
 
 --- immediate extractor --------------------------------------------------------
@@ -141,5 +145,8 @@ begin
     -- register write
     o_reg_c_we <= s_dec_reg_c_we;
     o_reg_c_index <= s_ir(3 downto 0);
+
+    -- select result
+    o_result_mux <= s_dec_result_mux;
 
 end architecture rtl;

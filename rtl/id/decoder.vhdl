@@ -25,7 +25,10 @@ entity decoder is
 ------- write enable signals ---------------------------------------------------
         o_mem_we: out std_ulogic;
         o_cr_we: out std_ulogic;
-        o_reg_c_we: out std_ulogic
+        o_reg_c_we: out std_ulogic;
+
+------- select result ----------------------------------------------------------
+        o_result_mux: out t_result_mux
     );
 end entity decoder;
 
@@ -111,5 +114,12 @@ begin
                            (s_jz_group = '1' and i_inst(12 downto 11) /= "10") or
                            (s_crr_group = '1' and i_inst(10) = '1') else
                   '1';
+
+------- select result ----------------------------------------------------------
+
+    -- which result should be stored to register file
+    o_result_mux <= RESULT_MEM when s_ld_group = '1' and i_inst(13) = '0' else
+                    RESULT_CR when s_crr_group = '1' and i_inst(10) = '0' else
+                    RESULT_ALU;
 
 end architecture rtl;

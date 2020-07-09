@@ -87,4 +87,8 @@ package risc63_pkg is
     -- jump tester conditions
     type t_jmp_cond is (JMP_ALWAYS, JMP_ZERO, JMP_NZERO, JMP_NEVER);
 
+--- WB stage -------------------------------------------------------------------
+
+    type t_result_mux is (RESULT_MEM, RESULT_CR, RESULT_ALU);
+
 end package risc63_pkg;
