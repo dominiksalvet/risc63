@@ -35,7 +35,7 @@ entity ex_stage is
         o_iret: out std_ulogic;
 
         o_mem_we: out std_ulogic;
-        o_reg_b_data: out std_ulogic_vector(63 downto 0);
+        o_mem_wr_data: out std_ulogic_vector(63 downto 0);
         o_cr_we: out std_ulogic;
         o_cr_index: out std_ulogic_vector(2 downto 0);
         o_reg_c_we: out std_ulogic;
@@ -104,6 +104,6 @@ begin
 
 --------------------------------------------------------------------------------
 
-    o_reg_b_data <= s_reg_b_data;
+    o_mem_wr_data <= s_reg_b_data;
 
 end architecture rtl;
