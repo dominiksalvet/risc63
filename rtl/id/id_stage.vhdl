@@ -96,7 +96,7 @@ begin
 
     decoder: entity work.decoder
     port map (
-        i_inst,
+        s_ir,
         s_dec_iext_type,
         s_dec_amux_alu,
         s_dec_bmux_alu,

@@ -43,6 +43,9 @@ begin
             if i_rst = '1' then
                 o_reg_c_we <= '0';
             else
+                o_reg_c_we <= i_reg_c_we;
+                o_reg_c_index <= i_reg_c_index;
+
                 s_result_mux <= i_result_mux;
                 s_mem_rd_data <= i_mem_rd_data;
                 s_cr_rd_data <= i_cr_rd_data;
