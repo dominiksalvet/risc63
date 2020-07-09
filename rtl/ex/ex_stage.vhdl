@@ -31,8 +31,6 @@ entity ex_stage is
         i_result_mux: in t_result_mux;
 
 ------- output to MEM stage ----------------------------------------------------
-        o_alu_result: out std_ulogic_vector(63 downto 0);
-
         o_jmp_en: out std_ulogic;
         o_iret: out std_ulogic;
 
@@ -43,7 +41,8 @@ entity ex_stage is
         o_reg_c_we: out std_ulogic;
         o_reg_c_index: out std_ulogic_vector(3 downto 0);
 
-        o_result_mux: out t_result_mux
+        o_result_mux: out t_result_mux;
+        o_alu_result: out std_ulogic_vector(63 downto 0)
     );
 end entity ex_stage;
 
