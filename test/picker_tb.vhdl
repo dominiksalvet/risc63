@@ -22,9 +22,12 @@ architecture behavior of picker_tb is
     constant c_CLK_PERIOD: time := 10 ns;
 begin
 
-    dut: entity work.picker
+    picker: entity work.picker
     port map (
-        i_opcode, i_data_array, i_selector, o_result
+        i_opcode,
+        i_data_array,
+        i_selector,
+        o_result
     );
 
     test: process
@@ -33,7 +36,6 @@ begin
         constant c_LOW_DWORD: std_ulogic_vector(31 downto 0) := x"89ab" & c_LOW_WORD;
         constant c_QWORD: std_ulogic_vector(63 downto 0) := x"01234567" & c_LOW_DWORD;
     begin
-
         i_data_array <= c_QWORD; -- permanent input
 
 ------- test extract -----------------------------------------------------------

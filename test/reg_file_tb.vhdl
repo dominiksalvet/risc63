@@ -25,12 +25,16 @@ architecture behavior of reg_file_tb is
     shared variable v_done: boolean := false;
 begin
 
-    dut: entity work.reg_file
+    reg_file: entity work.reg_file
     port map (
         i_clk,
-        i_a_index, o_a_data,
-        i_b_index, o_b_data,
-        i_c_we, i_c_index, i_c_data
+        i_a_index,
+        o_a_data,
+        i_b_index,
+        o_b_data,
+        i_c_we,
+        i_c_index,
+        i_c_data
     );
 
     clk_gen: process
