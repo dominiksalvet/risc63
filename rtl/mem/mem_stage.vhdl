@@ -28,17 +28,15 @@ entity mem_stage is
         i_alu_result: in std_ulogic_vector(63 downto 0);
 
 ------- control unit signals ---------------------------------------------------
-        o_jmp_en: out std_ulogic;
+        o_jmp_en: out std_ulogic; -- jump address is ALU result
         o_iret: out std_ulogic;
 
 ------- data memory interface --------------------------------------------------
-        -- ALU result has to be used as memory address
-        o_mem_we: out std_ulogic;
+        o_mem_we: out std_ulogic; -- memory address is ALU result
         o_mem_wr_data: out std_ulogic_vector(63 downto 0);
 
 ------- control registers interface --------------------------------------------
-        -- ALU result has to be used as input data
-        o_cr_we: out std_ulogic;
+        o_cr_we: out std_ulogic; -- input data is ALU result
         o_cr_index: out std_ulogic_vector(2 downto 0);
 
 ------- output to WB stage -----------------------------------------------------
