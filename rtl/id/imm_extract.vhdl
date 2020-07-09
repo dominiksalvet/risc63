@@ -20,10 +20,10 @@ architecture rtl of imm_extract is
 begin
 
     with i_type select o_imm <=
-        (58 downto 0 => i_imm_field(12)) & i_imm_field(12 downto 8) when IEXT_LD,
+        (55 downto 0 => i_imm_field(12)) & i_imm_field(12 downto 8) & "000" when IEXT_LD,
         (55 downto 0 => i_imm_field(11)) & i_imm_field(11 downto 4) when IEXT_ADDI,
-        (56 downto 0 => i_imm_field(10)) & i_imm_field(10 downto 4) when IEXT_JZ,
+        (55 downto 0 => i_imm_field(10)) & i_imm_field(10 downto 4) & '0' when IEXT_JZ,
         (57 downto 0 => i_imm_field(9)) & i_imm_field(9 downto 4) when IEXT_SLTI,
-        (51 downto 0 => i_imm_field(11)) & i_imm_field(11 downto 0) when IEXT_JMP;
+        (50 downto 0 => i_imm_field(11)) & i_imm_field(11 downto 0) & '0' when IEXT_JMP;
 
 end architecture rtl;
