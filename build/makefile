@@ -36,7 +36,8 @@ RTL_FILES = $(RTL_DIR)/if/if_stage.vhdl\
             $(RTL_DIR)/ex/alu.vhdl\
             $(RTL_DIR)/ex/adder.vhdl\
             $(RTL_DIR)/ex/picker.vhdl\
-            $(RTL_DIR)/ex/jmp_test.vhdl
+            $(RTL_DIR)/ex/jmp_test.vhdl\
+            $(RTL_DIR)/mem/mem_stage.vhdl
 TEST_FILES = $(TEST_DIR)/reg_file_tb.vhdl\
              $(TEST_DIR)/picker_tb.vhdl
 
