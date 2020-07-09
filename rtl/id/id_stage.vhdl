@@ -122,7 +122,7 @@ begin
 
     -- ALU signals
     o_alu_opcode <= s_dec_alu_opcode;
-    with s_dec_amux_alu select o_alu_b_operand <=
+    with s_dec_amux_alu select o_alu_a_operand <=
         s_iext_imm when AMUX_IMM,
         s_reg_a_data when AMUX_AREG;
     with s_dec_bmux_alu select o_alu_b_operand <=
