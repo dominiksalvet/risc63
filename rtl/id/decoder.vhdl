@@ -14,8 +14,8 @@ entity decoder is
 
 ------- ID signals -------------------------------------------------------------
         o_iext_type: out t_iext_type;
-        o_amux_alu: out t_amux_alu;
-        o_bmux_alu: out t_bmux_alu;
+        o_amux_alu: out t_alu_a_mux;
+        o_bmux_alu: out t_alu_b_mux;
         o_alu_opcode: out std_ulogic_vector(4 downto 0);
 
 ------- control flow signals ---------------------------------------------------

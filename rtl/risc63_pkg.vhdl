@@ -22,10 +22,10 @@ package risc63_pkg is
     type t_iext_type is (IEXT_LD, IEXT_ADDI, IEXT_JZ, IEXT_SLTI, IEXT_JMP);
 
     -- ALU operand A multiplexer
-    type t_amux_alu is (AMUX_IMM, AMUX_AREG);
+    type t_alu_a_mux is (AMUX_IMM, AMUX_AREG);
 
     -- ALU operand B multiplexer
-    type t_bmux_alu is (BMUX_IMM, BMUX_PC, BMUX_BREG);
+    type t_alu_b_mux is (BMUX_IMM, BMUX_PC, BMUX_BREG);
 
 --- EX stage -------------------------------------------------------------------
 

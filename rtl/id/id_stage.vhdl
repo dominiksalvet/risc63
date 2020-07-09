@@ -50,8 +50,8 @@ architecture rtl of id_stage is
 
     -- decoder output
     signal s_dec_iext_type: t_iext_type;
-    signal s_dec_amux_alu: t_amux_alu;
-    signal s_dec_bmux_alu: t_bmux_alu;
+    signal s_dec_amux_alu: t_alu_a_mux;
+    signal s_dec_bmux_alu: t_alu_b_mux;
     signal s_dec_alu_opcode: std_ulogic_vector(4 downto 0);
     signal s_dec_jmp_cond: t_jmp_cond;
     signal s_dec_iret: std_ulogic;
