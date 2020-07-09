@@ -27,15 +27,15 @@ entity id_stage is
         o_alu_a_operand: out std_ulogic_vector(63 downto 0);
         o_alu_b_operand: out std_ulogic_vector(63 downto 0);
 
+        o_jmp_cond: out t_jmp_cond;
+        o_iret: out std_ulogic;
+
         o_mem_we: out std_ulogic;
         o_reg_b_data: out std_ulogic_vector(63 downto 0); -- used by stores and conditional jumps
-        o_reg_c_we: out std_ulogic; -- write result from WB stage later
-        o_reg_c_index: out std_ulogic_vector(3 downto 0);
         o_cr_we: out std_ulogic; -- control registers related
         o_cr_index: out std_ulogic_vector(2 downto 0);
-
-        o_jmp_cond: out t_jmp_cond;
-        o_iret: out std_ulogic
+        o_reg_c_we: out std_ulogic; -- write result from WB stage later
+        o_reg_c_index: out std_ulogic_vector(3 downto 0)
     );
 end entity id_stage;
 
@@ -53,11 +53,11 @@ architecture rtl of id_stage is
     signal s_dec_amux_alu: t_amux_alu;
     signal s_dec_bmux_alu: t_bmux_alu;
     signal s_dec_alu_opcode: std_ulogic_vector(4 downto 0);
-    signal s_dec_mem_we: std_ulogic;
-    signal s_dec_reg_c_we: std_ulogic;
-    signal s_dec_cr_we: std_ulogic;
     signal s_dec_jmp_cond: t_jmp_cond;
     signal s_dec_iret: std_ulogic;
+    signal s_dec_mem_we: std_ulogic;
+    signal s_dec_cr_we: std_ulogic;
+    signal s_dec_reg_c_we: std_ulogic;
 
     -- immediate extractor output
     signal s_iext_imm: std_ulogic_vector(63 downto 0);
@@ -98,11 +98,11 @@ begin
         s_dec_amux_alu,
         s_dec_bmux_alu,
         s_dec_alu_opcode,
-        s_dec_mem_we,
-        s_dec_reg_c_we,
-        s_dec_cr_we,
         s_dec_jmp_cond,
-        s_dec_iret
+        s_dec_iret,
+        s_dec_mem_we,
+        s_dec_cr_we,
+        s_dec_reg_c_we
     );
 
 --- immediate extractor --------------------------------------------------------
@@ -126,20 +126,20 @@ begin
         s_pc & '0' when BMUX_PC,
         s_reg_b_data when BMUX_BREG;
 
+    -- control flow
+    o_jmp_cond <= s_dec_jmp_cond;
+    o_iret <= s_dec_iret;
+
     -- memory write
     o_mem_we <= s_dec_mem_we;
     o_reg_b_data <= s_reg_b_data;
-
-    -- register write
-    o_reg_c_we <= s_dec_reg_c_we;
-    o_reg_c_index <= s_ir(3 downto 0);
 
     -- control register write
     o_cr_we <= s_dec_cr_we;
     o_cr_index <= s_ir(6 downto 4);
 
-    -- control flow
-    o_jmp_cond <= s_dec_jmp_cond;
-    o_iret <= s_dec_iret;
+    -- register write
+    o_reg_c_we <= s_dec_reg_c_we;
+    o_reg_c_index <= s_ir(3 downto 0);
 
 end architecture rtl;

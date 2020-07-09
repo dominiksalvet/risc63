@@ -18,14 +18,14 @@ entity decoder is
         o_bmux_alu: out t_bmux_alu;
         o_alu_opcode: out std_ulogic_vector(4 downto 0);
 
-------- write enable signals ---------------------------------------------------
-        o_mem_we: out std_ulogic;
-        o_reg_c_we: out std_ulogic;
-        o_cr_we: out std_ulogic;
-
 ------- control flow signals ---------------------------------------------------
         o_jmp_cond: out t_jmp_cond;
-        o_iret: out std_ulogic
+        o_iret: out std_ulogic;
+
+------- write enable signals ---------------------------------------------------
+        o_mem_we: out std_ulogic;
+        o_cr_we: out std_ulogic;
+        o_reg_c_we: out std_ulogic
     );
 end entity decoder;
 
@@ -86,20 +86,6 @@ begin
                     '1' & i_inst(11 downto 8) when s_extb_group = '1' else
                     c_ALU_ADD;
 
---- write enable signals -------------------------------------------------------
-
-    -- enable write to memory
-    o_mem_we <= '1' when s_ld_group = '1' and i_inst(13) = '1' else '0';
-
-    -- enable write to C register index
-    o_reg_c_we <= '0' when (s_ld_group = '1' and i_inst(13) = '1') or
-                           (s_jz_group = '1' and i_inst(12 downto 11) /= "10") or
-                           (s_crr_group = '1' and i_inst(10) = '1') else
-                  '1';
-
-    -- control registers
-    o_cr_we <= '1' when s_crr_group = '1' and i_inst(10) = '1' else '0';
-
 --- control flow signals -------------------------------------------------------
 
     -- jump condition
@@ -109,7 +95,21 @@ begin
                   JMP_NZERO when s_jz_group = '1' and i_inst(12 downto 11) = "01" else
                   JMP_NEVER;
 
-    -- interrupt instruction detected
+    -- interrupt return detected
     o_iret <= '1' when s_nop_group = '1' and i_inst(0) = '1' else '0';
+
+--- write enable signals -------------------------------------------------------
+
+    -- enable write to memory
+    o_mem_we <= '1' when s_ld_group = '1' and i_inst(13) = '1' else '0';
+
+    -- control registers
+    o_cr_we <= '1' when s_crr_group = '1' and i_inst(10) = '1' else '0';
+
+    -- enable write to C register index
+    o_reg_c_we <= '0' when (s_ld_group = '1' and i_inst(13) = '1') or
+                           (s_jz_group = '1' and i_inst(12 downto 11) /= "10") or
+                           (s_crr_group = '1' and i_inst(10) = '1') else
+                  '1';
 
 end architecture rtl;
