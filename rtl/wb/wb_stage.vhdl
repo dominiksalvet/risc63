@@ -40,16 +40,16 @@ begin
     catch_input: process(i_clk)
     begin
         if rising_edge(i_clk) then
+            o_reg_c_we <= i_reg_c_we;
+            o_reg_c_index <= i_reg_c_index;
+
+            s_result_mux <= i_result_mux;
+            s_mem_rd_data <= i_mem_rd_data;
+            s_cr_rd_data <= i_cr_rd_data;
+            s_alu_result <= i_alu_result;
+
             if i_rst = '1' then
                 o_reg_c_we <= '0';
-            else
-                o_reg_c_we <= i_reg_c_we;
-                o_reg_c_index <= i_reg_c_index;
-
-                s_result_mux <= i_result_mux;
-                s_mem_rd_data <= i_mem_rd_data;
-                s_cr_rd_data <= i_cr_rd_data;
-                s_alu_result <= i_alu_result;
             end if;
         end if;
     end process catch_input;

@@ -69,11 +69,11 @@ begin
     catch_input: process(i_clk)
     begin
         if rising_edge(i_clk) then
+            s_ir <= i_inst;
+            s_pc <= i_pc;
+
             if i_rst = '1' then
                 s_ir <= c_NOP_INST;
-            else
-                s_ir <= i_inst;
-                s_pc <= i_pc;
             end if;
         end if;
     end process catch_input;

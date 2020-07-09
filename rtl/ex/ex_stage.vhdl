@@ -59,26 +59,27 @@ begin
     catch_input: process(i_clk)
     begin
         if rising_edge(i_clk) then
+            o_iret <= i_iret;
+            o_mem_we <= i_mem_we;
+            o_cr_we <= i_cr_we;
+            o_cr_index <= i_cr_index;
+            o_reg_c_we <= i_reg_c_we;
+            o_reg_c_index <= i_reg_c_index;
+            o_result_mux <= i_result_mux;
+
+            s_alu_opcode <= i_alu_opcode;
+            s_alu_a_operand <= i_alu_a_operand;
+            s_alu_b_operand <= i_alu_b_operand;
+            s_jmp_cond <= i_jmp_cond;
+            s_reg_b_data <= i_reg_b_data;
+
             if i_rst = '1' then
-                s_jmp_cond <= JMP_NEVER;
                 o_iret <= '0';
                 o_mem_we <= '0';
                 o_cr_we <= '0';
                 o_reg_c_we <= '0';
-            else
-                o_iret <= i_iret;
-                o_mem_we <= i_mem_we;
-                o_cr_we <= i_cr_we;
-                o_cr_index <= i_cr_index;
-                o_reg_c_we <= i_reg_c_we;
-                o_reg_c_index <= i_reg_c_index;
-                o_result_mux <= i_result_mux;
 
-                s_alu_opcode <= i_alu_opcode;
-                s_alu_a_operand <= i_alu_a_operand;
-                s_alu_b_operand <= i_alu_b_operand;
-                s_jmp_cond <= i_jmp_cond;
-                s_reg_b_data <= i_reg_b_data;
+                s_jmp_cond <= JMP_NEVER;
             end if;
         end if;
     end process catch_input;

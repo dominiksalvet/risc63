@@ -30,12 +30,14 @@ begin
     next_inst_addr: process(i_clk)
     begin
         if rising_edge(i_clk) then
-            if i_rst = '1' then
-                s_pc <= c_PC_RST;
-            elsif i_jmp_en = '1' then
+            if i_jmp_en = '1' then
                 s_pc <= i_jmp_addr;
             else
                 s_pc <= std_ulogic_vector(unsigned(s_pc) + 1);
+            end if;
+
+            if i_rst = '1' then
+                s_pc <= c_PC_RST;
             end if;
         end if;
     end process next_inst_addr;
