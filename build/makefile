@@ -17,6 +17,7 @@ TEST_DIR = ../test
 GHDL = ghdl
 GHDL_STD = 93
 GHDL_FLAGS = --std=$(GHDL_STD) --ieee=standard
+GHDL_RUN_FLAGS = --assert-level=note
 GHDL_CF_FILE = work-obj$(GHDL_STD).cf
 
 # GTKWave configuration
@@ -59,7 +60,7 @@ test: import
 	for file in $(TEST_FILES); do\
 		entity_name="$$(basename "$$file" .vhdl)" &&\
 		$(GHDL) -m $(GHDL_FLAGS) "$$entity_name" &&\
-		$(GHDL) -r $(GHDL_FLAGS) "$$entity_name" || exit;\
+		$(GHDL) -r $(GHDL_FLAGS) "$$entity_name" $(GHDL_RUN_FLAGS) || exit;\
 	done
 
 import: $(GHDL_CF_FILE)
@@ -78,10 +79,10 @@ build_a: check_a import
 	$(GHDL) -m $(GHDL_FLAGS) $(a)
 
 test_a: build_a
-	$(GHDL) -r $(GHDL_FLAGS) $(a)
+	$(GHDL) -r $(GHDL_FLAGS) $(a) $(GHDL_RUN_FLAGS)
 
 view_a: build_a
-	$(GHDL) -r $(GHDL_FLAGS) $(a) --wave=$(a).ghw
+	$(GHDL) -r $(GHDL_FLAGS) $(a) $(GHDL_RUN_FLAGS) --wave=$(a).ghw
 	$(GTKWAVE) $(a).ghw
 
 check_a:
