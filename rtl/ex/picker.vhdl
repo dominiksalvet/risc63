@@ -20,9 +20,9 @@ end entity picker;
 
 architecture rtl of picker is
     -- individual data sizes
-    type t_byte_array is array (7 downto 0) of std_ulogic_vector(7 downto 0);
-    type t_word_array is array (3 downto 0) of std_ulogic_vector(15 downto 0);
-    type t_dword_array is array (1 downto 0) of std_ulogic_vector(31 downto 0);
+    type t_byte_array is array(7 downto 0) of std_ulogic_vector(7 downto 0);
+    type t_word_array is array(3 downto 0) of std_ulogic_vector(15 downto 0);
+    type t_dword_array is array(1 downto 0) of std_ulogic_vector(31 downto 0);
 
     -- transform input into individual arrays
     signal s_byte_array: t_byte_array;

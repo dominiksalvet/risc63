@@ -27,7 +27,7 @@ entity reg_file is
 end entity reg_file;
 
 architecture rtl of reg_file is
-    type t_registers is array (0 to 15) of std_ulogic_vector(63 downto 0);
+    type t_registers is array(0 to 15) of std_ulogic_vector(63 downto 0);
     signal s_registers: t_registers;
 begin
 
