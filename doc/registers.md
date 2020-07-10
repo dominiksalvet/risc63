@@ -3,8 +3,8 @@
 There are three types of architectural registers in RISC63:
 
 * A program counter is a unique register controlling the program flow.
-* A general purpose register is used as temporary data storage within the processor.
-* A control register is used for a specific task otherwise impossible to do.
+* General purpose registers are used as temporary data storage within the processor.
+* Control registers are used for specific tasks otherwise impossible to do.
 
 All architectural registers are 64-bit wide and have undefined value after reset, unless otherwise stated.
 
