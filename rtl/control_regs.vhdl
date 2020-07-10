@@ -14,7 +14,7 @@ entity control_regs is
         i_we: in std_ulogic;
         i_index: in std_ulogic_vector(2 downto 0);
         i_wr_data: in std_ulogic_vector(63 downto 0);
-        i_rd_data: out std_ulogic_vector(63 downto 0)
+        o_rd_data: out std_ulogic_vector(63 downto 0)
     );
 end entity control_regs;
 
@@ -33,7 +33,7 @@ architecture rtl of control_regs is
     signal s_spc: std_ulogic_vector(62 downto 0);
 begin
 
-    with i_index select i_rd_data <=
+    with i_index select o_rd_data <=
         s_k0 when c_K0_INDEX,
         s_k1 when c_K1_INDEX,
         (62 downto 0 => '0') & s_ie when c_STATUS_INDEX,

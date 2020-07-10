@@ -95,7 +95,7 @@ begin
         i_we => s_mem_cr_we,
         i_index => s_mem_cr_index,
         i_wr_data => s_mem_alu_result,
-        i_rd_data => s_cr_rd_data
+        o_rd_data => s_cr_rd_data
     );
 
     if_stage: entity work.if_stage
