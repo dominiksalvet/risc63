@@ -32,6 +32,7 @@ GTKWAVE = gtkwave
 PKG_FILES = $(RTL_DIR)/risc63_pkg.vhdl
 RTL_FILES = $(RTL_DIR)/risc63.vhdl\
             $(RTL_DIR)/control_unit.vhdl\
+			$(RTL_DIR)/control_regs.vhdl\
             $(RTL_DIR)/if/if_stage.vhdl\
             $(RTL_DIR)/id/id_stage.vhdl\
             $(RTL_DIR)/id/reg_file.vhdl\

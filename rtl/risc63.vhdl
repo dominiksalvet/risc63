@@ -31,6 +31,9 @@ architecture rtl of risc63 is
     signal s_cu_ex_rst: std_ulogic;
     signal s_cu_mem_rst: std_ulogic;
 
+    -- control registers output
+    signal s_cr_rd_data: std_ulogic_vector(63 downto 0);
+
     -- IF stage output
     signal s_if_pc: std_ulogic_vector(62 downto 0);
 
@@ -63,8 +66,8 @@ architecture rtl of risc63 is
     -- MEM stage output
     signal s_mem_jmp_en: std_ulogic;
     signal s_mem_iret: std_ulogic; -- todo
-    signal s_mem_cr_we: std_ulogic; -- todo
-    signal s_mem_cr_index: std_ulogic_vector(2 downto 0); -- todo
+    signal s_mem_cr_we: std_ulogic;
+    signal s_mem_cr_index: std_ulogic_vector(2 downto 0);
     signal s_mem_reg_c_we: std_ulogic;
     signal s_mem_reg_c_index: std_ulogic_vector(3 downto 0);
     signal s_mem_result_mux: t_result_mux;
@@ -83,6 +86,16 @@ begin
         o_id_rst => s_cu_id_rst,
         o_ex_rst => s_cu_ex_rst,
         o_mem_rst => s_cu_mem_rst
+    );
+
+    control_regs: entity work.control_regs
+    port map (
+        i_clk => i_clk,
+        i_rst => i_rst,
+        i_we => s_mem_cr_we,
+        i_index => s_mem_cr_index,
+        i_wr_data => s_mem_alu_result,
+        i_rd_data => s_cr_rd_data
     );
 
     if_stage: entity work.if_stage
@@ -183,7 +196,7 @@ begin
         i_reg_c_index => s_mem_reg_c_index,
         i_result_mux => s_mem_result_mux,
         i_mem_rd_data => i_dmem_rd_data,
-        i_cr_rd_data => (others => '0'), -- todo
+        i_cr_rd_data => s_cr_rd_data,
         i_alu_result => s_mem_alu_result,
         o_reg_c_we => s_wb_reg_c_we,
         o_reg_c_index => s_wb_reg_c_index,
