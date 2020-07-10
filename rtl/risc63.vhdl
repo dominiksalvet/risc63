@@ -26,6 +26,11 @@ entity risc63 is
 end entity risc63;
 
 architecture rtl of risc63 is
+    -- control unit output
+    signal s_cu_id_rst: std_ulogic;
+    signal s_cu_ex_rst: std_ulogic;
+    signal s_cu_mem_rst: std_ulogic;
+
     -- IF stage output
     signal s_if_pc: std_ulogic_vector(62 downto 0);
 
@@ -56,7 +61,7 @@ architecture rtl of risc63 is
     signal s_ex_alu_result: std_ulogic_vector(63 downto 0);
 
     -- MEM stage output
-    signal s_mem_jmp_en: std_ulogic; -- todo
+    signal s_mem_jmp_en: std_ulogic;
     signal s_mem_iret: std_ulogic; -- todo
     signal s_mem_cr_we: std_ulogic; -- todo
     signal s_mem_cr_index: std_ulogic_vector(2 downto 0); -- todo
@@ -70,6 +75,15 @@ architecture rtl of risc63 is
     signal s_wb_reg_c_index: std_ulogic_vector(3 downto 0);
     signal s_wb_reg_c_data: std_ulogic_vector(63 downto 0);
 begin
+
+    control_unit: entity work.control_unit
+    port map (
+        i_rst => i_rst,
+        i_jmp_en => s_mem_jmp_en,
+        o_id_rst => s_cu_id_rst,
+        o_ex_rst => s_cu_ex_rst,
+        o_mem_rst => s_cu_mem_rst
+    );
 
     if_stage: entity work.if_stage
     port map (
@@ -85,7 +99,7 @@ begin
     id_stage: entity work.id_stage
     port map (
         i_clk => i_clk,
-        i_rst => i_rst,
+        i_rst => s_cu_id_rst,
         i_inst => i_imem_rd_data,
         i_pc => s_if_pc,
         i_reg_c_we => s_wb_reg_c_we,
@@ -108,7 +122,7 @@ begin
     ex_stage: entity work.ex_stage
     port map (
         i_clk => i_clk,
-        i_rst => i_rst,
+        i_rst => s_cu_ex_rst,
         i_alu_opcode => s_id_alu_opcode,
         i_alu_a_operand => s_id_alu_a_operand,
         i_alu_b_operand => s_id_alu_b_operand,
@@ -136,7 +150,7 @@ begin
     mem_stage: entity work.mem_stage
     port map (
         i_clk => i_clk,
-        i_rst => i_rst,
+        i_rst => s_cu_mem_rst,
         i_jmp_en => s_ex_jmp_en,
         i_iret => s_ex_iret,
         i_mem_we => s_ex_mem_we,
