@@ -10,7 +10,7 @@ All architectural registers are 64-bit wide and have undefined value after reset
 
 ## Program Counter (`pc`)
 
-The `pc` register is also known as instruction pointer. It holds the address of the currently executing instruction. As long as that instruction is not a jump, the value of this register is automatically incrementing.
+The `pc` register is also known as instruction pointer. It holds the address of the currently executing instruction. If that instruction is not a jump, the value of this register is automatically incremented.
 
 The **reset value** of the `pc` register is `0x0`.
 
