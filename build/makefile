@@ -3,11 +3,11 @@
 # github.com/dominiksalvet/risc63
 #-------------------------------------------------------------------------------
 
-.POSIX: # this is a POSIX makefile
-
 #-------------------------------------------------------------------------------
 # ENVIRONMENT
 #-------------------------------------------------------------------------------
+
+.POSIX: # this is a POSIX makefile
 
 # directory paths
 RTL_DIR = ../rtl
@@ -16,9 +16,11 @@ TEST_DIR = ../test
 # GHDL configuration
 GHDL = ghdl
 GHDL_STD = 93
-GHDL_FLAGS = --std=$(GHDL_STD) --ieee=standard
-GHDL_TEST_FLAGS = --assert-level=note
 GHDL_CF_FILE = work-obj$(GHDL_STD).cf
+
+GHDL_FLAGS = --std=$(GHDL_STD) --ieee=standard
+GHDL_ELAB_FLAGS = --no-run
+GHDL_TEST_FLAGS = --assert-level=note
 
 # GTKWave configuration
 GTKWAVE = gtkwave
@@ -47,13 +49,14 @@ TEST_FILES = $(TEST_DIR)/reg_file_tb.vhdl\
              $(TEST_DIR)/picker_tb.vhdl
 
 #-------------------------------------------------------------------------------
-# GLOBAL TARGETS
+# GENERAL TARGETS
 #-------------------------------------------------------------------------------
 
-all: import
+elab: import
 	for file in $(RTL_FILES) $(TEST_FILES); do\
 		entity_name="$$(basename "$$file" .vhdl)" &&\
-		$(GHDL) -m $(GHDL_FLAGS) "$$entity_name" || exit;\
+		$(GHDL) -m $(GHDL_FLAGS) "$$entity_name" &&\
+		$(GHDL) -r $(GHDL_FLAGS) "$$entity_name" $(GHDL_ELAB_FLAGS) || exit;\
 	done
 
 test: import
@@ -65,9 +68,6 @@ test: import
 
 import: $(GHDL_CF_FILE)
 
-$(GHDL_CF_FILE): $(PKG_FILES) $(RTL_FILES) $(TEST_FILES)
-	$(GHDL) -i $(GHDL_FLAGS) $?
-
 clean:
 	find . -type f ! -name makefile -exec rm {} +
 
@@ -75,15 +75,25 @@ clean:
 # SELECTIVE TARGETS
 #-------------------------------------------------------------------------------
 
-build_a: check_a import
-	$(GHDL) -m $(GHDL_FLAGS) $(a)
+elab_a: make_a
+	$(GHDL) -r $(GHDL_FLAGS) $(a) $(GHDL_ELAB_FLAGS)
 
-test_a: build_a
+test_a: make_a
 	$(GHDL) -r $(GHDL_FLAGS) $(a) $(GHDL_TEST_FLAGS)
 
-view_a: build_a
+view_a: make_a
 	$(GHDL) -r $(GHDL_FLAGS) $(a) --wave=$(a).ghw
 	$(GTKWAVE) $(a).ghw
 
+#-------------------------------------------------------------------------------
+# OTHER TARGETS
+#-------------------------------------------------------------------------------
+
+make_a: check_a import
+	$(GHDL) -m $(GHDL_FLAGS) $(a)
+
 check_a:
 	test "$$a"
+
+$(GHDL_CF_FILE): $(PKG_FILES) $(RTL_FILES) $(TEST_FILES)
+	$(GHDL) -i $(GHDL_FLAGS) $?
