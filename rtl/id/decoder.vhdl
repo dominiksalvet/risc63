@@ -112,7 +112,9 @@ begin
     -- enable write to C register index
     o_reg_c_we <= '0' when (s_ld_group = '1' and i_opcode_field(5) = '1') or
                            (s_jz_group = '1' and i_opcode_field(4 downto 3) /= "10") or
-                           (s_crr_group = '1' and i_opcode_field(2) = '1') else
+                           s_jmp_inst = '1' or
+                           (s_crr_group = '1' and i_opcode_field(2) = '1') or
+                           s_nop_group = '1' else
                   '1';
 
 ------- select result ----------------------------------------------------------
