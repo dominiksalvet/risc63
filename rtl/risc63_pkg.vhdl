@@ -8,6 +8,10 @@ use ieee.std_logic_1164.all;
 
 package risc63_pkg is
 
+--- control unit ---------------------------------------------------------------
+
+    type t_jmp_addr_mux is (JMP_ADDR_ALU, JMP_ADDR_SPC);
+
 --- IF stage -------------------------------------------------------------------
 
     -- value of PC after reset

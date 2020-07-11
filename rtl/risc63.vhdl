@@ -27,14 +27,18 @@ end entity risc63;
 
 architecture rtl of risc63 is
     -- control unit output
+    signal s_cu_if_jmp_en: std_ulogic;
+    signal s_cu_if_jmp_addr_mux: t_jmp_addr_mux;
     signal s_cu_id_rst: std_ulogic;
     signal s_cu_ex_rst: std_ulogic;
     signal s_cu_mem_rst: std_ulogic;
 
     -- control registers output
     signal s_cr_rd_data: std_ulogic_vector(63 downto 0);
+    signal s_cr_spc: std_ulogic_vector(62 downto 0);
 
-    -- IF stage output
+    -- IF stage
+    signal s_if_jmp_addr: std_ulogic_vector(62 downto 0); -- input
     signal s_if_pc: std_ulogic_vector(62 downto 0);
 
     -- ID stage output
@@ -65,7 +69,7 @@ architecture rtl of risc63 is
 
     -- MEM stage output
     signal s_mem_jmp_en: std_ulogic;
-    signal s_mem_iret: std_ulogic; -- todo
+    signal s_mem_iret: std_ulogic;
     signal s_mem_cr_we: std_ulogic;
     signal s_mem_cr_index: std_ulogic_vector(2 downto 0);
     signal s_mem_reg_c_we: std_ulogic;
@@ -79,14 +83,21 @@ architecture rtl of risc63 is
     signal s_wb_reg_c_data: std_ulogic_vector(63 downto 0);
 begin
 
+--- control unit ---------------------------------------------------------------
+
     control_unit: entity work.control_unit
     port map (
         i_rst => i_rst,
-        i_jmp_en => s_mem_jmp_en,
+        i_mem_jmp_en => s_mem_jmp_en,
+        i_mem_iret => s_mem_iret,
+        o_if_jmp_en => s_cu_if_jmp_en,
+        o_if_jmp_addr_mux => s_cu_if_jmp_addr_mux,
         o_id_rst => s_cu_id_rst,
         o_ex_rst => s_cu_ex_rst,
         o_mem_rst => s_cu_mem_rst
     );
+
+--- control registers ----------------------------------------------------------
 
     control_regs: entity work.control_regs
     port map (
@@ -95,19 +106,26 @@ begin
         i_we => s_mem_cr_we,
         i_index => s_mem_cr_index,
         i_wr_data => s_mem_alu_result,
-        o_rd_data => s_cr_rd_data
+        o_rd_data => s_cr_rd_data,
+        o_spc => s_cr_spc
     );
+
+--- IF stage -------------------------------------------------------------------
+
+    with s_cu_if_jmp_addr_mux select s_if_jmp_addr <=
+        s_mem_alu_result(63 downto 1) when JMP_ADDR_ALU,
+        s_cr_spc when JMP_ADDR_SPC;
 
     if_stage: entity work.if_stage
     port map (
         i_clk => i_clk,
         i_rst => i_rst,
-        i_jmp_en => s_mem_jmp_en,
-        i_jmp_addr => s_mem_alu_result(63 downto 1),
+        i_jmp_en => s_cu_if_jmp_en,
+        i_jmp_addr => s_if_jmp_addr,
         o_pc => s_if_pc
     );
 
-    o_imem_addr <= s_if_pc;
+--- ID stage -------------------------------------------------------------------
 
     id_stage: entity work.id_stage
     port map (
@@ -131,6 +149,8 @@ begin
         o_reg_c_index => s_id_reg_c_index,
         o_result_mux => s_id_result_mux
     );
+
+--- EX stage -------------------------------------------------------------------
 
     ex_stage: entity work.ex_stage
     port map (
@@ -160,6 +180,8 @@ begin
         o_alu_result => s_ex_alu_result
     );
 
+--- MEM stage ------------------------------------------------------------------
+
     mem_stage: entity work.mem_stage
     port map (
         i_clk => i_clk,
@@ -186,7 +208,7 @@ begin
         o_alu_result => s_mem_alu_result
     );
 
-    o_dmem_addr <= s_mem_alu_result(63 downto 3);
+--- WB stage -------------------------------------------------------------------
 
     wb_stage: entity work.wb_stage
     port map (
@@ -202,5 +224,10 @@ begin
         o_reg_c_index => s_wb_reg_c_index,
         o_reg_c_data => s_wb_reg_c_data
     );
+
+--------------------------------------------------------------------------------
+
+    o_imem_addr <= s_if_pc;
+    o_dmem_addr <= s_mem_alu_result(63 downto 3);
 
 end architecture rtl;

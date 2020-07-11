@@ -14,7 +14,9 @@ entity control_regs is
         i_we: in std_ulogic;
         i_index: in std_ulogic_vector(2 downto 0);
         i_wr_data: in std_ulogic_vector(63 downto 0);
-        o_rd_data: out std_ulogic_vector(63 downto 0)
+        o_rd_data: out std_ulogic_vector(63 downto 0);
+
+        o_spc: out std_ulogic_vector(62 downto 0)
     );
 end entity control_regs;
 
@@ -60,5 +62,7 @@ begin
             end if;
         end if;
     end process registers_write;
+
+    o_spc <= s_spc;
 
 end architecture rtl;
