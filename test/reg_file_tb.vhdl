@@ -48,8 +48,6 @@ begin
     test: process
         constant c_DATA: unsigned(63 downto 0) := (3 downto 0 => '1', others => '0');
     begin
-        wait for c_CLK_PERIOD;
-
         -- write to registers
         i_c_we <= '1';
         for i in 0 to 15 loop
