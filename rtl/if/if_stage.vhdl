@@ -27,7 +27,7 @@ architecture rtl of if_stage is
     signal s_pc: std_ulogic_vector(62 downto 0);
 begin
 
-    next_inst_addr: process(i_clk)
+    next_pc: process(i_clk)
     begin
         if rising_edge(i_clk) then
             if i_jmp_en = '1' then
@@ -40,7 +40,7 @@ begin
                 s_pc <= c_PC_RST;
             end if;
         end if;
-    end process next_inst_addr;
+    end process next_pc;
 
     o_pc <= s_pc;
 
