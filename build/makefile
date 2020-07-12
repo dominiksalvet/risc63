@@ -20,7 +20,7 @@ GHDL_CF_FILE = work-obj$(GHDL_STD).cf
 
 GHDL_FLAGS = --std=$(GHDL_STD) --ieee=standard
 GHDL_ELAB_FLAGS = --no-run
-GHDL_TEST_FLAGS = --assert-level=note --ieee-asserts=disable-at-0
+GHDL_TEST_FLAGS = --assert-level=note --ieee-asserts=disable
 GHDL_VIEW_FLAGS = --wave=$(a).ghw
 
 # GTKWave configuration
