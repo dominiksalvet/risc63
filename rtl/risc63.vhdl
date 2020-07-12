@@ -29,21 +29,19 @@ end entity risc63;
 architecture rtl of risc63 is
     -- control unit output
     signal s_cu_irq_en: std_ulogic;
+    signal s_cu_cr_ie_we: std_ulogic;
+    signal s_cu_cr_ie: std_ulogic;
     signal s_cu_if_jmp_en: std_ulogic;
     signal s_cu_if_jmp_addr_mux: t_jmp_addr_mux;
     signal s_cu_id_rst: std_ulogic;
     signal s_cu_ex_rst: std_ulogic;
     signal s_cu_mem_rst: std_ulogic;
 
-    -- control registers input
-    signal s_cr_we: std_ulogic;
-    signal s_cr_index: std_ulogic_vector(2 downto 0);
-    signal s_cr_wr_data: std_ulogic_vector(63 downto 0);
     -- control registers output
     signal s_cr_rd_data: std_ulogic_vector(63 downto 0);
-    signal s_cr_ie: std_ulogic;
-    signal s_cr_ivec: std_ulogic_vector(62 downto 0);
-    signal s_cr_spc: std_ulogic_vector(62 downto 0);
+    signal s_cr_o_ie: std_ulogic;
+    signal s_cr_o_ivec: std_ulogic_vector(62 downto 0);
+    signal s_cr_o_spc: std_ulogic_vector(62 downto 0);
 
     -- IF stage
     signal s_if_jmp_addr: std_ulogic_vector(62 downto 0); -- input
@@ -100,10 +98,12 @@ begin
     port map (
         i_rst => i_rst,
         i_irq => i_irq,
-        i_cr_ie => s_cr_ie,
+        i_cr_ie => s_cr_o_ie,
         i_mem_iret => s_mem_iret,
         i_mem_jmp_en => s_mem_jmp_en,
         o_irq_en => s_cu_irq_en,
+        o_cr_ie_we => s_cu_cr_ie_we,
+        o_cr_ie => s_cu_cr_ie,
         o_if_jmp_en => s_cu_if_jmp_en,
         o_if_jmp_addr_mux => s_cu_if_jmp_addr_mux,
         o_id_rst => s_cu_id_rst,
@@ -113,30 +113,28 @@ begin
 
 --- control registers ----------------------------------------------------------
 
-    -- use standard CR interface to store PC to SPC on interrupts
-    s_cr_we <= '1' when s_cu_irq_en = '1' else s_mem_cr_we;
-    s_cr_index <= c_CR_SPC when s_cu_irq_en = '1' else s_mem_cr_index;
-    s_cr_wr_data <= s_mem_pc & '0' when s_cu_irq_en = '1' else s_mem_alu_result;
-
     control_regs: entity work.control_regs
     port map (
         i_clk => i_clk,
         i_rst => i_rst,
-        i_irq_en => s_cu_irq_en,
-        i_we => s_cr_we,
-        i_index => s_cr_index,
-        i_wr_data => s_cr_wr_data,
+        i_we => s_mem_cr_we,
+        i_index => s_mem_cr_index,
+        i_wr_data => s_mem_alu_result,
         o_rd_data => s_cr_rd_data,
-        o_ie => s_cr_ie,
-        o_ivec => s_cr_ivec,
-        o_spc => s_cr_spc
+        i_ie_we => s_cu_cr_ie_we,
+        i_ie => s_cu_cr_ie,
+        i_spc_we => s_cu_irq_en,
+        i_spc => s_mem_pc,
+        o_ie => s_cr_o_ie,
+        o_ivec => s_cr_o_ivec,
+        o_spc => s_cr_o_spc
     );
 
 --- IF stage -------------------------------------------------------------------
 
     with s_cu_if_jmp_addr_mux select s_if_jmp_addr <=
-        s_cr_ivec when JMP_ADDR_IVEC,
-        s_cr_spc when JMP_ADDR_SPC,
+        s_cr_o_ivec when JMP_ADDR_IVEC,
+        s_cr_o_spc when JMP_ADDR_SPC,
         s_mem_alu_result(63 downto 1) when JMP_ADDR_ALU;
 
     if_stage: entity work.if_stage

@@ -12,13 +12,20 @@ entity control_regs is
     port (
         i_clk: in std_ulogic;
         i_rst: in std_ulogic;
-        i_irq_en: in std_ulogic;
 
+------- standard interface -----------------------------------------------------
         i_we: in std_ulogic;
         i_index: in std_ulogic_vector(2 downto 0);
         i_wr_data: in std_ulogic_vector(63 downto 0);
         o_rd_data: out std_ulogic_vector(63 downto 0);
 
+------- individual writes ------------------------------------------------------
+        i_ie_we: in std_ulogic;
+        i_ie: in std_ulogic;
+        i_spc_we: in std_ulogic;
+        i_spc: in std_ulogic_vector(62 downto 0);
+
+------- individual reads -------------------------------------------------------
         o_ie: out std_ulogic;
         o_ivec: out std_ulogic_vector(62 downto 0);
         o_spc: out std_ulogic_vector(62 downto 0)
@@ -33,6 +40,7 @@ architecture rtl of control_regs is
     signal s_spc: std_ulogic_vector(62 downto 0);
 begin
 
+    -- standard interface read
     with i_index select o_rd_data <=
         s_k0 when c_CR_K0,
         s_k1 when c_CR_K1,
@@ -44,6 +52,7 @@ begin
     registers_write: process(i_clk)
     begin
         if rising_edge(i_clk) then
+            -- standard interface write
             if i_we = '1' then
                 case i_index is
                     when c_CR_K0 => s_k0 <= i_wr_data;
@@ -55,12 +64,21 @@ begin
                 end case;
             end if;
 
-            if i_rst = '1' or i_irq_en = '1' then
+            -- individual writes
+            if i_ie_we = '1' then
+                s_ie <= i_ie;
+            end if;
+            if i_spc_we = '1' then
+                s_spc <= i_spc;
+            end if;
+
+            if i_rst = '1' then
                 s_ie <= '0';
             end if;
         end if;
     end process registers_write;
 
+    -- individual reads
     o_ie <= s_ie;
     o_ivec <= s_ivec;
     o_spc <= s_spc;
