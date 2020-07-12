@@ -12,7 +12,7 @@ entity risc63 is
     port (
         i_clk: in std_ulogic;
         i_rst: in std_ulogic;
-        i_irq: in std_ulogic; -- interrupt request
+        i_irq: in std_ulogic; -- interrupt request (may be buffered before use)
 
 ------- instruction memory interface -------------------------------------------
         o_imem_addr: out std_ulogic_vector(62 downto 0);
@@ -31,13 +31,15 @@ architecture rtl of risc63 is
     signal s_cu_irq_en: std_ulogic;
     signal s_cu_cr_ie_we: std_ulogic;
     signal s_cu_cr_ie: std_ulogic;
+    signal s_cu_spc_mux: t_spc_mux;
     signal s_cu_if_jmp_en: std_ulogic;
     signal s_cu_if_jmp_addr_mux: t_jmp_addr_mux;
     signal s_cu_id_rst: std_ulogic;
     signal s_cu_ex_rst: std_ulogic;
     signal s_cu_mem_rst: std_ulogic;
 
-    -- control registers output
+    -- control registers
+    signal s_cr_i_spc: std_ulogic_vector(62 downto 0); -- input
     signal s_cr_rd_data: std_ulogic_vector(63 downto 0);
     signal s_cr_o_ie: std_ulogic;
     signal s_cr_o_ivec: std_ulogic_vector(62 downto 0);
@@ -96,6 +98,7 @@ begin
 
     control_unit: entity work.control_unit
     port map (
+        i_clk => i_clk,
         i_rst => i_rst,
         i_irq => i_irq,
         i_cr_ie => s_cr_o_ie,
@@ -104,6 +107,7 @@ begin
         o_irq_en => s_cu_irq_en,
         o_cr_ie_we => s_cu_cr_ie_we,
         o_cr_ie => s_cu_cr_ie,
+        o_spc_mux => s_cu_spc_mux,
         o_if_jmp_en => s_cu_if_jmp_en,
         o_if_jmp_addr_mux => s_cu_if_jmp_addr_mux,
         o_id_rst => s_cu_id_rst,
@@ -112,6 +116,12 @@ begin
     );
 
 --- control registers ----------------------------------------------------------
+
+    with s_cu_spc_mux select s_cr_i_spc <=
+        s_if_pc when SPC_IF,
+        s_id_pc when SPC_ID,
+        s_ex_pc when SPC_EX,
+        s_mem_pc when SPC_MEM;
 
     control_regs: entity work.control_regs
     port map (
@@ -124,7 +134,7 @@ begin
         i_ie_we => s_cu_cr_ie_we,
         i_ie => s_cu_cr_ie,
         i_spc_we => s_cu_irq_en,
-        i_spc => s_mem_pc,
+        i_spc => s_cr_i_spc,
         o_ie => s_cr_o_ie,
         o_ivec => s_cr_o_ivec,
         o_spc => s_cr_o_spc

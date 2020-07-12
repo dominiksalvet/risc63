@@ -10,6 +10,9 @@ package risc63_pkg is
 
 --- control unit ---------------------------------------------------------------
 
+    -- indicate which PC should be stored to SPC on interrupt
+    type t_spc_mux is (SPC_IF, SPC_ID, SPC_EX, SPC_MEM);
+
     -- values represent interrupt, return from interrupt, jump instruction
     type t_jmp_addr_mux is (JMP_ADDR_IVEC, JMP_ADDR_SPC, JMP_ADDR_ALU);
 
