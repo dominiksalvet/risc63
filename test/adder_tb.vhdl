@@ -13,9 +13,9 @@ entity adder_tb is
 end entity adder_tb;
 
 architecture behavior of adder_tb is
-    signal i_mode: t_adder_mode := ADDER_ADD;
-    signal i_a: std_ulogic_vector(63 downto 0) := (others => '0');
-    signal i_b: std_ulogic_vector(63 downto 0) := (others => '0');
+    signal i_mode: t_adder_mode;
+    signal i_a: std_ulogic_vector(63 downto 0);
+    signal i_b: std_ulogic_vector(63 downto 0);
     signal o_less: std_ulogic;
     signal o_less_unsigned: std_ulogic;
     signal o_result: std_ulogic_vector(63 downto 0);

@@ -13,9 +13,9 @@ entity picker_tb is
 end entity picker_tb;
 
 architecture behavior of picker_tb is
-    signal i_opcode: std_ulogic_vector(3 downto 0) := (others => '0');
-    signal i_data_array: std_ulogic_vector(63 downto 0) := (others => '0');
-    signal i_selector: std_ulogic_vector(2 downto 0) := (others => '0');
+    signal i_opcode: std_ulogic_vector(3 downto 0);
+    signal i_data_array: std_ulogic_vector(63 downto 0);
+    signal i_selector: std_ulogic_vector(2 downto 0);
     signal o_result: std_ulogic_vector(63 downto 0);
 
     -- configuration

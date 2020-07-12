@@ -12,7 +12,7 @@ entity decoder_tb is
 end entity decoder_tb;
 
 architecture behavior of decoder_tb is
-    signal i_opcode_field: std_ulogic_vector(7 downto 0) := c_NOP_INST(15 downto 8);
+    signal i_opcode_field: std_ulogic_vector(7 downto 0);
     signal o_iext_type: t_iext_type;
     signal o_amux_alu: t_alu_a_mux;
     signal o_bmux_alu: t_alu_b_mux;
