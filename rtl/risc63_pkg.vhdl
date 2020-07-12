@@ -10,7 +10,16 @@ package risc63_pkg is
 
 --- control unit ---------------------------------------------------------------
 
-    type t_jmp_addr_mux is (JMP_ADDR_ALU, JMP_ADDR_SPC);
+    -- values represent interrupt, return from interrupt, jump instruction
+    type t_jmp_addr_mux is (JMP_ADDR_IVEC, JMP_ADDR_SPC, JMP_ADDR_ALU);
+
+--- control registers ----------------------------------------------------------
+
+    constant c_CR_K0: std_ulogic_vector(2 downto 0) := "000";
+    constant c_CR_K1: std_ulogic_vector(2 downto 0) := "001";
+    constant c_CR_STATUS: std_ulogic_vector(2 downto 0) := "010";
+    constant c_CR_IVEC: std_ulogic_vector(2 downto 0) := "011";
+    constant c_CR_SPC: std_ulogic_vector(2 downto 0) := "100";
 
 --- IF stage -------------------------------------------------------------------
 

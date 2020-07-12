@@ -11,9 +11,12 @@ use work.risc63_pkg.all;
 entity control_unit is
     port (
         i_rst: in std_ulogic;
-        i_mem_jmp_en: in std_ulogic;
+        i_irq: in std_ulogic; -- may be buffered outside
+        i_cr_ie: in std_ulogic;
         i_mem_iret: in std_ulogic;
+        i_mem_jmp_en: in std_ulogic;
 
+        o_irq_en: out std_ulogic;
         o_if_jmp_en: out std_ulogic;
         o_if_jmp_addr_mux: out t_jmp_addr_mux;
         o_id_rst: out std_ulogic;
@@ -23,14 +26,18 @@ entity control_unit is
 end entity control_unit;
 
 architecture rtl of control_unit is
+    signal s_irq_en: std_ulogic;
     signal s_jmp: std_ulogic;
 begin
 
-    s_jmp <= i_mem_jmp_en or i_mem_iret; -- any control flow
+    s_irq_en <= i_irq and i_cr_ie;
+    s_jmp <= s_irq_en or i_mem_iret or i_mem_jmp_en;
 
+    o_irq_en <= s_irq_en;
     o_if_jmp_en <= s_jmp;
-    o_if_jmp_addr_mux <= JMP_ADDR_ALU when i_mem_jmp_en = '1' else JMP_ADDR_SPC;
-
+    o_if_jmp_addr_mux <= JMP_ADDR_IVEC when s_irq_en = '1' else
+                         JMP_ADDR_SPC when i_mem_iret = '1' else
+                         JMP_ADDR_ALU;
     o_id_rst <= i_rst or s_jmp;
     o_ex_rst <= i_rst or s_jmp;
     o_mem_rst <= i_rst or s_jmp;

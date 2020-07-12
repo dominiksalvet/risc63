@@ -14,7 +14,7 @@ entity if_stage is
         i_clk: in std_ulogic;
         i_rst: in std_ulogic;
 
-------- input from control unit ------------------------------------------------
+------- input control signals --------------------------------------------------
         i_jmp_en: in std_ulogic;
         i_jmp_addr: in std_ulogic_vector(62 downto 0);
 

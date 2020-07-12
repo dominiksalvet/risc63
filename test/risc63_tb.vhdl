@@ -15,6 +15,7 @@ end entity risc63_tb;
 architecture behavior of risc63_tb is
     signal i_clk: std_ulogic := '0';
     signal i_rst: std_ulogic := '0';
+    signal i_irq: std_ulogic := '0';
     signal o_imem_addr: std_ulogic_vector(62 downto 0);
     signal i_imem_rd_data: std_ulogic_vector(15 downto 0) := c_NOP_INST;
     signal o_dmem_we: std_ulogic;
@@ -31,6 +32,7 @@ begin
     port map (
         i_clk,
         i_rst,
+        i_irq,
         o_imem_addr,
         i_imem_rd_data,
         o_dmem_we,

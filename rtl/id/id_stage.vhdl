@@ -29,6 +29,7 @@ entity id_stage is
 
         o_jmp_cond: out t_jmp_cond;
         o_iret: out std_ulogic;
+        o_pc: out std_ulogic_vector(62 downto 0);
 
         o_mem_we: out std_ulogic;
         o_reg_b_data: out std_ulogic_vector(63 downto 0); -- used by stores and conditional jumps
@@ -133,6 +134,7 @@ begin
     -- control flow
     o_jmp_cond <= s_dec_jmp_cond;
     o_iret <= s_dec_iret;
+    o_pc <= s_pc; -- current instruction address
 
     -- memory write
     o_mem_we <= s_dec_mem_we;
