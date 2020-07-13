@@ -31,6 +31,10 @@ architecture behavior of risc63_tb is
     type t_imem is array(0 to c_IMEM_MAX_ADDR) of std_ulogic_vector(15 downto 0);
     -- test program that uses as many instruction types as possible
     signal s_imem: t_imem := (
+
+------- basic instructions -----------------------------------------------------
+
+                                 -- start:
         0 => "1011000000000000", -- li r0, 0           ; r0 = 0, data pointer
         1 => "1011010000000001", -- li r1, 64          ; r1 = 64
         2 => "1011110000000010", -- li r2, -64         ; r2 = -64
@@ -64,6 +68,9 @@ architecture behavior of risc63_tb is
        30 => "1110110100000000", -- st r0, r0, 13      ; [r0 + 13] = 0
        31 => "1110111000000001", -- st r1, r0, 14      ; [r0 + 14] = -15
        32 => "1110111100000010", -- st r2, r0, 15      ; [r0 + 15] = 256
+
+------ function calls ----------------------------------------------------------
+
        33 => "1000011010001000", -- addi r8, 104       ; prepare data pointer for function call
        34 => "0111000000101111", -- aipc r15, 2        ; prepare return address
        35 => "0010000010100101", -- jmp SIGN_FUNCTION  ; +165
@@ -73,7 +80,52 @@ architecture behavior of risc63_tb is
        39 => "1000000010001000", -- addi r8, 8         ; next data
        40 => "0111000000101111", -- aipc r15, 2
        41 => "0010000010011111", -- jmp SIGN_FUNCTION  ; +159
-       42 => "00000000--------", -- nop
+
+------ word manipulation -------------------------------------------------------
+
+       42 => "1011000000000000", -- li r0, 0
+       43 => "1011000000100001", -- li r1, 2
+       44 => "1011000001000010", -- li r2, 4
+       45 => "1011000001100011", -- li r3, 6
+       46 => "1011001010000100", -- li r4, 40
+       47 => "1011110011100101", -- li r5, -50
+       48 => "1011001111000110", -- li r6, 60
+       49 => "1011101110100111", -- li r7, -70
+       50 => "0001100100000100", -- insw r4, r0        ; r4 = 0   0  0   40
+       51 => "0001100100010101", -- insw r5, r1        ; r5 = 0   0  -50 0
+       52 => "0001100100100110", -- insw r6, r2        ; r6 = 0   60 0   0
+       53 => "0001100100110111", -- insw r7, r3        ; r7 = -70 0  0   0
+       54 => "00000000--------", -- nop
+       55 => "0011010101010100", -- or r4, r5          ; r4 = 0   0  -50 40
+       56 => "1011000000000000", -- nop
+       57 => "0011010101110110", -- or r6, r7          ; r6 = -70 60 0   0
+       58 => "00000000--------", -- nop
+       59 => "00000000--------", -- nop
+       60 => "00000000--------", -- nop
+       61 => "0011010101100100", -- or r4, r6          ; r4 = -70 60 -50 40
+       62 => "000001--01001000", -- mv r8, r4
+       63 => "00000000--------", -- nop
+       64 => "00000000--------", -- nop
+       65 => "1110000000000100", -- st r4, r0, 0
+       66 => "0001000100011000", -- extw r8, r1        ; r8 = -50
+       67 => "00000000--------", -- nop
+       68 => "00000000--------", -- nop
+       69 => "00000000--------", -- nop
+       70 => "1000011001001000", -- addi r8, 100       ; r8 = 50
+       71 => "00000000--------", -- nop
+       72 => "00000000--------", -- nop
+       73 => "0001110100010100", -- mskw r4, r1        ; r4 = -70 60 0  40
+       74 => "0001100100011000", -- insw r8, r1        ; r8 = 0   0  50 0
+       75 => "00000000--------", -- nop
+       76 => "00000000--------", -- nop
+       77 => "00000000--------", -- nop
+       78 => "0011010110000100", -- or r4, r8          ; r4 = -70 60 50 40
+       79 => "00000000--------", -- nop
+       80 => "00000000--------", -- nop
+       81 => "00000000--------", -- nop
+       82 => "1110000000000100", -- st r4, r0, 0
+
+----- sign function ------------------------------------------------------------
 
                                  -- SIGN_FUNCTION:     ; [r8] -> [r8]
       200 => "1100000010001001", -- ld r9, r8, 0       ; load operand
@@ -248,6 +300,26 @@ begin
         assert o_dmem_we = '1';
         assert o_dmem_addr = std_ulogic_vector(to_unsigned(15, o_dmem_addr'length));
         assert o_dmem_wr_data = std_ulogic_vector(to_signed(1, o_dmem_wr_data'length));
+
+        wait for 28 * c_CLK_PERIOD;
+        assert o_dmem_we = '1';
+        assert o_dmem_addr = std_ulogic_vector(to_unsigned(0, o_dmem_addr'length));
+        assert o_dmem_wr_data = std_ulogic_vector(
+            to_signed(-70, o_dmem_wr_data'length / 4) &
+            to_signed(60, o_dmem_wr_data'length / 4) &
+            to_signed(-50, o_dmem_wr_data'length / 4) &
+            to_signed(40, o_dmem_wr_data'length / 4)
+        );
+
+        wait for 17 * c_CLK_PERIOD;
+        assert o_dmem_we = '1';
+        assert o_dmem_addr = std_ulogic_vector(to_unsigned(0, o_dmem_addr'length));
+        assert o_dmem_wr_data = std_ulogic_vector(
+            to_signed(-70, o_dmem_wr_data'length / 4) &
+            to_signed(60, o_dmem_wr_data'length / 4) &
+            to_signed(50, o_dmem_wr_data'length / 4) &
+            to_signed(40, o_dmem_wr_data'length / 4)
+        );
 
         v_done := true; wait;
     end process check_output;
