@@ -63,10 +63,11 @@ begin
 
     -- immediate value extraction
     o_iext_type <= IEXT_LD when s_ld_group = '1' else
-                   IEXT_ADDI when s_addi_group = '1' else
                    IEXT_JZ when s_jz_group = '1' else
                    IEXT_SLTI when s_slti_group = '1' else
-                   IEXT_JMP;
+                   IEXT_JMP when s_jmp_inst = '1' else
+                   IEXT_ADDI when s_addi_group = '1' and i_opcode_field(5) = i_opcode_field(4) else
+                   IEXT_ADDUI;
 
     -- ALU operand A multiplexer
     o_amux_alu <= AMUX_BREG when s_ld_group = '1' else

@@ -21,9 +21,10 @@ begin
 
     with i_type select o_imm <=
         (55 downto 0 => i_imm_field(12)) & i_imm_field(12 downto 8) & "000" when IEXT_LD,
-        (55 downto 0 => i_imm_field(11)) & i_imm_field(11 downto 4) when IEXT_ADDI,
         (55 downto 0 => i_imm_field(10)) & i_imm_field(10 downto 4) & '0' when IEXT_JZ,
         (57 downto 0 => i_imm_field(9)) & i_imm_field(9 downto 4) when IEXT_SLTI,
-        (50 downto 0 => i_imm_field(11)) & i_imm_field(11 downto 0) & '0' when IEXT_JMP;
+        (50 downto 0 => i_imm_field(11)) & i_imm_field(11 downto 0) & '0' when IEXT_JMP,
+        (55 downto 0 => i_imm_field(11)) & i_imm_field(11 downto 4) when IEXT_ADDI,
+        (47 downto 0 => i_imm_field(11)) & i_imm_field(11 downto 4) & "00000000" when IEXT_ADDUI;
 
 end architecture rtl;

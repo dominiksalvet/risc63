@@ -46,10 +46,12 @@ begin
     test: process
         constant c_LD: std_ulogic_vector(7 downto 0) := "110-----";
         constant c_ST: std_ulogic_vector(7 downto 0) := "111-----";
-        constant c_ADDI: std_ulogic_vector(7 downto 0) := "1000----"; -- addiu behavior
+        constant c_ADDI: std_ulogic_vector(7 downto 0) := "1000----";
+        constant c_ADDUI: std_ulogic_vector(7 downto 0) := "1001----";
         constant c_AUIPC: std_ulogic_vector(7 downto 0) := "1010----";
         constant c_LI: std_ulogic_vector(7 downto 0) := "1011----";
-        constant c_JZ: std_ulogic_vector(7 downto 0) := "01100---"; -- jnz behavior
+        constant c_JZ: std_ulogic_vector(7 downto 0) := "01100---";
+        constant c_JNZ: std_ulogic_vector(7 downto 0) := "01101---";
         constant c_AIPC: std_ulogic_vector(7 downto 0) := "01110---";
         constant c_JR: std_ulogic_vector(7 downto 0) := "01111---";
         constant c_SLTI: std_ulogic_vector(7 downto 0) := "010000--"; -- slti group behavior
@@ -100,9 +102,22 @@ begin
         assert o_reg_c_we = '1';
         assert o_result_mux = RESULT_ALU;
 
+        i_opcode_field <= c_ADDUI;
+        wait for c_CLK_PERIOD;
+        assert o_iext_type = IEXT_ADDUI;
+        assert o_amux_alu = AMUX_AREG;
+        assert o_bmux_alu = BMUX_IMM;
+        assert o_alu_opcode = c_ALU_ADD;
+        assert o_jmp_cond = JMP_NEVER;
+        assert o_iret = '0';
+        assert o_mem_we = '0';
+        assert o_cr_we = '0';
+        assert o_reg_c_we = '1';
+        assert o_result_mux = RESULT_ALU;
+
         i_opcode_field <= c_AUIPC;
         wait for c_CLK_PERIOD;
-        assert o_iext_type = IEXT_ADDI;
+        assert o_iext_type = IEXT_ADDUI;
         assert o_amux_alu = AMUX_PC;
         assert o_bmux_alu = BMUX_IMM;
         assert o_alu_opcode = c_ALU_ADD;
@@ -132,6 +147,18 @@ begin
         assert o_bmux_alu = BMUX_IMM;
         assert o_alu_opcode = c_ALU_ADD;
         assert o_jmp_cond = JMP_ZERO;
+        assert o_iret = '0';
+        assert o_mem_we = '0';
+        assert o_cr_we = '0';
+        assert o_reg_c_we = '0';
+
+        i_opcode_field <= c_JNZ;
+        wait for c_CLK_PERIOD;
+        assert o_iext_type = IEXT_JZ;
+        assert o_amux_alu = AMUX_PC;
+        assert o_bmux_alu = BMUX_IMM;
+        assert o_alu_opcode = c_ALU_ADD;
+        assert o_jmp_cond = JMP_NZERO;
         assert o_iret = '0';
         assert o_mem_we = '0';
         assert o_cr_we = '0';
