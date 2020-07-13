@@ -125,6 +125,42 @@ architecture behavior of risc63_tb is
        81 => "00000000--------", -- nop
        82 => "1110000000000100", -- st r4, r0, 0
 
+----- interrupts ---------------------------------------------------------------
+
+       83 => "1011001011000001", -- li r1, 44
+       84 => "1011010000000000", -- li r0, 64          ; data pointer
+       85 => "1011000000010010", -- li r2, 1           ; enable interrupts mask
+       86 => "1011000000010011", -- li r3, 1           ; event counter
+       87 => "1001000000010001", -- addui r1, 1        ; r1 = 300 (150 words = 300 bytes)
+       88 => "00000000--------", -- nop
+       89 => "00000000--------", -- nop
+       90 => "00000000--------", -- nop
+       91 => "000011---0110001", -- crw r1, ivec       ; set up interrupt vector
+       92 => "000011---0100010", -- crw r2, status     ; enable interrupts
+       93 => "1000000000010011", -- addi r3, 1
+       94 => "0010000000000010", -- jmp +2
+       95 => "1000000000010011", -- addi r3, 1         ; must be skipped even if interrupted
+       96 => "00000000--------", -- nop
+       97 => "00000000--------", -- nop
+       98 => "00000000--------", -- nop
+       99 => "1110000000000011", -- st r3, r0, 0
+
+----- loop forever -------------------------------------------------------------
+
+      100 => "0010000000000000", -- jmp 0
+
+----- interrupt handler --------------------------------------------------------
+
+      150 => "000011---0000011", -- crw k0, r3         ; backup
+      151 => "1011000000000011", -- li r3, 0           ; clear
+      152 => "000010---0000011", -- crr k0, r3         ; read back
+      153 => "00000000--------", -- nop
+      154 => "00000000--------", -- nop
+      155 => "00000000--------", -- nop
+      156 => "1111111100000011", -- st r3, r0, -1
+      157 => "1000000000010011", -- addi r3, 1         ; increase event counter
+      158 => "00000001--------", -- iret               ; return from interrupt
+
 ----- sign function ------------------------------------------------------------
 
                                  -- SIGN_FUNCTION:     ; [r8] -> [r8]
@@ -217,9 +253,28 @@ begin
     begin
         i_rst <= '1';
         i_irq <= '0';
-        wait for c_CLK_PERIOD;
 
+        wait for c_CLK_PERIOD;
         i_rst <= '0';
+
+        wait for 159 * c_CLK_PERIOD;
+        i_irq <= '1';
+
+        wait for 38 * c_CLK_PERIOD;
+        i_irq <= '0';
+
+        wait for 4 * c_CLK_PERIOD;
+        i_irq <= '1';
+
+        wait for c_CLK_PERIOD;
+        i_irq <= '0';
+
+        wait for 17 * c_CLK_PERIOD;
+        i_irq <= '1';
+
+        wait for c_CLK_PERIOD;
+        i_irq <= '0';
+
         wait;
     end process drive_input;
 
@@ -271,19 +326,14 @@ begin
         assert o_dmem_addr = std_ulogic_vector(to_unsigned(15, o_dmem_addr'length));
         assert o_dmem_wr_data = std_ulogic_vector(to_signed(256, o_dmem_wr_data'length));
 
+        wait for 4 * c_CLK_PERIOD;
+        assert o_dmem_we = '0';
+        assert o_imem_addr = std_ulogic_vector(to_unsigned(200, o_imem_addr'length));
+
+        wait for 16 * c_CLK_PERIOD;
+        assert o_imem_addr = std_ulogic_vector(to_unsigned(219, o_imem_addr'length));
+
         wait for 3 * c_CLK_PERIOD;
-        for i in 0 to 15 loop
-            wait for c_CLK_PERIOD;
-            assert o_dmem_we = '0';
-            assert o_imem_addr = std_ulogic_vector(to_unsigned(200 + i, o_imem_addr'length));
-        end loop;
-
-        for i in 0 to 2 loop
-            wait for c_CLK_PERIOD;
-            assert o_imem_addr = std_ulogic_vector(to_unsigned(219 + i, o_imem_addr'length));
-        end loop;
-
-        wait for c_CLK_PERIOD;
         assert o_dmem_we = '1';
         assert o_dmem_addr = std_ulogic_vector(to_unsigned(13, o_dmem_addr'length));
         assert o_dmem_wr_data = std_ulogic_vector(to_signed(0, o_dmem_wr_data'length));
@@ -320,6 +370,52 @@ begin
             to_signed(50, o_dmem_wr_data'length / 4) &
             to_signed(40, o_dmem_wr_data'length / 4)
         );
+
+        wait for 12 * c_CLK_PERIOD;
+        assert o_imem_addr = std_ulogic_vector(to_unsigned(150, o_imem_addr'length));
+
+        wait for 9 * c_CLK_PERIOD;
+        assert o_dmem_we = '1';
+        assert o_dmem_addr = std_ulogic_vector(to_unsigned(7, o_dmem_addr'length));
+        assert o_dmem_wr_data = std_ulogic_vector(to_signed(1, o_dmem_wr_data'length));
+
+        wait for 3 * c_CLK_PERIOD;
+        assert o_imem_addr = std_ulogic_vector(to_unsigned(93, o_imem_addr'length));
+
+        wait for c_CLK_PERIOD;
+        assert o_imem_addr = std_ulogic_vector(to_unsigned(150, o_imem_addr'length));
+
+        wait for 9 * c_CLK_PERIOD;
+        assert o_dmem_we = '1';
+        assert o_dmem_addr = std_ulogic_vector(to_unsigned(7, o_dmem_addr'length));
+        assert o_dmem_wr_data = std_ulogic_vector(to_signed(2, o_dmem_wr_data'length));
+
+        wait for 7 * c_CLK_PERIOD;
+        assert o_imem_addr = std_ulogic_vector(to_unsigned(150, o_imem_addr'length));
+
+        wait for 9 * c_CLK_PERIOD;
+        assert o_dmem_we = '1';
+        assert o_dmem_addr = std_ulogic_vector(to_unsigned(7, o_dmem_addr'length));
+        assert o_dmem_wr_data = std_ulogic_vector(to_signed(3, o_dmem_wr_data'length));
+
+        wait for 18 * c_CLK_PERIOD;
+        assert o_dmem_we = '1';
+        assert o_dmem_addr = std_ulogic_vector(to_unsigned(7, o_dmem_addr'length));
+        assert o_dmem_wr_data = std_ulogic_vector(to_signed(5, o_dmem_wr_data'length));
+
+        wait for 3 * c_CLK_PERIOD;
+        assert o_imem_addr = std_ulogic_vector(to_unsigned(96, o_imem_addr'length));
+
+        wait for 6 * c_CLK_PERIOD;
+        assert o_dmem_we = '1';
+        assert o_dmem_addr = std_ulogic_vector(to_unsigned(8, o_dmem_addr'length));
+        assert o_dmem_wr_data = std_ulogic_vector(to_signed(6, o_dmem_wr_data'length));
+
+        wait for 2 * c_CLK_PERIOD;
+        for i in 0 to 4 loop
+            assert o_imem_addr = std_ulogic_vector(to_unsigned(100, o_imem_addr'length));
+            wait for 4 * c_CLK_PERIOD;
+        end loop;
 
         v_done := true; wait;
     end process check_output;
