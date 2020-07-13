@@ -60,11 +60,41 @@ architecture behavior of risc63_tb is
        26 => "00000000--------", -- nop
        27 => "0011010100110001", -- or r1, r3      ; r1 = -15
        28 => "0011010101000010", -- or r2, r4      ; r2 = 256
-       29 => "00000000--------", -- nop
-       30 => "00000000--------", -- nop
+       29 => "000001--00001000", -- mv r8, r0      ; r8 = 0
+       30 => "1110110100000000", -- st r0, r0, 13  ; [r0 + 13] = 0
        31 => "1110111000000001", -- st r1, r0, 14  ; [r0 + 14] = -15
        32 => "1110111100000010", -- st r2, r0, 15  ; [r0 + 15] = 256
-   others => "00000000--------"  -- nop
+       33 => "1000011010001000", -- addi r8, 104   ; prepare data pointer for function call
+       34 => "0111000000101111", -- aipc r15, 2    ; prepare return address
+       35 => "0010000010100101", -- jmp sign_function  ; +165
+       36 => "00000000--------", -- nop
+
+                                 -- sign_function:  ; [r8] -> [r8]
+      200 => "1100000010001001", -- ld r9, r8, 0  ; load operand
+      201 => "1011000000001011", -- li r11, 0  ; sign function result
+      202 => "1011000000011100", -- li r12, 1
+      203 => "00000000--------", -- nop
+      204 => "000001--10011010", -- mv r10, r9
+      205 => "0100000000001001", -- slti r9, 0  ; r9 = r9 < 0
+      206 => "00000000--------", -- nop
+      207 => "00000000--------", -- nop
+      208 => "0100100000001010", -- sgti r10, 0  ; r10 = r10 > 0
+      209 => "00000000--------", -- nop
+      210 => "0110100001011001", -- jnz r9, NEGATIVE  ; +5
+      211 => "00000000--------", -- nop
+      212 => "0110000001111010", -- jz r10, DONE  ; +7
+      213 => "0011000011001010", -- add r10, r12  ; greater than zero
+      214 => "0010000000000101", -- jmp DONE  ; +5
+                                 -- NEGATIVE:
+      215 => "0011000111001011", -- sub r11, r12  ; less than zero
+      216 => "00000000--------", -- nop
+      217 => "00000000--------", -- nop
+      218 => "00000000--------", -- nop
+                                 -- DONE:
+      219 => "1110000010001011", -- st r11, r8, 0  ; store result
+      220 => "0111100000001111", -- jr r15, 0  ; return from function
+
+   others => "----------------"  -- uninitialized
     );
 
 --- data memory ----------------------------------------------------------------
@@ -168,10 +198,10 @@ begin
         assert o_dmem_addr = std_ulogic_vector(to_unsigned(0, o_dmem_addr'length));
         assert i_dmem_rd_data = std_ulogic_vector(to_signed(64, i_dmem_rd_data'length));
 
-        for i in 0 to 15 loop
-            wait for c_CLK_PERIOD;
-            assert o_dmem_we = '0';
-        end loop;
+        wait for 16 * c_CLK_PERIOD;
+        assert o_dmem_we = '1';
+        assert o_dmem_addr = std_ulogic_vector(to_unsigned(13, o_dmem_addr'length));
+        assert o_dmem_wr_data = std_ulogic_vector(to_signed(0, o_dmem_wr_data'length));
 
         wait for c_CLK_PERIOD;
         assert o_dmem_we = '1';
@@ -182,6 +212,26 @@ begin
         assert o_dmem_we = '1';
         assert o_dmem_addr = std_ulogic_vector(to_unsigned(15, o_dmem_addr'length));
         assert o_dmem_wr_data = std_ulogic_vector(to_signed(256, o_dmem_wr_data'length));
+
+        wait for 3 * c_CLK_PERIOD;
+        for i in 0 to 15 loop
+            wait for c_CLK_PERIOD;
+            assert o_dmem_we = '0';
+            assert o_imem_addr = std_ulogic_vector(to_unsigned(200 + i, o_imem_addr'length));
+        end loop;
+
+        for i in 0 to 2 loop
+            wait for c_CLK_PERIOD;
+            assert o_imem_addr = std_ulogic_vector(to_unsigned(219 + i, o_imem_addr'length));
+        end loop;
+
+        wait for c_CLK_PERIOD;
+        assert o_dmem_we = '1';
+        assert o_dmem_addr = std_ulogic_vector(to_unsigned(13, o_dmem_addr'length));
+        assert o_dmem_wr_data = std_ulogic_vector(to_signed(0, o_dmem_wr_data'length));
+
+        wait for 2 * c_CLK_PERIOD;
+        assert o_imem_addr = std_ulogic_vector(to_unsigned(36, o_imem_addr'length));
 
         v_done := true; wait;
     end process check_output;
