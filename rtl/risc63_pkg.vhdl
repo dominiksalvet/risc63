@@ -32,7 +32,7 @@ package risc63_pkg is
 --- ID stage -------------------------------------------------------------------
 
     -- no operation instruction binary
-    constant c_NOP_INST: std_ulogic_vector(15 downto 0) := (others => '0');
+    constant c_NOP_INST: std_ulogic_vector(15 downto 0) := "00000000--------";
 
     -- immediate extractor
     type t_iext_type is (IEXT_LD, IEXT_ADDI, IEXT_JZ, IEXT_SLTI, IEXT_JMP);
