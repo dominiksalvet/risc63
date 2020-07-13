@@ -65,7 +65,7 @@ begin
         i_opcode_field <= c_LD;
         wait for c_CLK_PERIOD;
         assert o_iext_type = IEXT_LD;
-        assert o_amux_alu = AMUX_AREG;
+        assert o_amux_alu = AMUX_BREG;
         assert o_bmux_alu = BMUX_IMM;
         assert o_alu_opcode = c_ALU_ADD;
         assert o_jmp_cond = JMP_NEVER;
@@ -78,7 +78,7 @@ begin
         i_opcode_field <= c_ST;
         wait for c_CLK_PERIOD;
         assert o_iext_type = IEXT_LD;
-        assert o_amux_alu = AMUX_AREG;
+        assert o_amux_alu = AMUX_BREG;
         assert o_bmux_alu = BMUX_IMM;
         assert o_alu_opcode = c_ALU_ADD;
         assert o_jmp_cond = JMP_NEVER;
@@ -90,8 +90,8 @@ begin
         i_opcode_field <= c_ADDI;
         wait for c_CLK_PERIOD;
         assert o_iext_type = IEXT_ADDI;
-        assert o_amux_alu = AMUX_IMM;
-        assert o_bmux_alu = BMUX_BREG;
+        assert o_amux_alu = AMUX_AREG;
+        assert o_bmux_alu = BMUX_IMM;
         assert o_alu_opcode = c_ALU_ADD;
         assert o_jmp_cond = JMP_NEVER;
         assert o_iret = '0';
@@ -103,8 +103,8 @@ begin
         i_opcode_field <= c_AUIPC;
         wait for c_CLK_PERIOD;
         assert o_iext_type = IEXT_ADDI;
-        assert o_amux_alu = AMUX_IMM;
-        assert o_bmux_alu = BMUX_PC;
+        assert o_amux_alu = AMUX_PC;
+        assert o_bmux_alu = BMUX_IMM;
         assert o_alu_opcode = c_ALU_ADD;
         assert o_jmp_cond = JMP_NEVER;
         assert o_iret = '0';
@@ -116,8 +116,8 @@ begin
         i_opcode_field <= c_LI;
         wait for c_CLK_PERIOD;
         assert o_iext_type = IEXT_ADDI;
-        assert o_amux_alu = AMUX_IMM;
-        assert o_alu_opcode = c_ALU_A;
+        assert o_bmux_alu = BMUX_IMM;
+        assert o_alu_opcode = c_ALU_B;
         assert o_jmp_cond = JMP_NEVER;
         assert o_iret = '0';
         assert o_mem_we = '0';
@@ -128,8 +128,8 @@ begin
         i_opcode_field <= c_JZ;
         wait for c_CLK_PERIOD;
         assert o_iext_type = IEXT_JZ;
-        assert o_amux_alu = AMUX_IMM;
-        assert o_bmux_alu = BMUX_PC;
+        assert o_amux_alu = AMUX_PC;
+        assert o_bmux_alu = BMUX_IMM;
         assert o_alu_opcode = c_ALU_ADD;
         assert o_jmp_cond = JMP_ZERO;
         assert o_iret = '0';
@@ -140,8 +140,8 @@ begin
         i_opcode_field <= c_AIPC;
         wait for c_CLK_PERIOD;
         assert o_iext_type = IEXT_JZ;
-        assert o_amux_alu = AMUX_IMM;
-        assert o_bmux_alu = BMUX_PC;
+        assert o_amux_alu = AMUX_PC;
+        assert o_bmux_alu = BMUX_IMM;
         assert o_alu_opcode = c_ALU_ADD;
         assert o_jmp_cond = JMP_NEVER;
         assert o_iret = '0';
@@ -153,8 +153,8 @@ begin
         i_opcode_field <= c_JR;
         wait for c_CLK_PERIOD;
         assert o_iext_type = IEXT_JZ;
-        assert o_amux_alu = AMUX_IMM;
-        assert o_bmux_alu = BMUX_BREG;
+        assert o_amux_alu = AMUX_AREG;
+        assert o_bmux_alu = BMUX_IMM;
         assert o_alu_opcode = c_ALU_ADD;
         assert o_jmp_cond = JMP_ALWAYS;
         assert o_iret = '0';
@@ -165,8 +165,8 @@ begin
         i_opcode_field <= c_SLTI;
         wait for c_CLK_PERIOD;
         assert o_iext_type = IEXT_SLTI;
-        assert o_amux_alu = AMUX_IMM;
-        assert o_bmux_alu = BMUX_BREG;
+        assert o_amux_alu = AMUX_AREG;
+        assert o_bmux_alu = BMUX_IMM;
         assert o_alu_opcode = c_ALU_SLT;
         assert o_jmp_cond = JMP_NEVER;
         assert o_iret = '0';
@@ -190,8 +190,8 @@ begin
         i_opcode_field <= c_JMP;
         wait for c_CLK_PERIOD;
         assert o_iext_type = IEXT_JMP;
-        assert o_amux_alu = AMUX_IMM;
-        assert o_bmux_alu = BMUX_PC;
+        assert o_amux_alu = AMUX_PC;
+        assert o_bmux_alu = BMUX_IMM;
         assert o_alu_opcode = c_ALU_ADD;
         assert o_jmp_cond = JMP_ALWAYS;
         assert o_iret = '0';
@@ -222,8 +222,8 @@ begin
 
         i_opcode_field <= c_CRW;
         wait for c_CLK_PERIOD;
-        assert o_bmux_alu = BMUX_BREG;
-        assert o_alu_opcode = c_ALU_B;
+        assert o_amux_alu = AMUX_AREG;
+        assert o_alu_opcode = c_ALU_A;
         assert o_jmp_cond = JMP_NEVER;
         assert o_iret = '0';
         assert o_mem_we = '0';
@@ -232,8 +232,8 @@ begin
 
         i_opcode_field <= c_MV;
         wait for c_CLK_PERIOD;
-        assert o_amux_alu = AMUX_AREG;
-        assert o_alu_opcode = c_ALU_A;
+        assert o_bmux_alu = BMUX_BREG;
+        assert o_alu_opcode = c_ALU_B;
         assert o_jmp_cond = JMP_NEVER;
         assert o_iret = '0';
         assert o_mem_we = '0';

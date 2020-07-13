@@ -23,7 +23,7 @@ entity ex_stage is
         i_pc: in std_ulogic_vector(62 downto 0);
 
         i_mem_we: in std_ulogic;
-        i_reg_b_data: in std_ulogic_vector(63 downto 0);
+        i_reg_a_data: in std_ulogic_vector(63 downto 0);
         i_cr_we: in std_ulogic;
         i_cr_index: in std_ulogic_vector(2 downto 0);
         i_reg_c_we: in std_ulogic;
@@ -55,7 +55,7 @@ architecture rtl of ex_stage is
     signal s_alu_b_operand: std_ulogic_vector(63 downto 0);
 
     signal s_jmp_cond: t_jmp_cond;
-    signal s_reg_b_data: std_ulogic_vector(63 downto 0);
+    signal s_reg_a_data: std_ulogic_vector(63 downto 0);
 begin
 
     catch_input: process(i_clk)
@@ -74,7 +74,7 @@ begin
             s_alu_a_operand <= i_alu_a_operand;
             s_alu_b_operand <= i_alu_b_operand;
             s_jmp_cond <= i_jmp_cond;
-            s_reg_b_data <= i_reg_b_data;
+            s_reg_a_data <= i_reg_a_data;
 
             if i_rst = '1' then
                 o_iret <= '0';
@@ -102,12 +102,12 @@ begin
     jmp_test: entity work.jmp_test
     port map (
         s_jmp_cond,
-        s_reg_b_data,
+        s_reg_a_data,
         o_jmp_en
     );
 
 --------------------------------------------------------------------------------
 
-    o_mem_wr_data <= s_reg_b_data;
+    o_mem_wr_data <= s_reg_a_data;
 
 end architecture rtl;

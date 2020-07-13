@@ -57,7 +57,7 @@ architecture rtl of risc63 is
     signal s_id_iret: std_ulogic;
     signal s_id_pc: std_ulogic_vector(62 downto 0);
     signal s_id_mem_we: std_ulogic;
-    signal s_id_reg_b_data: std_ulogic_vector(63 downto 0);
+    signal s_id_reg_a_data: std_ulogic_vector(63 downto 0);
     signal s_id_cr_we: std_ulogic;
     signal s_id_cr_index: std_ulogic_vector(2 downto 0);
     signal s_id_reg_c_we: std_ulogic;
@@ -174,7 +174,7 @@ begin
         o_iret => s_id_iret,
         o_pc => s_id_pc,
         o_mem_we => s_id_mem_we,
-        o_reg_b_data => s_id_reg_b_data,
+        o_reg_a_data => s_id_reg_a_data,
         o_cr_we => s_id_cr_we,
         o_cr_index => s_id_cr_index,
         o_reg_c_we => s_id_reg_c_we,
@@ -195,7 +195,7 @@ begin
         i_iret => s_id_iret,
         i_pc => s_id_pc,
         i_mem_we => s_id_mem_we,
-        i_reg_b_data => s_id_reg_b_data,
+        i_reg_a_data => s_id_reg_a_data,
         i_cr_we => s_id_cr_we,
         i_cr_index => s_id_cr_index,
         i_reg_c_we => s_id_reg_c_we,

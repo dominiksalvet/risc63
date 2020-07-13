@@ -32,7 +32,7 @@ entity id_stage is
         o_pc: out std_ulogic_vector(62 downto 0);
 
         o_mem_we: out std_ulogic;
-        o_reg_b_data: out std_ulogic_vector(63 downto 0); -- used by stores and conditional jumps
+        o_reg_a_data: out std_ulogic_vector(63 downto 0); -- used by stores and conditional jumps
         o_cr_we: out std_ulogic; -- control registers related
         o_cr_index: out std_ulogic_vector(2 downto 0);
         o_reg_c_we: out std_ulogic; -- write result from WB stage later
@@ -84,9 +84,9 @@ begin
     reg_file: entity work.reg_file
     port map (
         i_clk => i_clk,
-        i_a_index => s_ir(7 downto 4),
+        i_a_index => s_ir(3 downto 0),
         o_a_data => s_reg_a_data,
-        i_b_index => s_ir(3 downto 0),
+        i_b_index => s_ir(7 downto 4),
         o_b_data => s_reg_b_data,
         i_c_we => i_reg_c_we,
         i_c_index => i_reg_c_index,
@@ -124,12 +124,12 @@ begin
     -- ALU signals
     o_alu_opcode <= s_dec_alu_opcode;
     with s_dec_amux_alu select o_alu_a_operand <=
-        s_iext_imm when AMUX_IMM,
+        s_reg_b_data when AMUX_BREG,
+        s_pc & '0' when AMUX_PC,
         s_reg_a_data when AMUX_AREG;
     with s_dec_bmux_alu select o_alu_b_operand <=
-        s_iext_imm when BMUX_IMM,
-        s_pc & '0' when BMUX_PC,
-        s_reg_b_data when BMUX_BREG;
+        s_reg_b_data when BMUX_BREG,
+        s_iext_imm when BMUX_IMM;
 
     -- control flow
     o_jmp_cond <= s_dec_jmp_cond;
@@ -138,7 +138,7 @@ begin
 
     -- memory write
     o_mem_we <= s_dec_mem_we;
-    o_reg_b_data <= s_reg_b_data;
+    o_reg_a_data <= s_reg_a_data;
 
     -- control register write
     o_cr_we <= s_dec_cr_we;

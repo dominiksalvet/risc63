@@ -69,21 +69,20 @@ begin
                    IEXT_JMP;
 
     -- ALU operand A multiplexer
-    o_amux_alu <= AMUX_IMM when s_addi_group = '1' or s_jz_group = '1' or
-                                s_slti_group = '1' or s_jmp_inst = '1' else
+    o_amux_alu <= AMUX_BREG when s_ld_group = '1' else
+                  AMUX_PC when (s_addi_group = '1' and i_opcode_field(5 downto 4) = "10") or
+                               (s_jz_group = '1' and i_opcode_field(4 downto 3) /= "11") or
+                               s_jmp_inst = '1' else
                   AMUX_AREG;
 
     -- ALU operand B multiplexer
-    o_bmux_alu <= BMUX_IMM when s_ld_group = '1' else
-                  BMUX_PC when (s_addi_group = '1' and i_opcode_field(5 downto 4) = "10") or
-                               (s_jz_group = '1' and i_opcode_field(4 downto 3) /= "11") or
-                               s_jmp_inst = '1' else
-                  BMUX_BREG;
+    o_bmux_alu <= BMUX_BREG when s_add_group = '1' or s_extb_group = '1' or s_mv_inst = '1' else
+                  BMUX_IMM;
 
     -- select ALU operation
-    o_alu_opcode <= c_ALU_A when (s_addi_group = '1' and i_opcode_field(5 downto 4) = "11") or
+    o_alu_opcode <= c_ALU_A when s_crr_group = '1' else
+                    c_ALU_B when (s_addi_group = '1' and i_opcode_field(5 downto 4) = "11") or
                                  s_mv_inst = '1' else
-                    c_ALU_B when s_crr_group = '1' else
                     "01" & i_opcode_field(4 downto 2) when s_slti_group = '1' else
                     '0' & i_opcode_field(3 downto 0) when s_add_group = '1' else
                     '1' & i_opcode_field(3 downto 0) when s_extb_group = '1' else
