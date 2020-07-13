@@ -188,7 +188,7 @@ architecture behavior of risc63_tb is
       219 => "1110000010001011", -- st r11, r8, 0      ; store result
       220 => "0111100000001111", -- jr r15, 0          ; return from function
 
-   others => "----------------"  -- uninitialized
+   others => "----------------"  -- the rest are uninitialized
     );
 
 --- data memory ----------------------------------------------------------------
