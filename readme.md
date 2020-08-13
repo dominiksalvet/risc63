@@ -3,7 +3,7 @@
 [![CI status](https://github.com/dominiksalvet/risc63/workflows/CI/badge.svg)](https://github.com/dominiksalvet/risc63/actions)
 [![standard-readme compliant](https://img.shields.io/badge/readme_style-standard-brightgreen.svg)](https://github.com/RichardLitt/standard-readme)
 
-> 64-bit processor used within my bachelor thesis.
+> Custom 64-bit pipelined RISC processor.
 
 RISC63 is a **purely 64-bit RISC processor** with basic pipelining described in VHDL. It is a prototype of a carefully crafted [RISC64 architecture](https://github.com/dominiksalvet/risc64) and its main purpose is to demonstrate potential RISC64 capabilities. To truly achieve that, the whole RISC63 has been designed in a simple manner. Convince yourself — look around.
 
