@@ -1,5 +1,7 @@
 # RISC63
 
+![RISC63 pipeline](doc/img/pipeline.png)
+
 [![CI status](https://github.com/dominiksalvet/risc63/workflows/CI/badge.svg)](https://github.com/dominiksalvet/risc63/actions)
 [![standard-readme compliant](https://img.shields.io/badge/readme_style-standard-brightgreen.svg)](https://github.com/RichardLitt/standard-readme)
 
