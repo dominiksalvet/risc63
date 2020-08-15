@@ -5,15 +5,17 @@
 
 > Custom 64-bit pipelined RISC processor.
 
-RISC63 is a **purely 64-bit RISC processor** with basic pipelining described in VHDL. It is a prototype of a carefully crafted [RISC64 architecture](https://github.com/dominiksalvet/risc64) and its main purpose is to demonstrate potential RISC64 capabilities. To truly achieve that, the whole RISC63 has been designed in a simple manner. Convince yourself — look around.
+RISC63 is a **purely 64-bit RISC processor** with classic five stage pipelining described in VHDL. Originally, it was developed as a prototype of more advanced RISC64 architecture, which was discontinued later. Nevertheless, RISC63 represents a full-fledged processor, designed in a simple manner. Convince yourself – look around.
 
-Since RISC63 is a prototype, it does not implement all RISC64 features and it might be even incompatible with the current RISC64 architecture. Nevertheless, the following implemented features indicate that RISC63 itself is an unconventional processor architecture, which has something to offer:
+The main motivation behind RISC63 was to examine the impacts of smaller instruction words in the processor design and its architecture. Based on that, the following features indicate that RISC63 is an unconventional processor architecture:
 
 * All instructions are 16 bits wide
 * Only the most used instructions are present
 * 16 x 64-bit general purpose registers
 * Only aligned 64-bit loads and stores are supported
 * Efficient PC-relative addressing
+
+> Did you know that RISC63 was used within my bachelor thesis?
 
 ## Table of Contents
 
