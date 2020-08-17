@@ -22,6 +22,7 @@ The main motivation behind RISC63 was to examine the impacts of smaller instruct
 ## Table of Contents
 
 * [Install](#install)
+  * [Dependencies](#dependencies)
 * [Usage](#usage)
   * [Example](#example)
 * [Questions](#questions)
@@ -31,6 +32,10 @@ The main motivation behind RISC63 was to examine the impacts of smaller instruct
 ## Install
 
 Install content.
+
+### Dependencies
+
+Dependencies content.
 
 ## Usage
 
