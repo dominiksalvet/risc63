@@ -31,7 +31,7 @@ The main motivation behind RISC63 was to examine the impacts of smaller instruct
 
 ## Simulation
 
-A custom build system has been created during the RISC63 development to ease processor building and simulation. If you want to **see the RISC63 processor running**, that build system will easily get you through. Whatever you want is just one command away – that was its original idea.
+A custom build system has been created during the RISC63 development to ease processor building and simulation. If you want to **see the RISC63 processor running**, that build system will easily get you through. Whatever you need is just one command away – that was its original idea.
 
 ### Dependencies
 
