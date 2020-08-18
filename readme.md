@@ -31,7 +31,7 @@ The main motivation behind RISC63 was to examine the impacts of smaller instruct
 
 ## Simulation
 
-A custom build system has been developed during the RISC63 development to ease processor building and simulation. If you want to **see the RISC63 processor running**, that build system will easily get you through. Whatever you want is just one command away – that was its original idea.
+A custom build system has been created during the RISC63 development to ease processor building and simulation. If you want to **see the RISC63 processor running**, that build system will easily get you through. Whatever you want is just one command away – that was its original idea.
 
 ### Dependencies
 
@@ -42,12 +42,12 @@ All you need to bring RISC63 to life is stated here:
 
 ### Usage
 
-First prepare the local copy of this repository:
+First prepare a local copy of this repository:
 
 1. `git clone https://github.com/dominiksalvet/risc63.git`
 2. `cd risc63/build`
 
-In `build` directory, there is a POSIX `makefile`, which represents the RISC63 build system. Provided that your current working directory is `build`, you can run following commands:
+In `build` directory, there is a POSIX `makefile`, which represents the RISC63 build system. Provided that your current working directory is `build`, you can run `make` command with the following targets:
 
 * `elab` - elaborate all VHDL entities
 * `test` - run tests of all test bench entities
