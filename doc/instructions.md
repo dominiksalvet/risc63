@@ -1,4 +1,4 @@
-# Instructions
+# List of Instructions
 
 All RISC63 instructions are 16 bits wide.
 
