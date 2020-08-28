@@ -1,6 +1,6 @@
 # List of Instructions
 
-All RISC63 instructions are 16 bits wide.
+This file includes all instructions of the RISC63 architecture. For each instruction, there is behavior and a potential assembly form provided. If you would rather see instructions decoding, see [decoding.md](decoding.md) file.
 
 ## Summary
 
