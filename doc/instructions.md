@@ -93,6 +93,8 @@ In the instructions definitions below, there are the following symbols used:
 * `crr ra, cr`
 * `crw ra, cr`
 
+> See [Control Registers](https://github.com/dominiksalvet/risc63/blob/master/doc/registers.md#control-registers).
+
 ## Data Move
 
 * `mv ra, rb`
