@@ -22,7 +22,7 @@ The `r0` to `r15` registers may be freely used in any programs. All these regist
 
 The control registers are used for the processor management and configuration, and thus they should not be used in ordinary programs. Their major purpose in RISC63 is the interrupt handling.
 
-> The addresses of control registers are stated in a [decoding section](https://github.com/dominiksalvet/risc63/blob/master/doc/decoding.md#control-registers).
+> The indexes of control registers are stated in a [decoding section](https://github.com/dominiksalvet/risc63/blob/master/doc/decoding.md#control-registers).
 
 ### Auxiliary Registers (`k0`, `k1`)
 
