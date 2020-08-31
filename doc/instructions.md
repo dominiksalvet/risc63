@@ -6,7 +6,7 @@ In the instructions definitions below, there are the following symbols used:
 
 * `<x>*imm<y>` - an immediate value extended with its sign bit
   * `<x>` - if present, the value will be multiplied by this number
-  * `<y>` - number of bits available to store the value
+  * `<y>` - number of bits available to carry the value
 * `ra` - an index of the read and written register
   * also may be read-only or write-only
 * `rb` - an index of the read register
