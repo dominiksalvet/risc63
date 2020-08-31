@@ -34,7 +34,7 @@ In the instructions definitions below, there are the following symbols used:
 * `aipc ra, imm[7]`
 * `jr ra, imm[7]`
 
-`jz` and `jnz` jump to the address in the range of `2 * imm` relatively to the instruction address if the value of `ra` is equal and not equal to zero, respectively. `aipc` adds `2 * imm` to the instruction address and stores it to `ra`. `jr` jumps to the address computed as `ra + 2 * imm`.
+`jz` and `jnz` jump to the address in the range of `2 * imm` relatively to the instruction address if the value of `ra` is equal and not equal to zero, respectively. `aipc` adds `2 * imm` to the instruction address and stores it to `ra`. `jr` jumps to `ra + 2 * imm` address.
 
 ## Immediate Arithmetic
 
@@ -47,7 +47,7 @@ In the instructions definitions below, there are the following symbols used:
 * `srai ra, imm[6]`
 * `rsbi ra, imm[6]`
 
-`slti` and `sgti` store one to `ra` if `ra` is less than `imm` and `ra` is greater than `imm`, respectively. Otherwise, zero is stored. `sltui` and `sgtui` are similar except they perform unsigned comparisons. `srli` and `slli` perform logical shift of `ra` by `imm mod 64` bits to the right and left, respectively. `srai` performs arithmetic shift to the right. `rsbi` stores `imm - ra` to `ra`.
+`slti` and `sgti` store one to `ra` if `ra` is less than `imm` and `ra` is greater than `imm`, respectively. Otherwise, zero is stored. `sltui` and `sgtui` are similar except they perform unsigned comparisons. `srli` and `slli` perform a logical shift of `ra` by `imm mod 64` bits to the right and left, respectively. `srai` performs an arithmetic shift to the right. `rsbi` stores `imm - ra` to `ra`.
 
 ## Arithmetic and Logic
 
