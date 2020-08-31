@@ -4,9 +4,7 @@ This file includes all instructions of the RISC63 architecture. For each instruc
 
 In the instructions definitions below, there are the following symbols used:
 
-* `<x>*imm<y>` - an immediate value extended with its sign bit
-  * `<x>` - if present, the value will be multiplied by this number
-  * `<y>` - number of bits available to carry the value
+* `imm<x>` - an `<x>`-bit immediate value extended with its sign bit
 * `ra` - an index of the read and written register
   * also may be read-only or write-only
 * `rb` - an index of the read register
@@ -15,22 +13,22 @@ In the instructions definitions below, there are the following symbols used:
 
 ## Memory Communication
 
-* `ld ra, rb, 8*imm5`
-* `st ra, rb, 8*imm5`
+* `ld ra, rb, imm5`
+* `st ra, rb, imm5`
 
 ## Immediate Add
 
 * `addi ra, imm8`
-* `addui ra, 256*imm8`
-* `auipc ra, 256*imm8`
+* `addui ra, imm8`
+* `auipc ra, imm8`
 * `li ra, imm8`
 
 ## Conditional Jumps
 
-* `jz ra, 2*imm7`
-* `jnz ra, 2*imm7`
-* `aipc ra, 2*imm7`
-* `jr ra, 2*imm7`
+* `jz ra, imm7`
+* `jnz ra, imm7`
+* `aipc ra, imm7`
+* `jr ra, imm7`
 
 ## Immediate Arithmetic
 
@@ -61,7 +59,7 @@ In the instructions definitions below, there are the following symbols used:
 
 ## Unconditional Jump
 
-* `jmp 2*imm12`
+* `jmp imm12`
 
 ## Data Manipulation
 
@@ -91,8 +89,6 @@ In the instructions definitions below, there are the following symbols used:
 
 * `nop`
 * `iret`
-
-
 
 
 
