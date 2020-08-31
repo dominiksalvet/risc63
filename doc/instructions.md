@@ -65,7 +65,7 @@ In the instructions definitions below, there are the following symbols used:
 * `sra ra, rb`
 * `rsb ra, rb`
 
-`add` adds `rb` to `ra`. `sub` subtracts `rb` from `ra`. `and`, `or` and `xor` perform appropriate logical operation over `ra` and `rb` and store the result into `ra`. The rest of the instructions behave similarly as in the [section above](#arithmetic-and-logic) except they use `rb` rather than `imm`.
+`add` adds `rb` to `ra`. `sub` subtracts `rb` from `ra`. `and`, `or` and `xor` perform appropriate logical operation over `ra` and `rb` and store the result into `ra`. The rest of the instructions behave similarly as in the [section above](#immediate-arithmetic) except they use `rb` rather than `imm`.
 
 ## Unconditional Jump
 
