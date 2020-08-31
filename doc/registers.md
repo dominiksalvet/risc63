@@ -22,6 +22,8 @@ The `r0` to `r15` registers may be freely used in any programs. All these regist
 
 The control registers are used for the processor management and configuration, and thus they should not be used in ordinary programs. Their major purpose in RISC63 is the interrupt handling.
 
+> The addresses of control registers are stated in a [Decoding section](https://github.com/dominiksalvet/risc63/blob/master/doc/decoding.md#control-registers).
+
 ### Auxiliary Registers (`k0`, `k1`)
 
 The `k0` and `k1` are auxiliary registers with no hardware dedicated use. They are expected to be used during interrupts to prevent overwriting general purpose registers without previous storing.
@@ -34,7 +36,7 @@ The `status` register is the central processor status register. It contains the 
 |----------|----|
 | Reserved | IE |
 
-> IE - interrupt enable
+* IE - interrupt enable
 
 The **reset value** of the `status` register is `0x0`. That applies only to bits that are not reserved.
 
