@@ -2,6 +2,96 @@
 
 This file includes all instructions of the RISC63 architecture. For each instruction, there is behavior and a potential assembly form provided. If you would rather see instructions decoding, see [decoding.md](decoding.md) file.
 
+In the instructions definitions below, there are the following symbols used:
+
+* `imm` - an immediate value extended with its sign bit
+* `ra` - an index of the read and written register
+* `rb` - an index of the read register
+* `cr` - a control register index
+
+## Memory Communication
+
+* `ld ra, rb, imm`
+* `st ra, rb, imm`
+
+## Immediate Add
+
+* `addi ra, imm`
+* `addui ra, imm`
+* `auipc ra, imm`
+* `li ra, imm`
+
+## Conditional Jumps
+
+* `jz ra, imm`
+* `jnz ra, imm`
+* `aipc ra, imm`
+* `jr ra, imm`
+
+## Immediate Arithmetic
+
+* `slti ra, imm`
+* `sltui ra, imm`
+* `sgti ra, imm`
+* `sgtui ra, imm`
+* `srli ra, imm`
+* `slli ra, imm`
+* `srai ra, imm`
+* `rsbi ra, imm`
+
+## Arithmetic and Logic
+
+* `add ra, rb`
+* `sub ra, rb`
+* `and ra, rb`
+* `or ra, rb`
+* `xor ra, rb`
+* `slt ra, rb`
+* `sltu ra, rb`
+* `sgt ra, rb`
+* `sgtu ra, rb`
+* `srl ra, rb`
+* `sll ra, rb`
+* `sra ra, rb`
+* `rsb ra, rb`
+
+## Unconditional Jump
+
+* `jmp imm`
+
+## Data Manipulation
+
+* `extb ra, rb`
+* `extw ra, rb`
+* `extd ra, rb`
+* `extbu ra, rb`
+* `extwu ra, rb`
+* `extdu ra, rb`
+* `insb ra, rb`
+* `insw ra, rb`
+* `insd ra, rb`
+* `mskb ra, rb`
+* `mskw ra, rb`
+* `mskd ra, rb`
+
+## Control Registers
+
+* `crr ra, cr`
+* `crw ra, cr`
+
+## Data Move
+
+* `mv ra, rb`
+
+## No Operands
+
+* `nop`
+* `iret`
+
+
+
+
+
 ## Summary
 
 * `ld` - load from memory
