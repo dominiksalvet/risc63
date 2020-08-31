@@ -5,10 +5,10 @@ This file includes all instructions of the RISC63 architecture. For each instruc
 In the instructions definitions below, there are the following symbols used:
 
 * `imm[x]` – an `x`-bit immediate value extended with its sign bit
-* `ra` – an index of the read and written register
+* `ra` – a read and written register
   * also may be read-only or write-only
-* `rb` – an index of the read register
-* `cr` – a control register index
+* `rb` – a read register
+* `cr` – a control register
   * may be either read-only or write-only
 
 ## Memory Communication
@@ -16,7 +16,7 @@ In the instructions definitions below, there are the following symbols used:
 * `ld ra, rb, imm[5]`
 * `st ra, rb, imm[5]`
 
-`ld` loads a 64-bit value from memory to register `ra`. `st` stores a 64-bit value of register `ra` to memory. The memory address is computed as `rb + 8 * imm`.
+`ld` loads a 64-bit value from memory to `ra`. `st` stores a 64-bit value of `ra` to memory. The memory address is computed as `rb + 8 * imm`.
 
 ## Immediate Add
 
@@ -24,6 +24,8 @@ In the instructions definitions below, there are the following symbols used:
 * `addui ra, imm[8]`
 * `auipc ra, imm[8]`
 * `li ra, imm[8]`
+
+`addi` adds `imm` to `ra`. `addui` adds `256 * imm` to `ra`. `auipc` adds `256 * imm` to the instruction address and stores it to `ra`. `li` loads value `imm` to `ra`.
 
 ## Conditional Jumps
 
