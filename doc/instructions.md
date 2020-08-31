@@ -93,7 +93,7 @@ This file includes all real instructions of the RISC63 architecture. For each in
 * `crr ra, cr`
 * `crw ra, cr`
 
-> See [Control Registers](https://github.com/dominiksalvet/risc63/blob/master/doc/registers.md#control-register-instructions).
+> See [Control Registers](https://github.com/dominiksalvet/risc63/blob/master/doc/registers.md#control-registers).
 
 ## Move Instructions
 
