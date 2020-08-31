@@ -4,7 +4,7 @@ This file includes all instructions of the RISC63 architecture. For each instruc
 
 In the instructions definitions below, there are the following symbols used:
 
-* `imm[x]` – an `x`-bit immediate value extended with its sign bit
+* `imm[n]` – a sign extended immediate value, which fits into `n` bits
 * `ra` – a read and written register
   * also may be read-only or write-only
 * `rb` – a read register
