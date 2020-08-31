@@ -1,8 +1,6 @@
 # List of Instructions
 
-This file includes all instructions of the RISC63 architecture. For each instruction, there is behavior and a potential assembly form provided. If you would rather see instructions decoding, see [decoding.md](decoding.md) file.
-
-In the instructions definitions below, there are the following symbols used:
+This file includes all real instructions of the RISC63 architecture. For each instruction, there is behavior and a potential assembly form provided. In the instructions definitions below, there are the following symbols used:
 
 * `imm[n]` – a sign extended immediate value, which fits into `n` bits
 * `ra` – a read and written register
@@ -10,6 +8,8 @@ In the instructions definitions below, there are the following symbols used:
 * `rb` – a read register
 * `cr` – a control register
   * may be either read-only or write-only
+
+> If you would rather see instructions decoding, see [decoding.md](decoding.md) file.
 
 ## Memory Communication
 
