@@ -4,40 +4,44 @@ This file includes all instructions of the RISC63 architecture. For each instruc
 
 In the instructions definitions below, there are the following symbols used:
 
-* `imm` - an immediate value extended with its sign bit
+* `<x>*imm<y>` - an immediate value extended with its sign bit
+  * `<x>` - if present, the value will be multiplied by this number
+  * `<y>` - number of bits available to store the value
 * `ra` - an index of the read and written register
+  * also may be read-only or write-only
 * `rb` - an index of the read register
 * `cr` - a control register index
+  * may be either read-only or write-only
 
 ## Memory Communication
 
-* `ld ra, rb, imm`
-* `st ra, rb, imm`
+* `ld ra, rb, 8*imm5`
+* `st ra, rb, 8*imm5`
 
 ## Immediate Add
 
-* `addi ra, imm`
-* `addui ra, imm`
-* `auipc ra, imm`
-* `li ra, imm`
+* `addi ra, imm8`
+* `addui ra, 256*imm8`
+* `auipc ra, 256*imm8`
+* `li ra, imm8`
 
 ## Conditional Jumps
 
-* `jz ra, imm`
-* `jnz ra, imm`
-* `aipc ra, imm`
-* `jr ra, imm`
+* `jz ra, 2*imm7`
+* `jnz ra, 2*imm7`
+* `aipc ra, 2*imm7`
+* `jr ra, 2*imm7`
 
 ## Immediate Arithmetic
 
-* `slti ra, imm`
-* `sltui ra, imm`
-* `sgti ra, imm`
-* `sgtui ra, imm`
-* `srli ra, imm`
-* `slli ra, imm`
-* `srai ra, imm`
-* `rsbi ra, imm`
+* `slti ra, imm6`
+* `sltui ra, imm6`
+* `sgti ra, imm6`
+* `sgtui ra, imm6`
+* `srli ra, imm6`
+* `slli ra, imm6`
+* `srai ra, imm6`
+* `rsbi ra, imm6`
 
 ## Arithmetic and Logic
 
@@ -57,7 +61,7 @@ In the instructions definitions below, there are the following symbols used:
 
 ## Unconditional Jump
 
-* `jmp imm`
+* `jmp 2*imm12`
 
 ## Data Manipulation
 
