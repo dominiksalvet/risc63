@@ -88,7 +88,7 @@ This file includes all real instructions of the RISC63 architecture. For each in
 * `mskw ra, rb`
 * `mskd ra, rb`
 
-`extb` extracts a byte from `ra`, extends its sign bit and stores the result to `ra`. The three lowest bits of `rb` define the index of the extracted byte.
+`extb` extracts a byte from `ra`, extends its sign bit and stores the result to `ra`. The three lowest bits of `rb` define the index of the extracted byte. `extbu` does not extend the sign bit and uses zeroes instead. `insb` inserts the lowest byte of `ra` to `ra` at the index defined by `rb` using the same method. The rest bits contain zeroes.
 
 ## Control Register Instructions
 
