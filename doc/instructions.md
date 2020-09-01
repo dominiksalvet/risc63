@@ -88,6 +88,8 @@ This file includes all real instructions of the RISC63 architecture. For each in
 * `mskw ra, rb`
 * `mskd ra, rb`
 
+`extb` extracts a byte from `ra`, extends its sign bit and stores the result to `ra`. During this operation, the three lowest bits of `rb` define the index of the extracted byte.
+
 ## Control Register Instructions
 
 * `crr ra, cr`
