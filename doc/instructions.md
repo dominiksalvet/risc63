@@ -108,4 +108,4 @@ This file includes all real instructions of the RISC63 architecture. For each in
 * `nop`
 * `iret`
 
-`nop` does nothing. `iret` returns processor from interrupt.
+`nop` does nothing. `iret` returns the processor from the interrupt.
