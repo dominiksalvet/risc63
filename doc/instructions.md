@@ -95,13 +95,17 @@ This file includes all real instructions of the RISC63 architecture. For each in
 * `crr ra, cr`
 * `crw ra, cr`
 
-> See [Control Registers](https://github.com/dominiksalvet/risc63/blob/master/doc/registers.md#control-registers).
+`crr` reads `cr` to `ra`. `crw` writes `ra` to `cr`. The list of `cr` registers is available in the [Control Registers](https://github.com/dominiksalvet/risc63/blob/master/doc/registers.md#control-registers) section.
 
 ## Move Instructions
 
 * `mv ra, rb`
 
+`mv` copies `rb` to `ra`.
+
 ## Instructions without Operands
 
 * `nop`
 * `iret`
+
+`nop` does nothing. `iret` returns processor from interrupt.
