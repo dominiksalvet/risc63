@@ -60,7 +60,7 @@ In `build` directory, there is a POSIX `makefile`, which represents the RISC63 b
 
 If you are brave enough, you can try to **write a program for this processor**. Currently, the only supported programming language is the processor's machine code. Furthermore, you need to modify an existing test bench file to make it work. However, once you do so, processors will never be big magic for you again.
 
-Do not worry, you do not have to start from scratch. There is an example program already prepared in `test/risc63_tb.vhdl` file and it contains potential assembly mnemonics in comments. You may replace the example program with yours. Then you need to replace `drive_input` and `check_output` processes (below in the file) with the following process:
+Do not worry, you do not have to start from scratch. There is an example program already prepared in `test/risc63_tb.vhdl` file and it contains potential assembly mnemonics in comments. You may replace the example program with yours. Then you need to replace `drive_input` and `check_output` processes (below in the same file) with the following process:
 
 ```vhdl
 run_risc63: process
