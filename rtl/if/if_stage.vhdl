@@ -13,6 +13,7 @@ entity if_stage is
     port (
         i_clk: in std_ulogic;
         i_rst: in std_ulogic;
+        i_stall: in std_ulogic;
 
 ------- input control signals --------------------------------------------------
         i_jmp_en: in std_ulogic;
@@ -30,10 +31,12 @@ begin
     next_pc: process(i_clk)
     begin
         if rising_edge(i_clk) then
-            if i_jmp_en = '1' then
-                s_pc <= i_jmp_addr;
-            else
-                s_pc <= std_ulogic_vector(unsigned(s_pc) + 1);
+            if i_stall = '0' then
+                if i_jmp_en = '1' then
+                    s_pc <= i_jmp_addr;
+                else
+                    s_pc <= std_ulogic_vector(unsigned(s_pc) + 1);
+                end if;
             end if;
 
             if i_rst = '1' then

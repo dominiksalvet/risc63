@@ -28,9 +28,13 @@ entity control_unit is
 ------- pipeline control -------------------------------------------------------
         o_if_jmp_en: out std_ulogic;
         o_if_jmp_addr_mux: out t_jmp_addr_mux;
+
         o_id_rst: out std_ulogic;
         o_ex_rst: out std_ulogic;
-        o_mem_rst: out std_ulogic
+        o_mem_rst: out std_ulogic;
+
+        o_if_stall: out std_ulogic;
+        o_id_stall: out std_ulogic
     );
 end entity control_unit;
 
@@ -54,9 +58,13 @@ begin
     o_if_jmp_addr_mux <= JMP_ADDR_IVEC when s_irq_en = '1' else
                          JMP_ADDR_SPC when i_mem_iret = '1' else
                          JMP_ADDR_ALU;
+
     o_id_rst <= i_rst or s_jmp;
     o_ex_rst <= i_rst or s_jmp;
     o_mem_rst <= i_rst or s_jmp;
+
+    o_if_stall <= '0'; -- todo
+    o_id_stall <= '0'; -- todo
 
 --- sequential logic -----------------------------------------------------------
 

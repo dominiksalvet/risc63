@@ -37,6 +37,8 @@ architecture rtl of risc63 is
     signal s_cu_id_rst: std_ulogic;
     signal s_cu_ex_rst: std_ulogic;
     signal s_cu_mem_rst: std_ulogic;
+    signal s_cu_if_stall: std_ulogic;
+    signal s_cu_id_stall: std_ulogic;
 
     -- control registers
     signal s_cr_i_spc: std_ulogic_vector(62 downto 0); -- input
@@ -112,7 +114,9 @@ begin
         o_if_jmp_addr_mux => s_cu_if_jmp_addr_mux,
         o_id_rst => s_cu_id_rst,
         o_ex_rst => s_cu_ex_rst,
-        o_mem_rst => s_cu_mem_rst
+        o_mem_rst => s_cu_mem_rst,
+        o_if_stall => s_cu_if_stall,
+        o_id_stall => s_cu_id_stall
     );
 
 --- control registers ----------------------------------------------------------
@@ -151,6 +155,7 @@ begin
     port map (
         i_clk => i_clk,
         i_rst => i_rst,
+        i_stall => s_cu_if_stall,
         i_jmp_en => s_cu_if_jmp_en,
         i_jmp_addr => s_if_jmp_addr,
         o_pc => s_if_pc
@@ -162,6 +167,7 @@ begin
     port map (
         i_clk => i_clk,
         i_rst => s_cu_id_rst,
+        i_stall => s_cu_id_stall,
         i_inst => i_imem_rd_data,
         i_pc => s_if_pc,
         i_reg_c_we => s_wb_reg_c_we,

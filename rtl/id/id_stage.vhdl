@@ -12,6 +12,7 @@ entity id_stage is
     port (
         i_clk: in std_ulogic;
         i_rst: in std_ulogic;
+        i_stall: in std_ulogic;
 
 ------- input from IF stage ----------------------------------------------------
         i_inst: in std_ulogic_vector(15 downto 0); -- instruction fetched from memory
@@ -70,8 +71,10 @@ begin
     catch_input: process(i_clk)
     begin
         if rising_edge(i_clk) then
-            s_ir <= i_inst;
-            s_pc <= i_pc;
+            if i_stall = '0' then
+                s_ir <= i_inst;
+                s_pc <= i_pc;
+            end if;
 
             if i_rst = '1' then
                 s_ir <= c_NOP_INST;
