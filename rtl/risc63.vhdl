@@ -110,9 +110,9 @@ begin
         o_cr_ie_we => s_cu_cr_ie_we,
         o_cr_ie => s_cu_cr_ie,
         o_spc_mux => s_cu_spc_mux,
-        i_id_reg_a_rd => '0', -- todo
+        i_id_reg_a_re => '0', -- todo
         i_id_reg_a_index => (others => '0'), -- todo
-        i_id_reg_b_rd => '0', -- todo
+        i_id_reg_b_re => '0', -- todo
         i_id_reg_b_index => (others => '0'), -- todo
         i_ex_reg_c_we => s_ex_reg_c_we,
         i_ex_reg_c_index => s_ex_reg_c_index,

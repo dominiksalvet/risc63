@@ -26,9 +26,9 @@ entity control_unit is
         o_spc_mux: out t_spc_mux;
 
 ------- data hazards -----------------------------------------------------------
-        i_id_reg_a_rd: in std_ulogic;
+        i_id_reg_a_re: in std_ulogic;
         i_id_reg_a_index: in std_ulogic_vector(3 downto 0);
-        i_id_reg_b_rd: in std_ulogic;
+        i_id_reg_b_re: in std_ulogic;
         i_id_reg_b_index: in std_ulogic_vector(3 downto 0);
 
         i_ex_reg_c_we: in std_ulogic;
@@ -99,12 +99,12 @@ begin
 
 --- data hazard detection ------------------------------------------------------
 
-s_reg_a_hazard <= '1' when i_id_reg_a_rd = '1' and
+s_reg_a_hazard <= '1' when i_id_reg_a_re = '1' and
                            ((i_ex_reg_c_we = '1' and i_ex_reg_c_index = i_id_reg_a_index) or
                            (i_mem_reg_c_we = '1' and i_mem_reg_c_index = i_id_reg_a_index) or
                            (i_wb_reg_c_we = '1' and i_wb_reg_c_index = i_id_reg_a_index)) else
                   '0';
-s_reg_b_hazard <= '1' when i_id_reg_b_rd = '1' and
+s_reg_b_hazard <= '1' when i_id_reg_b_re = '1' and
                            ((i_ex_reg_c_we = '1' and i_ex_reg_c_index = i_id_reg_b_index) or
                            (i_mem_reg_c_we = '1' and i_mem_reg_c_index = i_id_reg_b_index) or
                            (i_wb_reg_c_we = '1' and i_wb_reg_c_index = i_id_reg_b_index)) else
