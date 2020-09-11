@@ -19,13 +19,13 @@ entity id_stage is
         i_pc: in std_ulogic_vector(62 downto 0); -- its address
 
 ------- register file interface ------------------------------------------------
-        o_rf_a_re: out std_ulogic;
-        o_rf_a_index: out std_ulogic_vector(3 downto 0);
-        i_rf_a_data: in std_ulogic_vector(63 downto 0);
+        o_reg_a_re: out std_ulogic;
+        o_reg_a_index: out std_ulogic_vector(3 downto 0);
+        i_reg_a_data: in std_ulogic_vector(63 downto 0);
 
-        o_rf_b_re: out std_ulogic;
-        o_rf_b_index: out std_ulogic_vector(3 downto 0);
-        i_rf_b_data: in std_ulogic_vector(63 downto 0);
+        o_reg_b_re: out std_ulogic;
+        o_reg_b_index: out std_ulogic_vector(3 downto 0);
+        i_reg_b_data: in std_ulogic_vector(63 downto 0);
 
 ------- output to EX stage -----------------------------------------------------
         o_alu_opcode: out std_ulogic_vector(4 downto 0);
@@ -111,20 +111,20 @@ begin
 --------------------------------------------------------------------------------
 
     -- register file interface
-    o_rf_a_re <= '0'; -- todo
-    o_rf_a_index <= s_ir(3 downto 0);
+    o_reg_a_re <= '0'; -- todo
+    o_reg_a_index <= s_ir(3 downto 0);
 
-    o_rf_b_re <= '0'; -- todo
-    o_rf_b_index <= s_ir(7 downto 4);
+    o_reg_b_re <= '0'; -- todo
+    o_reg_b_index <= s_ir(7 downto 4);
 
     -- ALU signals
     o_alu_opcode <= s_dec_alu_opcode;
     with s_dec_amux_alu select o_alu_a_operand <=
-        i_rf_b_data when AMUX_BREG,
+        i_reg_b_data when AMUX_BREG,
         s_pc & '0' when AMUX_PC,
-        i_rf_a_data when AMUX_AREG;
+        i_reg_a_data when AMUX_AREG;
     with s_dec_bmux_alu select o_alu_b_operand <=
-        i_rf_b_data when BMUX_BREG,
+        i_reg_b_data when BMUX_BREG,
         s_iext_imm when BMUX_IMM;
 
     -- control flow
@@ -134,7 +134,7 @@ begin
 
     -- memory write
     o_mem_we <= s_dec_mem_we;
-    o_reg_a_data <= i_rf_a_data;
+    o_reg_a_data <= i_reg_a_data;
 
     -- control register write
     o_cr_we <= s_dec_cr_we;
