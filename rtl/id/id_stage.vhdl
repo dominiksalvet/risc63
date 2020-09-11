@@ -18,10 +18,14 @@ entity id_stage is
         i_inst: in std_ulogic_vector(15 downto 0); -- instruction fetched from memory
         i_pc: in std_ulogic_vector(62 downto 0); -- its address
 
-------- input from WB stage ----------------------------------------------------
-        i_reg_c_we: in std_ulogic;
-        i_reg_c_index: in std_ulogic_vector(3 downto 0);
-        i_reg_c_data: in std_ulogic_vector(63 downto 0);
+------- register file interface ------------------------------------------------
+        o_rf_a_re: out std_ulogic;
+        o_rf_a_index: out std_ulogic_vector(3 downto 0);
+        i_rf_a_data: in std_ulogic_vector(63 downto 0);
+
+        o_rf_b_re: out std_ulogic;
+        o_rf_b_index: out std_ulogic_vector(3 downto 0);
+        i_rf_b_data: in std_ulogic_vector(63 downto 0);
 
 ------- output to EX stage -----------------------------------------------------
         o_alu_opcode: out std_ulogic_vector(4 downto 0);
@@ -47,10 +51,6 @@ architecture rtl of id_stage is
     -- stage registers
     signal s_ir: std_ulogic_vector(15 downto 0);
     signal s_pc: std_ulogic_vector(62 downto 0);
-
-    -- register file output
-    signal s_reg_a_data: std_ulogic_vector(63 downto 0);
-    signal s_reg_b_data: std_ulogic_vector(63 downto 0);
 
     -- decoder output
     signal s_dec_iext_type: t_iext_type;
@@ -82,20 +82,6 @@ begin
         end if;
     end process catch_input;
 
---- register file --------------------------------------------------------------
-
-    reg_file: entity work.reg_file
-    port map (
-        i_clk => i_clk,
-        i_a_index => s_ir(3 downto 0),
-        o_a_data => s_reg_a_data,
-        i_b_index => s_ir(7 downto 4),
-        o_b_data => s_reg_b_data,
-        i_c_we => i_reg_c_we,
-        i_c_index => i_reg_c_index,
-        i_c_data => i_reg_c_data
-    );
-
 --- instruction decoder --------------------------------------------------------
 
     decoder: entity work.decoder
@@ -124,14 +110,21 @@ begin
 
 --------------------------------------------------------------------------------
 
+    -- register file interface
+    o_rf_a_re <= '0'; -- todo
+    o_rf_a_index <= s_ir(3 downto 0);
+
+    o_rf_b_re <= '0'; -- todo
+    o_rf_b_index <= s_ir(7 downto 4);
+
     -- ALU signals
     o_alu_opcode <= s_dec_alu_opcode;
     with s_dec_amux_alu select o_alu_a_operand <=
-        s_reg_b_data when AMUX_BREG,
+        i_rf_b_data when AMUX_BREG,
         s_pc & '0' when AMUX_PC,
-        s_reg_a_data when AMUX_AREG;
+        i_rf_a_data when AMUX_AREG;
     with s_dec_bmux_alu select o_alu_b_operand <=
-        s_reg_b_data when BMUX_BREG,
+        i_rf_b_data when BMUX_BREG,
         s_iext_imm when BMUX_IMM;
 
     -- control flow
@@ -141,7 +134,7 @@ begin
 
     -- memory write
     o_mem_we <= s_dec_mem_we;
-    o_reg_a_data <= s_reg_a_data;
+    o_reg_a_data <= i_rf_a_data;
 
     -- control register write
     o_cr_we <= s_dec_cr_we;

@@ -40,6 +40,10 @@ architecture rtl of risc63 is
     signal s_cu_if_stall: std_ulogic;
     signal s_cu_id_stall: std_ulogic;
 
+    -- register file output
+    signal s_rf_a_data: std_ulogic_vector(63 downto 0);
+    signal s_rf_b_data: std_ulogic_vector(63 downto 0);
+
     -- control registers
     signal s_cr_i_spc: std_ulogic_vector(62 downto 0); -- input
     signal s_cr_rd_data: std_ulogic_vector(63 downto 0);
@@ -52,6 +56,10 @@ architecture rtl of risc63 is
     signal s_if_pc: std_ulogic_vector(62 downto 0);
 
     -- ID stage output
+    signal s_id_rf_a_re: std_ulogic;
+    signal s_id_rf_a_index: std_ulogic_vector(3 downto 0);
+    signal s_id_rf_b_re: std_ulogic;
+    signal s_id_rf_b_index: std_ulogic_vector(3 downto 0);
     signal s_id_alu_opcode: std_ulogic_vector(4 downto 0);
     signal s_id_alu_a_operand: std_ulogic_vector(63 downto 0);
     signal s_id_alu_b_operand: std_ulogic_vector(63 downto 0);
@@ -110,10 +118,10 @@ begin
         o_cr_ie_we => s_cu_cr_ie_we,
         o_cr_ie => s_cu_cr_ie,
         o_spc_mux => s_cu_spc_mux,
-        i_id_reg_a_re => '0', -- todo
-        i_id_reg_a_index => (others => '0'), -- todo
-        i_id_reg_b_re => '0', -- todo
-        i_id_reg_b_index => (others => '0'), -- todo
+        i_id_reg_a_re => s_id_rf_a_re,
+        i_id_reg_a_index => s_id_rf_a_index,
+        i_id_reg_b_re => s_id_rf_b_re,
+        i_id_reg_b_index => s_id_rf_b_index,
         i_ex_reg_c_we => s_ex_reg_c_we,
         i_ex_reg_c_index => s_ex_reg_c_index,
         i_mem_reg_c_we => s_mem_reg_c_we,
@@ -127,6 +135,20 @@ begin
         o_mem_rst => s_cu_mem_rst,
         o_if_stall => s_cu_if_stall,
         o_id_stall => s_cu_id_stall
+    );
+
+--- register file --------------------------------------------------------------
+
+    reg_file: entity work.reg_file
+    port map (
+        i_clk => i_clk,
+        i_a_index => s_id_rf_a_index,
+        o_a_data => s_rf_a_data,
+        i_b_index => s_id_rf_b_index,
+        o_b_data => s_rf_b_data,
+        i_c_we => s_wb_reg_c_we,
+        i_c_index => s_wb_reg_c_index,
+        i_c_data => s_wb_reg_c_data
     );
 
 --- control registers ----------------------------------------------------------
@@ -180,9 +202,12 @@ begin
         i_stall => s_cu_id_stall,
         i_inst => i_imem_rd_data,
         i_pc => s_if_pc,
-        i_reg_c_we => s_wb_reg_c_we,
-        i_reg_c_index => s_wb_reg_c_index,
-        i_reg_c_data => s_wb_reg_c_data,
+        o_rf_a_re => s_id_rf_a_re,
+        o_rf_a_index => s_id_rf_a_index,
+        i_rf_a_data => s_rf_a_data,
+        o_rf_b_re => s_id_rf_b_re,
+        o_rf_b_index => s_id_rf_b_index,
+        i_rf_b_data => s_rf_b_data,
         o_alu_opcode => s_id_alu_opcode,
         o_alu_a_operand => s_id_alu_a_operand,
         o_alu_b_operand => s_id_alu_b_operand,
