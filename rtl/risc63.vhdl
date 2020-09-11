@@ -114,12 +114,12 @@ begin
         i_id_reg_a_index => (others => '0'), -- todo
         i_id_reg_b_rd => '0', -- todo
         i_id_reg_b_index => (others => '0'), -- todo
-        i_ex_reg_c_we => '0', -- todo
-        i_ex_reg_c_index => (others => '0'), -- todo
-        i_mem_reg_c_we => '0', -- todo
-        i_mem_reg_c_index => (others => '0'), -- todo
-        i_wb_reg_c_we => '0', -- todo
-        i_wb_reg_c_index => (others => '0'), -- todo
+        i_ex_reg_c_we => s_ex_reg_c_we,
+        i_ex_reg_c_index => s_ex_reg_c_index,
+        i_mem_reg_c_we => s_mem_reg_c_we,
+        i_mem_reg_c_index => s_mem_reg_c_index,
+        i_wb_reg_c_we => s_wb_reg_c_we,
+        i_wb_reg_c_index => s_wb_reg_c_index,
         o_if_jmp_en => s_cu_if_jmp_en,
         o_if_jmp_addr_mux => s_cu_if_jmp_addr_mux,
         o_id_rst => s_cu_id_rst,
