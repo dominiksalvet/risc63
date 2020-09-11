@@ -39,8 +39,8 @@ begin
         o_alu_opcode,
         o_jmp_cond,
         o_iret,
-        o_reg_a_use, -- todo test values
-        o_reg_b_use, -- todo test values
+        o_reg_a_use,
+        o_reg_b_use,
         o_mem_we,
         o_cr_we,
         o_reg_c_we,
@@ -76,6 +76,8 @@ begin
         assert o_alu_opcode = c_ALU_ADD;
         assert o_jmp_cond = JMP_NEVER;
         assert o_iret = '0';
+        assert o_reg_a_use = '0';
+        assert o_reg_b_use = '1';
         assert o_mem_we = '0';
         assert o_cr_we = '0';
         assert o_reg_c_we = '1';
@@ -89,6 +91,8 @@ begin
         assert o_alu_opcode = c_ALU_ADD;
         assert o_jmp_cond = JMP_NEVER;
         assert o_iret = '0';
+        assert o_reg_a_use = '1';
+        assert o_reg_b_use = '1';
         assert o_mem_we = '1';
         assert o_cr_we = '0';
         assert o_reg_c_we = '0';
@@ -101,6 +105,8 @@ begin
         assert o_alu_opcode = c_ALU_ADD;
         assert o_jmp_cond = JMP_NEVER;
         assert o_iret = '0';
+        assert o_reg_a_use = '1';
+        assert o_reg_b_use = '0';
         assert o_mem_we = '0';
         assert o_cr_we = '0';
         assert o_reg_c_we = '1';
@@ -114,6 +120,8 @@ begin
         assert o_alu_opcode = c_ALU_ADD;
         assert o_jmp_cond = JMP_NEVER;
         assert o_iret = '0';
+        assert o_reg_a_use = '1';
+        assert o_reg_b_use = '0';
         assert o_mem_we = '0';
         assert o_cr_we = '0';
         assert o_reg_c_we = '1';
@@ -127,6 +135,8 @@ begin
         assert o_alu_opcode = c_ALU_ADD;
         assert o_jmp_cond = JMP_NEVER;
         assert o_iret = '0';
+        assert o_reg_a_use = '0';
+        assert o_reg_b_use = '0';
         assert o_mem_we = '0';
         assert o_cr_we = '0';
         assert o_reg_c_we = '1';
@@ -139,6 +149,8 @@ begin
         assert o_alu_opcode = c_ALU_B;
         assert o_jmp_cond = JMP_NEVER;
         assert o_iret = '0';
+        assert o_reg_a_use = '0';
+        assert o_reg_b_use = '0';
         assert o_mem_we = '0';
         assert o_cr_we = '0';
         assert o_reg_c_we = '1';
@@ -152,6 +164,8 @@ begin
         assert o_alu_opcode = c_ALU_ADD;
         assert o_jmp_cond = JMP_ZERO;
         assert o_iret = '0';
+        assert o_reg_a_use = '1';
+        assert o_reg_b_use = '0';
         assert o_mem_we = '0';
         assert o_cr_we = '0';
         assert o_reg_c_we = '0';
@@ -164,6 +178,8 @@ begin
         assert o_alu_opcode = c_ALU_ADD;
         assert o_jmp_cond = JMP_NZERO;
         assert o_iret = '0';
+        assert o_reg_a_use = '1';
+        assert o_reg_b_use = '0';
         assert o_mem_we = '0';
         assert o_cr_we = '0';
         assert o_reg_c_we = '0';
@@ -176,6 +192,8 @@ begin
         assert o_alu_opcode = c_ALU_ADD;
         assert o_jmp_cond = JMP_NEVER;
         assert o_iret = '0';
+        assert o_reg_a_use = '0';
+        assert o_reg_b_use = '0';
         assert o_mem_we = '0';
         assert o_cr_we = '0';
         assert o_reg_c_we = '1';
@@ -189,6 +207,8 @@ begin
         assert o_alu_opcode = c_ALU_ADD;
         assert o_jmp_cond = JMP_ALWAYS;
         assert o_iret = '0';
+        assert o_reg_a_use = '1';
+        assert o_reg_b_use = '0';
         assert o_mem_we = '0';
         assert o_cr_we = '0';
         assert o_reg_c_we = '0';
@@ -201,6 +221,8 @@ begin
         assert o_alu_opcode = c_ALU_SLT;
         assert o_jmp_cond = JMP_NEVER;
         assert o_iret = '0';
+        assert o_reg_a_use = '1';
+        assert o_reg_b_use = '0';
         assert o_mem_we = '0';
         assert o_cr_we = '0';
         assert o_reg_c_we = '1';
@@ -213,6 +235,8 @@ begin
         assert o_alu_opcode = c_ALU_ADD;
         assert o_jmp_cond = JMP_NEVER;
         assert o_iret = '0';
+        assert o_reg_a_use = '1';
+        assert o_reg_b_use = '1';
         assert o_mem_we = '0';
         assert o_cr_we = '0';
         assert o_reg_c_we = '1';
@@ -226,6 +250,8 @@ begin
         assert o_alu_opcode = c_ALU_ADD;
         assert o_jmp_cond = JMP_ALWAYS;
         assert o_iret = '0';
+        assert o_reg_a_use = '0';
+        assert o_reg_b_use = '0';
         assert o_mem_we = '0';
         assert o_cr_we = '0';
         assert o_reg_c_we = '0';
@@ -237,6 +263,8 @@ begin
         assert o_alu_opcode = c_ALU_EXTB;
         assert o_jmp_cond = JMP_NEVER;
         assert o_iret = '0';
+        assert o_reg_a_use = '1';
+        assert o_reg_b_use = '1';
         assert o_mem_we = '0';
         assert o_cr_we = '0';
         assert o_reg_c_we = '1';
@@ -246,6 +274,8 @@ begin
         wait for c_CLK_PERIOD;
         assert o_jmp_cond = JMP_NEVER;
         assert o_iret = '0';
+        assert o_reg_a_use = '0';
+        assert o_reg_b_use = '0';
         assert o_mem_we = '0';
         assert o_cr_we = '0';
         assert o_reg_c_we = '1';
@@ -257,6 +287,8 @@ begin
         assert o_alu_opcode = c_ALU_A;
         assert o_jmp_cond = JMP_NEVER;
         assert o_iret = '0';
+        assert o_reg_a_use = '1';
+        assert o_reg_b_use = '0';
         assert o_mem_we = '0';
         assert o_cr_we = '1';
         assert o_reg_c_we = '0';
@@ -267,6 +299,8 @@ begin
         assert o_alu_opcode = c_ALU_B;
         assert o_jmp_cond = JMP_NEVER;
         assert o_iret = '0';
+        assert o_reg_a_use = '1';
+        assert o_reg_b_use = '1';
         assert o_mem_we = '0';
         assert o_cr_we = '0';
         assert o_reg_c_we = '1';
@@ -276,6 +310,8 @@ begin
         wait for c_CLK_PERIOD;
         assert o_jmp_cond = JMP_NEVER;
         assert o_iret = '0';
+        assert o_reg_a_use = '0';
+        assert o_reg_b_use = '0';
         assert o_mem_we = '0';
         assert o_cr_we = '0';
         assert o_reg_c_we = '0';
@@ -284,6 +320,8 @@ begin
         wait for c_CLK_PERIOD;
         assert o_jmp_cond = JMP_NEVER;
         assert o_iret = '1';
+        assert o_reg_a_use = '0';
+        assert o_reg_b_use = '0';
         assert o_mem_we = '0';
         assert o_cr_we = '0';
         assert o_reg_c_we = '0';
