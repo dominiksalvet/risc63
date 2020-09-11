@@ -118,7 +118,7 @@ o_id_rst <= i_rst or s_jmp;
 o_ex_rst <= i_rst or s_jmp or s_data_hazard;
 o_mem_rst <= i_rst or s_jmp;
 
-o_if_stall <= s_data_hazard;
+o_if_stall <= s_data_hazard and not s_jmp;
 o_id_stall <= s_data_hazard;
 
 end architecture rtl;
