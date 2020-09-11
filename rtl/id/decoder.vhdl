@@ -109,7 +109,7 @@ begin
 
     o_reg_a_use <= '0' when (s_ld_group = '1' and i_opcode_field(5) = '0') or
                             (s_addi_group = '1' and i_opcode_field(5) = '1') or
-                            (s_jz_group = '1' and i_opcode_field(4 downto 0) = "10") or
+                            (s_jz_group = '1' and i_opcode_field(4 downto 3) = "10") or
                             s_jmp_inst = '1' or
                             (s_crr_group = '1' and i_opcode_field(2) = '0') or
                             s_nop_group = '1' else
