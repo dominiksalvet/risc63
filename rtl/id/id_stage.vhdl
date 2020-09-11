@@ -59,6 +59,8 @@ architecture rtl of id_stage is
     signal s_dec_alu_opcode: std_ulogic_vector(4 downto 0);
     signal s_dec_jmp_cond: t_jmp_cond;
     signal s_dec_iret: std_ulogic;
+    signal s_dec_reg_a_use: std_ulogic;
+    signal s_dec_reg_b_use: std_ulogic;
     signal s_dec_mem_we: std_ulogic;
     signal s_dec_cr_we: std_ulogic;
     signal s_dec_reg_c_we: std_ulogic;
@@ -93,6 +95,8 @@ begin
         s_dec_alu_opcode,
         s_dec_jmp_cond,
         s_dec_iret,
+        s_dec_reg_a_use,
+        s_dec_reg_b_use,
         s_dec_mem_we,
         s_dec_cr_we,
         s_dec_reg_c_we,
@@ -111,10 +115,10 @@ begin
 --------------------------------------------------------------------------------
 
     -- register file interface
-    o_reg_a_use <= '0'; -- todo
+    o_reg_a_use <= s_dec_reg_a_use;
     o_reg_a_index <= s_ir(3 downto 0);
 
-    o_reg_b_use <= '0'; -- todo
+    o_reg_b_use <= s_dec_reg_b_use;
     o_reg_b_index <= s_ir(7 downto 4);
 
     -- ALU signals

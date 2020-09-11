@@ -19,6 +19,8 @@ architecture behavior of decoder_tb is
     signal o_alu_opcode: std_ulogic_vector(4 downto 0);
     signal o_jmp_cond: t_jmp_cond;
     signal o_iret: std_ulogic;
+    signal o_reg_a_use: std_ulogic;
+    signal o_reg_b_use: std_ulogic;
     signal o_mem_we: std_ulogic;
     signal o_cr_we: std_ulogic;
     signal o_reg_c_we: std_ulogic;
@@ -37,6 +39,8 @@ begin
         o_alu_opcode,
         o_jmp_cond,
         o_iret,
+        o_reg_a_use, -- todo test values
+        o_reg_b_use, -- todo test values
         o_mem_we,
         o_cr_we,
         o_reg_c_we,

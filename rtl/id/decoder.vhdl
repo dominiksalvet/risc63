@@ -22,6 +22,10 @@ entity decoder is
         o_jmp_cond: out t_jmp_cond;
         o_iret: out std_ulogic;
 
+------- register use signals ---------------------------------------------------
+        o_reg_a_use: out std_ulogic;
+        o_reg_b_use: out std_ulogic;
+
 ------- write enable signals ---------------------------------------------------
         o_mem_we: out std_ulogic;
         o_cr_we: out std_ulogic;
@@ -100,6 +104,11 @@ begin
 
     -- interrupt return detected
     o_iret <= '1' when s_nop_group = '1' and i_opcode_field(0) = '1' else '0';
+
+--- register use signals -------------------------------------------------------
+
+    o_reg_a_use <= '0'; -- todo
+    o_reg_b_use <= '0'; -- todo
 
 --- write enable signals -------------------------------------------------------
 
