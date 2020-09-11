@@ -19,11 +19,11 @@ entity id_stage is
         i_pc: in std_ulogic_vector(62 downto 0); -- its address
 
 ------- register file interface ------------------------------------------------
-        o_reg_a_re: out std_ulogic;
+        o_reg_a_use: out std_ulogic;
         o_reg_a_index: out std_ulogic_vector(3 downto 0);
         i_reg_a_data: in std_ulogic_vector(63 downto 0);
 
-        o_reg_b_re: out std_ulogic;
+        o_reg_b_use: out std_ulogic;
         o_reg_b_index: out std_ulogic_vector(3 downto 0);
         i_reg_b_data: in std_ulogic_vector(63 downto 0);
 
@@ -111,10 +111,10 @@ begin
 --------------------------------------------------------------------------------
 
     -- register file interface
-    o_reg_a_re <= '0'; -- todo
+    o_reg_a_use <= '0'; -- todo
     o_reg_a_index <= s_ir(3 downto 0);
 
-    o_reg_b_re <= '0'; -- todo
+    o_reg_b_use <= '0'; -- todo
     o_reg_b_index <= s_ir(7 downto 4);
 
     -- ALU signals
