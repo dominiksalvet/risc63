@@ -99,26 +99,26 @@ begin
 
 --- data hazard detection ------------------------------------------------------
 
-s_reg_a_hazard <= '1' when i_id_reg_a_use = '1' and
-                           ((i_ex_reg_c_we = '1' and i_ex_reg_c_index = i_id_reg_a_index) or
-                           (i_mem_reg_c_we = '1' and i_mem_reg_c_index = i_id_reg_a_index) or
-                           (i_wb_reg_c_we = '1' and i_wb_reg_c_index = i_id_reg_a_index)) else
-                  '0';
-s_reg_b_hazard <= '1' when i_id_reg_b_use = '1' and
-                           ((i_ex_reg_c_we = '1' and i_ex_reg_c_index = i_id_reg_b_index) or
-                           (i_mem_reg_c_we = '1' and i_mem_reg_c_index = i_id_reg_b_index) or
-                           (i_wb_reg_c_we = '1' and i_wb_reg_c_index = i_id_reg_b_index)) else
-                  '0';
+    s_reg_a_hazard <= '1' when i_id_reg_a_use = '1' and
+                               ((i_ex_reg_c_we = '1' and i_ex_reg_c_index = i_id_reg_a_index) or
+                               (i_mem_reg_c_we = '1' and i_mem_reg_c_index = i_id_reg_a_index) or
+                               (i_wb_reg_c_we = '1' and i_wb_reg_c_index = i_id_reg_a_index)) else
+                      '0';
+    s_reg_b_hazard <= '1' when i_id_reg_b_use = '1' and
+                               ((i_ex_reg_c_we = '1' and i_ex_reg_c_index = i_id_reg_b_index) or
+                               (i_mem_reg_c_we = '1' and i_mem_reg_c_index = i_id_reg_b_index) or
+                               (i_wb_reg_c_we = '1' and i_wb_reg_c_index = i_id_reg_b_index)) else
+                      '0';
 
-s_data_hazard <= s_reg_a_hazard or s_reg_b_hazard;
+    s_data_hazard <= s_reg_a_hazard or s_reg_b_hazard;
 
 --- pipeline control -----------------------------------------------------------
 
-o_id_rst <= i_rst or s_jmp;
-o_ex_rst <= i_rst or s_jmp or s_data_hazard;
-o_mem_rst <= i_rst or s_jmp;
+    o_id_rst <= i_rst or s_jmp;
+    o_ex_rst <= i_rst or s_jmp or s_data_hazard;
+    o_mem_rst <= i_rst or s_jmp;
 
-o_if_stall <= s_data_hazard and not s_jmp;
-o_id_stall <= s_data_hazard;
+    o_if_stall <= s_data_hazard and not s_jmp;
+    o_id_stall <= s_data_hazard;
 
 end architecture rtl;
