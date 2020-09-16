@@ -52,6 +52,8 @@ entity control_unit is
 end entity control_unit;
 
 architecture rtl of control_unit is
+    signal s_irq: std_ulogic; -- interrupt request buffer
+
     signal s_irq_en: std_ulogic;
     signal s_jmp: std_ulogic;
 
@@ -62,9 +64,22 @@ architecture rtl of control_unit is
     signal s_data_hazard: std_ulogic;
 begin
 
+--- interrupt buffer -----------------------------------------------------------
+
+    irq_buffering: process(i_clk)
+    begin
+        if rising_edge(i_clk) then
+            s_irq <= i_irq;
+
+            if i_rst = '1' then
+                s_irq <= '0';
+            end if;
+        end if;
+    end process irq_buffering;
+
 --- jumps and interrupts -------------------------------------------------------
 
-    s_irq_en <= i_irq and i_cr_ie;
+    s_irq_en <= s_irq and i_cr_ie;
     s_jmp <= s_irq_en or i_mem_iret or i_mem_jmp_en;
 
     o_irq_en <= s_irq_en;

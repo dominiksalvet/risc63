@@ -12,7 +12,7 @@ entity risc63 is
     port (
         i_clk: in std_ulogic;
         i_rst: in std_ulogic;
-        i_irq: in std_ulogic; -- interrupt request (may be buffered before use)
+        i_irq: in std_ulogic; -- interrupt request
 
 ------- instruction memory interface -------------------------------------------
         o_imem_addr: out std_ulogic_vector(62 downto 0);
