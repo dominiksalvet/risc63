@@ -44,7 +44,7 @@ RTL_FILES = $(RTL_DIR)/risc63.vhdl\
             $(RTL_DIR)/ex/picker.vhdl\
             $(RTL_DIR)/ex/jmp_test.vhdl\
             $(RTL_DIR)/mem/mem_stage.vhdl\
-			$(RTL_DIR)/mem/control_regs.vhdl\
+            $(RTL_DIR)/mem/control_regs.vhdl\
             $(RTL_DIR)/wb/wb_stage.vhdl
 TEST_FILES = $(TEST_DIR)/risc63_tb.vhdl\
              $(TEST_DIR)/reg_file_tb.vhdl\
