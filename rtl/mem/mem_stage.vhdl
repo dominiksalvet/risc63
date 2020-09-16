@@ -62,17 +62,18 @@ begin
     catch_input: process(i_clk)
     begin
         if rising_edge(i_clk) then
-            s_jmp_en <= i_jmp_en;
-            s_iret <= i_iret;
             o_pc <= i_pc;
-            s_mem_we <= i_mem_we;
             o_mem_wr_data <= i_mem_wr_data;
-            s_cr_we <= i_cr_we;
             o_cr_index <= i_cr_index;
-            s_reg_c_we <= i_reg_c_we;
             o_reg_c_index <= i_reg_c_index;
             o_result_mux <= i_result_mux;
             o_alu_result <= i_alu_result;
+
+            s_jmp_en <= i_jmp_en;
+            s_iret <= i_iret;
+            s_mem_we <= i_mem_we;
+            s_cr_we <= i_cr_we;
+            s_reg_c_we <= i_reg_c_we;
 
             if i_rst = '1' then
                 s_jmp_en <= '0';
