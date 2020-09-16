@@ -43,7 +43,7 @@ architecture behavior of adder_tb is
     constant c_CLK_PERIOD: time := 10 ns;
 begin
 
-    adder: entity work.adder
+    m_adder: entity work.adder
     port map (
         i_mode,
         i_a,

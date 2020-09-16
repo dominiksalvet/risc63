@@ -22,7 +22,7 @@ architecture behavior of picker_tb is
     constant c_CLK_PERIOD: time := 10 ns;
 begin
 
-    picker: entity work.picker
+    m_picker: entity work.picker
     port map (
         i_opcode,
         i_data_array,

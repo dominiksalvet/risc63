@@ -86,7 +86,7 @@ begin
 
 --- instruction decoder --------------------------------------------------------
 
-    decoder: entity work.decoder
+    m_dec: entity work.decoder
     port map (
         s_ir(15 downto 8), -- opcode part
         s_dec_iext_type,
@@ -105,7 +105,7 @@ begin
 
 --- immediate extractor --------------------------------------------------------
 
-    imm_extract: entity work.imm_extract
+    m_iext: entity work.imm_extract
     port map (
         i_type => s_dec_iext_type,
         i_imm_field => s_ir(12 downto 0),

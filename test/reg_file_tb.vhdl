@@ -25,7 +25,7 @@ architecture behavior of reg_file_tb is
     shared variable v_done: boolean := false;
 begin
 
-    reg_file: entity work.reg_file
+    m_rf: entity work.reg_file
     port map (
         i_clk,
         i_a_index,

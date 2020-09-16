@@ -52,7 +52,7 @@ begin
         ADDER_SUB when c_ALU_SUB | c_ALU_SLT | c_ALU_SLTU,
         ADDER_RSB when others;
 
-    adder: entity work.adder
+    m_adder: entity work.adder
     port map (
         s_adder_mode,
         i_a_operand,
@@ -64,7 +64,7 @@ begin
 
 --- data picker ----------------------------------------------------------------
 
-    picker: entity work.picker
+    m_picker: entity work.picker
     port map (
         i_opcode => i_opcode(3 downto 0),
         i_data_array => i_a_operand,

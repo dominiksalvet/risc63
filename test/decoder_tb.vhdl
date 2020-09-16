@@ -30,7 +30,7 @@ architecture behavior of decoder_tb is
     constant c_CLK_PERIOD: time := 10 ns;
 begin
 
-    decoder: entity work.decoder
+    m_dec: entity work.decoder
     port map (
         i_opcode_field,
         o_iext_type,

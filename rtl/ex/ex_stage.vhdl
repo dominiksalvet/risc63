@@ -89,7 +89,7 @@ begin
 
 --- ALU ------------------------------------------------------------------------
 
-    alu: entity work.alu
+    m_alu: entity work.alu
     port map (
         s_alu_opcode,
         s_alu_a_operand,
@@ -99,7 +99,7 @@ begin
 
 --- jump tester ----------------------------------------------------------------
 
-    jmp_test: entity work.jmp_test
+    m_jmp_test: entity work.jmp_test
     port map (
         s_jmp_cond,
         s_reg_a_data,

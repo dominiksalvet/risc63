@@ -97,7 +97,7 @@ architecture behavior of risc63_tb is
        53 => "0011010110000100", -- or r4, r8          ; r4 = -70 60 50 40
        54 => "1110000000000100", -- st r4, r0, 0
 
------ interrupts ---------------------------------------------------------------
+------ interrupts --------------------------------------------------------------
 
        55 => "1011001011000001", -- li r1, 44
        56 => "1011010000000000", -- li r0, 64          ; data pointer
@@ -111,7 +111,7 @@ architecture behavior of risc63_tb is
        64 => "1000000000010011", -- addi r3, 1         ; must be skipped even if interrupted
        65 => "1110000000000011", -- st r3, r0, 0
 
------ loop forever -------------------------------------------------------------
+------ loop forever ------------------------------------------------------------
 
        66 => "0010000000000000", -- jmp +0
 
@@ -162,7 +162,7 @@ architecture behavior of risc63_tb is
     shared variable v_done: boolean := false;
 begin
 
-    risc63: entity work.risc63
+    m_risc63: entity work.risc63
     port map (
         i_clk,
         i_rst,

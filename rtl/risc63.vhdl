@@ -106,7 +106,7 @@ begin
 
 --- control unit ---------------------------------------------------------------
 
-    control_unit: entity work.control_unit
+    m_cu: entity work.control_unit
     port map (
         i_clk => i_clk,
         i_rst => i_rst,
@@ -139,7 +139,7 @@ begin
 
 --- register file --------------------------------------------------------------
 
-    reg_file: entity work.reg_file
+    m_rf: entity work.reg_file
     port map (
         i_clk => i_clk,
         i_a_index => s_id_reg_a_index,
@@ -159,7 +159,7 @@ begin
         s_ex_pc when SPC_EX,
         s_mem_pc when SPC_MEM;
 
-    control_regs: entity work.control_regs
+    m_cr: entity work.control_regs
     port map (
         i_clk => i_clk,
         i_rst => i_rst,
@@ -183,7 +183,7 @@ begin
         s_cr_o_spc when JMP_ADDR_SPC,
         s_mem_alu_result(63 downto 1) when JMP_ADDR_ALU;
 
-    if_stage: entity work.if_stage
+    m_if: entity work.if_stage
     port map (
         i_clk => i_clk,
         i_rst => i_rst,
@@ -195,7 +195,7 @@ begin
 
 --- ID stage -------------------------------------------------------------------
 
-    id_stage: entity work.id_stage
+    m_id: entity work.id_stage
     port map (
         i_clk => i_clk,
         i_rst => s_cu_id_rst,
@@ -225,7 +225,7 @@ begin
 
 --- EX stage -------------------------------------------------------------------
 
-    ex_stage: entity work.ex_stage
+    m_ex: entity work.ex_stage
     port map (
         i_clk => i_clk,
         i_rst => s_cu_ex_rst,
@@ -257,7 +257,7 @@ begin
 
 --- MEM stage ------------------------------------------------------------------
 
-    mem_stage: entity work.mem_stage
+    m_mem: entity work.mem_stage
     port map (
         i_clk => i_clk,
         i_rst => s_cu_mem_rst,
@@ -288,7 +288,7 @@ begin
 
 --- WB stage -------------------------------------------------------------------
 
-    wb_stage: entity work.wb_stage
+    m_wb: entity work.wb_stage
     port map (
         i_clk => i_clk,
         i_rst => i_rst,
