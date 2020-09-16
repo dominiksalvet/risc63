@@ -31,7 +31,6 @@ architecture rtl of risc63 is
     signal s_cu_irq_en: std_ulogic;
     signal s_cu_cr_ie_we: std_ulogic;
     signal s_cu_cr_ie: std_ulogic;
-    signal s_cu_spc_mux: t_spc_mux;
     signal s_cu_if_jmp_en: std_ulogic;
     signal s_cu_if_jmp_addr_mux: t_jmp_addr_mux;
     signal s_cu_id_rst: std_ulogic;
@@ -39,6 +38,7 @@ architecture rtl of risc63 is
     signal s_cu_mem_rst: std_ulogic;
     signal s_cu_if_stall: std_ulogic;
     signal s_cu_id_stall: std_ulogic;
+    signal s_cu_spc_mux: t_spc_mux;
 
     -- register file output
     signal s_rf_a_data: std_ulogic_vector(63 downto 0);
@@ -117,7 +117,8 @@ begin
         o_irq_en => s_cu_irq_en,
         o_cr_ie_we => s_cu_cr_ie_we,
         o_cr_ie => s_cu_cr_ie,
-        o_spc_mux => s_cu_spc_mux,
+        o_if_jmp_en => s_cu_if_jmp_en,
+        o_if_jmp_addr_mux => s_cu_if_jmp_addr_mux,
         i_id_reg_a_use => s_id_reg_a_use,
         i_id_reg_a_index => s_id_reg_a_index,
         i_id_reg_b_use => s_id_reg_b_use,
@@ -128,13 +129,12 @@ begin
         i_mem_reg_c_index => s_mem_reg_c_index,
         i_wb_reg_c_we => s_wb_reg_c_we,
         i_wb_reg_c_index => s_wb_reg_c_index,
-        o_if_jmp_en => s_cu_if_jmp_en,
-        o_if_jmp_addr_mux => s_cu_if_jmp_addr_mux,
         o_id_rst => s_cu_id_rst,
         o_ex_rst => s_cu_ex_rst,
         o_mem_rst => s_cu_mem_rst,
         o_if_stall => s_cu_if_stall,
-        o_id_stall => s_cu_id_stall
+        o_id_stall => s_cu_id_stall,
+        o_spc_mux => s_cu_spc_mux
     );
 
 --- register file --------------------------------------------------------------
