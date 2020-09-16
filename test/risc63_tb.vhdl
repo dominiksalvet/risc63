@@ -212,6 +212,24 @@ begin
         wait for c_CLK_PERIOD;
         i_rst <= '0';
 
+        wait for 160 * c_CLK_PERIOD;
+        i_irq <= '1';
+
+        wait for 38 * c_CLK_PERIOD;
+        i_irq <= '0';
+
+        wait for 4 * c_CLK_PERIOD;
+        i_irq <= '1';
+
+        wait for c_CLK_PERIOD;
+        i_irq <= '0';
+
+        wait for 17 * c_CLK_PERIOD;
+        i_irq <= '1';
+
+        wait for c_CLK_PERIOD;
+        i_irq <= '0';
+
         wait;
     end process drive_input;
 
@@ -314,6 +332,52 @@ begin
             to_signed(50, o_dmem_wr_data'length / 4) &
             to_signed(40, o_dmem_wr_data'length / 4)
         );
+
+        wait for 12 * c_CLK_PERIOD;
+        assert o_imem_addr = std_ulogic_vector(to_unsigned(150, o_imem_addr'length));
+
+        wait for 9 * c_CLK_PERIOD;
+        assert o_dmem_we = '1';
+        assert o_dmem_addr = std_ulogic_vector(to_unsigned(7, o_dmem_addr'length));
+        assert o_dmem_wr_data = std_ulogic_vector(to_signed(1, o_dmem_wr_data'length));
+
+        wait for 3 * c_CLK_PERIOD;
+        assert o_imem_addr = std_ulogic_vector(to_unsigned(62, o_imem_addr'length));
+
+        wait for c_CLK_PERIOD;
+        assert o_imem_addr = std_ulogic_vector(to_unsigned(150, o_imem_addr'length));
+
+        wait for 9 * c_CLK_PERIOD;
+        assert o_dmem_we = '1';
+        assert o_dmem_addr = std_ulogic_vector(to_unsigned(7, o_dmem_addr'length));
+        assert o_dmem_wr_data = std_ulogic_vector(to_signed(2, o_dmem_wr_data'length));
+
+        wait for 7 * c_CLK_PERIOD;
+        assert o_imem_addr = std_ulogic_vector(to_unsigned(150, o_imem_addr'length));
+
+        wait for 9 * c_CLK_PERIOD;
+        assert o_dmem_we = '1';
+        assert o_dmem_addr = std_ulogic_vector(to_unsigned(7, o_dmem_addr'length));
+        assert o_dmem_wr_data = std_ulogic_vector(to_signed(3, o_dmem_wr_data'length));
+
+        wait for 18 * c_CLK_PERIOD;
+        assert o_dmem_we = '1';
+        assert o_dmem_addr = std_ulogic_vector(to_unsigned(7, o_dmem_addr'length));
+        assert o_dmem_wr_data = std_ulogic_vector(to_signed(5, o_dmem_wr_data'length));
+
+        wait for 3 * c_CLK_PERIOD;
+        assert o_imem_addr = std_ulogic_vector(to_unsigned(65, o_imem_addr'length));
+
+        wait for 3 * c_CLK_PERIOD;
+        assert o_dmem_we = '1';
+        assert o_dmem_addr = std_ulogic_vector(to_unsigned(8, o_dmem_addr'length));
+        assert o_dmem_wr_data = std_ulogic_vector(to_signed(6, o_dmem_wr_data'length));
+
+        wait for 2 * c_CLK_PERIOD;
+        for i in 0 to 4 loop
+            assert o_imem_addr = std_ulogic_vector(to_unsigned(66, o_imem_addr'length));
+            wait for 4 * c_CLK_PERIOD;
+        end loop;
 
         v_done := true; wait;
     end process check_output;
