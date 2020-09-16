@@ -31,6 +31,7 @@ architecture rtl of risc63 is
     signal s_cu_irq_en: std_ulogic;
     signal s_cu_cr_ie_we: std_ulogic;
     signal s_cu_cr_ie: std_ulogic;
+    signal s_cu_spc_mux: t_spc_mux;
     signal s_cu_if_jmp_en: std_ulogic;
     signal s_cu_if_jmp_addr_mux: t_jmp_addr_mux;
     signal s_cu_id_rst: std_ulogic;
@@ -38,7 +39,6 @@ architecture rtl of risc63 is
     signal s_cu_mem_rst: std_ulogic;
     signal s_cu_if_stall: std_ulogic;
     signal s_cu_id_stall: std_ulogic;
-    signal s_cu_spc_mux: t_spc_mux;
 
     -- register file output
     signal s_rf_a_data: std_ulogic_vector(63 downto 0);
@@ -66,6 +66,7 @@ architecture rtl of risc63 is
     signal s_id_jmp_cond: t_jmp_cond;
     signal s_id_iret: std_ulogic;
     signal s_id_pc: std_ulogic_vector(62 downto 0);
+    signal s_id_pc_valid: std_ulogic;
     signal s_id_mem_we: std_ulogic;
     signal s_id_reg_a_data: std_ulogic_vector(63 downto 0);
     signal s_id_cr_we: std_ulogic;
@@ -78,6 +79,7 @@ architecture rtl of risc63 is
     signal s_ex_jmp_en: std_ulogic;
     signal s_ex_iret: std_ulogic;
     signal s_ex_pc: std_ulogic_vector(62 downto 0);
+    signal s_ex_pc_valid: std_ulogic;
     signal s_ex_mem_we: std_ulogic;
     signal s_ex_mem_wr_data: std_ulogic_vector(63 downto 0);
     signal s_ex_cr_we: std_ulogic;
@@ -91,6 +93,7 @@ architecture rtl of risc63 is
     signal s_mem_jmp_en: std_ulogic;
     signal s_mem_iret: std_ulogic;
     signal s_mem_pc: std_ulogic_vector(62 downto 0);
+    signal s_mem_pc_valid: std_ulogic;
     signal s_mem_cr_we: std_ulogic;
     signal s_mem_cr_index: std_ulogic_vector(2 downto 0);
     signal s_mem_reg_c_we: std_ulogic;
@@ -114,9 +117,13 @@ begin
         i_cr_ie => s_cr_o_ie,
         i_mem_iret => s_mem_iret,
         i_mem_jmp_en => s_mem_jmp_en,
+        i_id_pc_valid => s_id_pc_valid,
+        i_ex_pc_valid => s_ex_pc_valid,
+        i_mem_pc_valid => s_mem_pc_valid,
         o_irq_en => s_cu_irq_en,
         o_cr_ie_we => s_cu_cr_ie_we,
         o_cr_ie => s_cu_cr_ie,
+        o_spc_mux => s_cu_spc_mux,
         o_if_jmp_en => s_cu_if_jmp_en,
         o_if_jmp_addr_mux => s_cu_if_jmp_addr_mux,
         i_id_reg_a_use => s_id_reg_a_use,
@@ -133,8 +140,7 @@ begin
         o_ex_rst => s_cu_ex_rst,
         o_mem_rst => s_cu_mem_rst,
         o_if_stall => s_cu_if_stall,
-        o_id_stall => s_cu_id_stall,
-        o_spc_mux => s_cu_spc_mux
+        o_id_stall => s_cu_id_stall
     );
 
 --- register file --------------------------------------------------------------
@@ -214,6 +220,7 @@ begin
         o_jmp_cond => s_id_jmp_cond,
         o_iret => s_id_iret,
         o_pc => s_id_pc,
+        o_pc_valid => s_id_pc_valid,
         o_mem_we => s_id_mem_we,
         o_reg_a_data => s_id_reg_a_data,
         o_cr_we => s_id_cr_we,
@@ -235,6 +242,7 @@ begin
         i_jmp_cond => s_id_jmp_cond,
         i_iret => s_id_iret,
         i_pc => s_id_pc,
+        i_pc_valid => s_id_pc_valid,
         i_mem_we => s_id_mem_we,
         i_reg_a_data => s_id_reg_a_data,
         i_cr_we => s_id_cr_we,
@@ -245,6 +253,7 @@ begin
         o_jmp_en => s_ex_jmp_en,
         o_iret => s_ex_iret,
         o_pc => s_ex_pc,
+        o_pc_valid => s_ex_pc_valid,
         o_mem_we => s_ex_mem_we,
         o_mem_wr_data => s_ex_mem_wr_data,
         o_cr_we => s_ex_cr_we,
@@ -265,6 +274,7 @@ begin
         i_jmp_en => s_ex_jmp_en,
         i_iret => s_ex_iret,
         i_pc => s_ex_pc,
+        i_pc_valid => s_ex_pc_valid,
         i_mem_we => s_ex_mem_we,
         i_mem_wr_data => s_ex_mem_wr_data,
         i_cr_we => s_ex_cr_we,
@@ -276,6 +286,7 @@ begin
         o_jmp_en => s_mem_jmp_en,
         o_iret => s_mem_iret,
         o_pc => s_mem_pc,
+        o_pc_valid => s_mem_pc_valid,
         o_mem_we => o_dmem_we,
         o_mem_wr_data => o_dmem_wr_data,
         o_cr_we => s_mem_cr_we,

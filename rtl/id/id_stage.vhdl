@@ -35,6 +35,7 @@ entity id_stage is
         o_jmp_cond: out t_jmp_cond;
         o_iret: out std_ulogic;
         o_pc: out std_ulogic_vector(62 downto 0);
+        o_pc_valid: out std_ulogic;
 
         o_mem_we: out std_ulogic;
         o_reg_a_data: out std_ulogic_vector(63 downto 0); -- used by stores and conditional jumps
@@ -74,11 +75,15 @@ begin
     begin
         if rising_edge(i_clk) then
             if i_stall = '0' then
+                o_pc_valid <= '1';
+
                 s_ir <= i_inst;
                 s_pc <= i_pc;
             end if;
 
             if i_rst = '1' then
+                o_pc_valid <= '0';
+
                 s_ir <= c_NOP_INST;
             end if;
         end if;

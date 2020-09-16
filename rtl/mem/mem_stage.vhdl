@@ -18,6 +18,7 @@ entity mem_stage is
         i_jmp_en: in std_ulogic;
         i_iret: in std_ulogic;
         i_pc: in std_ulogic_vector(62 downto 0);
+        i_pc_valid: in std_ulogic;
 
         i_mem_we: in std_ulogic;
         i_mem_wr_data: in std_ulogic_vector(63 downto 0);
@@ -33,6 +34,7 @@ entity mem_stage is
         o_jmp_en: out std_ulogic; -- jump address is ALU result
         o_iret: out std_ulogic; -- interrupt return
         o_pc: out std_ulogic_vector(62 downto 0); -- used when interrupt occurs
+        o_pc_valid: out std_ulogic;
 
 ------- data memory interface --------------------------------------------------
         o_mem_we: out std_ulogic; -- memory address is ALU result
@@ -63,6 +65,7 @@ begin
     begin
         if rising_edge(i_clk) then
             o_pc <= i_pc;
+            o_pc_valid <= i_pc_valid;
             o_mem_wr_data <= i_mem_wr_data;
             o_cr_index <= i_cr_index;
             o_reg_c_index <= i_reg_c_index;
@@ -76,6 +79,8 @@ begin
             s_reg_c_we <= i_reg_c_we;
 
             if i_rst = '1' then
+                o_pc_valid <= '0';
+
                 s_jmp_en <= '0';
                 s_iret <= '0';
                 s_mem_we <= '0';

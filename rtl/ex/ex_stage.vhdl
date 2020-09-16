@@ -21,6 +21,7 @@ entity ex_stage is
         i_jmp_cond: in t_jmp_cond;
         i_iret: in std_ulogic;
         i_pc: in std_ulogic_vector(62 downto 0);
+        i_pc_valid: in std_ulogic;
 
         i_mem_we: in std_ulogic;
         i_reg_a_data: in std_ulogic_vector(63 downto 0);
@@ -35,6 +36,7 @@ entity ex_stage is
         o_jmp_en: out std_ulogic;
         o_iret: out std_ulogic;
         o_pc: out std_ulogic_vector(62 downto 0);
+        o_pc_valid: out std_ulogic;
 
         o_mem_we: out std_ulogic;
         o_mem_wr_data: out std_ulogic_vector(63 downto 0);
@@ -63,6 +65,7 @@ begin
         if rising_edge(i_clk) then
             o_iret <= i_iret;
             o_pc <= i_pc;
+            o_pc_valid <= i_pc_valid;
             o_mem_we <= i_mem_we;
             o_cr_we <= i_cr_we;
             o_cr_index <= i_cr_index;
@@ -78,6 +81,7 @@ begin
 
             if i_rst = '1' then
                 o_iret <= '0';
+                o_pc_valid <= '0';
                 o_mem_we <= '0';
                 o_cr_we <= '0';
                 o_reg_c_we <= '0';
