@@ -4,6 +4,7 @@
 
 [![CI status](https://github.com/dominiksalvet/risc63/workflows/CI/badge.svg)](https://github.com/dominiksalvet/risc63/actions)
 [![standard-readme compliant](https://img.shields.io/badge/readme_style-standard-brightgreen.svg)](https://github.com/RichardLitt/standard-readme)
+[![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fdominiksalvet%2Frisc63&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false)](https://hits.seeyoufarm.com)
 
 > Custom 64-bit pipelined RISC processor.
 
