@@ -6,4 +6,4 @@ This file represents the entry point of the documentation for the RISC63 process
 * [List of Instructions](instructions.md)
 * [Decoding of Instructions](decoding.md)
 
-> Should you need more details, have a look at [my bachelor thesis](https://github.com/dominiksalvet/bachelor-thesis) (Czech only).
+> Should you need more details, have a look at [my bachelor thesis](https://github.com/dominiksalvet/bachelor-thesis).
