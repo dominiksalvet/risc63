@@ -18,7 +18,7 @@ The main motivation behind RISC63 was to examine the impacts of smaller instruct
 * Interrupts are always accepted instantly
 * All pipeline hazards are eliminated in hardware
 
-> Did you know that RISC63 was used within [my bachelor thesis](https://github.com/dominiksalvet/bachelor-thesis) (Czech only)?
+> Did you know that RISC63 was used within [my bachelor thesis](https://github.com/dominiksalvet/bachelor-thesis)?
 
 ## Table of Contents
 
