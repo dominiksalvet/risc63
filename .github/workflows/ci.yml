@@ -1,5 +1,5 @@
 #-------------------------------------------------------------------------------
-# Copyright 2020 Dominik Salvet
+# Copyright 2020-2025 Dominik Salvet
 # github.com/dominiksalvet/risc63
 #-------------------------------------------------------------------------------
 
@@ -8,12 +8,12 @@ on: [push, pull_request]
 
 jobs:
   Test:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     container: ghdl/ghdl:ubuntu20-mcode
 
     steps:
     - name: Checkout commit
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
 
     - name: Check GHDL
       run: ghdl --version
